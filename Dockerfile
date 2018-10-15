@@ -2,21 +2,20 @@ FROM debian:latest
 LABEL maintainer="Chris Isler <christopherisler1@gmail.com>"
 ENV TERM xterm-256color
 
-# Install basics
 RUN apt-get update
 RUN apt-get install --assume-yes --quiet --no-install-recommends \
-      git vim tmux wget curl man ca-certificates
+      git vim tmux wget curl man ca-certificates sudo
 
-# Install Vim plugin manager `vim-plug`
-# RUN curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-#       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# 1000 or 999?
+RUN groupadd --gid 1000 devuser && \
+      useradd --uid 1000 --gid devuser --shell /bin/bash --create-home devuser && \
+      chgrp --recursive devuser /usr/local && \
+      find /usr/local -type d | xargs chmod g+w && \
+      printf "devuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/devuser && \
+      chmod 0440 /etc/sudoers.d/devuser
 
-# Clone dotfiles
-RUN git clone https://github.com/chrisisler/devbox /devbox
-RUN ln -s /devbox/dotfiles/.vimrc ~/.vimrc
-RUN ln -s /devbox/dotfiles/.vim/rc ~/.vim/rc
-
-# Install Vim plugins
-# RUN vim +PlugInstall
+USER devuser
+ENV HOME /home/devuser
+WORKDIR /home/devuser
 
 CMD ["/bin/bash"]
