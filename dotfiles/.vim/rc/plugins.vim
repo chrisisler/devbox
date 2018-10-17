@@ -8,6 +8,7 @@ call plug#begin('~/.vim/plugged')
 
 
 " ----- Language -----
+Plug 'ekalinin/dockerfile.vim'
 Plug 'artur-shaik/vim-javacomplete2'
 Plug 'othree/yajs.vim'
 Plug 'othree/es.next.syntax.vim'

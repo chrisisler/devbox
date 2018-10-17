@@ -8,7 +8,7 @@ development environment.
 1. Install [Docker](https://docs.docker.com/install/)
 1. Clone this repository and `cd` in
 1. `make`
-1. `docker run --interactive --tty --rm chrisisler/devbox`
+1. `make run`
 
 ## Learning
 

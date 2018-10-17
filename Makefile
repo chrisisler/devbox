@@ -5,13 +5,13 @@ all: base
 run:
 	@docker run --interactive --tty --rm chrisisler/devbox
 
-base:
-	@docker build --tag $(REPOSITORY) devbox
-
-dotfiles:
-	@docker build --tag $(REPOSITORY) .
-
 clean:
 	@docker rmi --force $(REPOSITORY)
 
-.PHONY: all devbox-base dotfiles clean
+base:
+	@docker build --tag $(REPOSITORY) base
+
+dotfiles: base
+	@docker build --tag $(REPOSITORY) .
+
+.PHONY: all base dotfiles clean

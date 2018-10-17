@@ -1,0 +1,125 @@
+################################################################################
+# Misc #########################################################################
+################################################################################
+
+# If not running interactively, don't do anything
+# [[ "$-" != *i* ]] && return
+case $- in
+  *i*) ;;
+  *) return;;
+esac
+
+# Use case-insensitive filename globbing
+shopt -s nocaseglob
+
+# Make bash append rather than overwrite the history on disk
+shopt -s histappend
+
+# When changing directory small typos can be ignored by bash
+# for example, cd /vr/lgo/apaache would find /var/log/apache
+shopt -s cdspell
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# # https://unix.stackexchange.com/questions/55203
+bind "TAB:menu-complete"
+bind "set show-all-if-ambiguous on"
+# bind "set menu-complete-display-prefix on"
+
+################################################################################
+# Exports ######################################################################
+################################################################################
+
+# Prepend datetime of command to command itself in ~/.bash_history file
+export HISTTIMEFORMAT="%y-%m-%d %T "
+
+# history length
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# Don't put duplicate lines in the history.
+export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
+
+# Ignore some controlling instructions
+# HISTIGNORE is a colon-delimited list of patterns which should be excluded.
+# The '&' is a special pattern which suppresses duplicate entries.
+export HISTIGNORE=$'[ \t]*:&:[fb]g:exit:ls' # Ignore the ls command as well
+
+export EDITOR="vim"
+
+################################################################################
+# Sources ######################################################################
+################################################################################
+
+# source ~/.bash_profile
+
+# Custom
+source ~/.bash_functions
+source ~/.bash_aliases
+
+# if [ -f ~/.bash_private_stuff ]; then
+#   source ~/.bash_private_stuff
+# fi
+
+################################################################################
+# Variables ####################################################################
+################################################################################
+
+lslaVar="ls -la"
+mainDir="${HOME}/Main"
+codeDir="${HOME}/Code"
+
+################################################################################
+# Aliases ######################################################################
+################################################################################
+
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias back="cd -"
+alias tkill="tmux kill-pane -t $@"
+alias tm="clear ; ps xc | awk '{ print \$1, \$5 }' | sed 1d | sort -fk 2 | column -t | column"
+alias gs="git status"
+alias v="vim"
+alias cd..="cd .."
+alias ..="cd .. && ${lslaVar}"
+alias ...="cd ../.. && ${lslaVar}"
+alias ....="cd ../../.. && ${lslaVar}"
+alias .....="cd ../../../.. && ${lslaVar}"
+alias ......="cd ../../../../.. && ${lslaVar}"
+alias c="clear"
+alias l="${lslaVar}"
+# alias tree="${lslaVar} --tree"
+# alias lt="${lslaVar} --tree"
+alias cl="clear && ${lslaVar}"
+alias md="mkdir -pv"
+alias rmi="rm -irv"
+alias rmf="rm -frv"
+alias rm="rm -rv"
+alias mv="mv -iv"
+alias brc="vim ~/.bashrc"
+alias sbrc="clear && source ~/.bashrc"
+alias vrc="vim ~/.vimrc"
+alias tmuxconf="vim ~/.tmux.conf"
+alias tmuxline="vim ~/.tmux/tmuxline.conf"
+alias tmuxtemp="clear ; tmux attach -t Temp $@ &>/dev/null || tmux new -s Temp $@"
+alias tt="tmuxtemp"
+alias t="clear ; tmux attach -t All $@ &>/dev/null || tmux new -s All $@"
+alias tmus="clear ; tmux attach -t Music &>/dev/null || tmux new -s Music -c ~"
+alias weather="curl wttr.in/boston"
+# alias pandora="echo \"\" > ~/.config/pianobar/custom-out && clear && pianobar 2>/dev/null | tee ~/.config/pianobar/custom-out"
+
+################################################################################
+# Prompt #######################################################################
+################################################################################
+
+# red="\[\e[0;31m\]"
+# yellow="\[\e[0;32m\]"
+# magenta="\[\e[0;35m\]"
+cyan="\[\e[0;36m\]"
+# blue="\[\e[0;34m\]"
+
+directory="\w"
+colorEnd="\[\e[0m\]"
+
+export PS1="\n${cyan}${directory}${colorEnd} "
