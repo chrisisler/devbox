@@ -12,9 +12,11 @@ RUN apt-get install --assume-yes --quiet --no-install-recommends \
       libncurses-dev liblua5.3-dev python-dev
 
 # Vim: download source, configure dependencies, then install
-RUN cd /usr/local/lib && git clone https://github.com/vim/vim.git
-RUN cd /usr/include/lua5.3 && mkdir include && cp ./*.h include && \
+WORKDIR /usr/include/lua5.3
+RUN mkdir include && cp ./*.h include && \
       ln -s /usr/lib/x86_64-linux-gnu/liblua5.3.so /usr/local/lib/liblua.so
+WORKDIR /usr/local/lib
+RUN git clone https://github.com/vim/vim.git
 RUN cd vim/src && ./configure --enable-fail-if-missing --with-lua-prefix=/usr/include/lua5.3 \
       --enable-luainterp=yes --enable-pythoninterp=yes && \
       make && make install

@@ -2,6 +2,9 @@ REPOSITORY := chrisisler/devbox
 
 all: base
 
+run:
+	@docker run --interactive --tty --rm chrisisler/devbox
+
 base:
 	@docker build --tag $(REPOSITORY) devbox
 
