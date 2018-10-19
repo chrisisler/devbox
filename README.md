@@ -1,16 +1,16 @@
 ## Introduction
 
-This repository contains the configuration and build files for a virtual
+This repository contains the configuration and build files for my containerized
 development environment.
 
 ## Install
 
 1. Install [Docker](https://docs.docker.com/install/)
-1. Clone this repository and `cd` in
-1. `make`
+1. Clone repository and `cd`
+1. `make dotfiles`
 1. `make run`
 
-## Learning
+### Knowledge Gains
 
 - https://www.youtube.com/watch?v=Qhg2XqwL6nY
 - https://github.com/bobpace/devbox/

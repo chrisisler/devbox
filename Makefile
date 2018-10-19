@@ -3,7 +3,7 @@ REPOSITORY := chrisisler/devbox
 all: base
 
 run:
-	@docker run --interactive --tty --rm chrisisler/devbox
+	@docker run --interactive --tty --rm $(REPOSITORY)
 
 clean:
 	@docker rmi --force $(REPOSITORY)

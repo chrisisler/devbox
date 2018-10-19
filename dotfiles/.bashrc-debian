@@ -57,7 +57,7 @@ export EDITOR="vim"
 
 # Custom
 source ~/.bash_functions
-source ~/.bash_aliases
+# source ~/.bash_aliases
 
 # if [ -f ~/.bash_private_stuff ]; then
 #   source ~/.bash_private_stuff
@@ -68,8 +68,6 @@ source ~/.bash_aliases
 ################################################################################
 
 lslaVar="ls -la"
-mainDir="${HOME}/Main"
-codeDir="${HOME}/Code"
 
 ################################################################################
 # Aliases ######################################################################
@@ -105,9 +103,7 @@ alias tmuxline="vim ~/.tmux/tmuxline.conf"
 alias tmuxtemp="clear ; tmux attach -t Temp $@ &>/dev/null || tmux new -s Temp $@"
 alias tt="tmuxtemp"
 alias t="clear ; tmux attach -t All $@ &>/dev/null || tmux new -s All $@"
-alias tmus="clear ; tmux attach -t Music &>/dev/null || tmux new -s Music -c ~"
 alias weather="curl wttr.in/boston"
-# alias pandora="echo \"\" > ~/.config/pianobar/custom-out && clear && pianobar 2>/dev/null | tee ~/.config/pianobar/custom-out"
 
 ################################################################################
 # Prompt #######################################################################
