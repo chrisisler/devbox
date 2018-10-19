@@ -4,8 +4,8 @@ ENV TERM xterm-256color
 
 # Install base packages
 RUN apt-get update
-RUN apt-get install --assume-yes --quiet --no-install-recommends \
-      git tmux wget curl man ca-certificates sudo build-essential tree locales
+RUN apt-get install --assume-yes --quiet --no-install-recommends git tmux \
+      wget curl man ca-certificates sudo build-essential tree locales less
 
 # Install Vim dependencies
 RUN apt-get install --assume-yes --quiet --no-install-recommends \
@@ -17,13 +17,15 @@ RUN mkdir include && cp ./*.h include && \
       ln -s /usr/lib/x86_64-linux-gnu/liblua5.3.so /usr/local/lib/liblua.so
 WORKDIR /usr/local/lib
 RUN git clone https://github.com/vim/vim.git
-RUN cd vim/src && ./configure --enable-fail-if-missing --with-lua-prefix=/usr/include/lua5.3 \
-      --enable-luainterp=yes --enable-pythoninterp=yes && \
+RUN cd vim/src && ./configure --enable-fail-if-missing \
+      --with-lua-prefix=/usr/include/lua5.3 --enable-luainterp=yes \
+      --enable-pythoninterp=yes && \
       make && make install
 
 # Create passwordless non-root user account
 RUN groupadd --gid 1000 devuser && \
-      useradd --uid 1000 --gid devuser --shell /bin/bash --create-home devuser && \
+      useradd --uid 1000 --gid devuser --shell /bin/bash \
+      --create-home devuser && \
       chgrp --recursive devuser /usr/local && \
       find /usr/local -type d | xargs chmod g+w && \
       printf "devuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/devuser && \
