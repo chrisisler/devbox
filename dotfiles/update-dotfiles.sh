@@ -13,17 +13,10 @@ main() {
   mkdir -p "$here/.vim/autoload"
   cp ~/.vim/autoload/plug.vim "$here/.vim/autoload/"
 
-  # Tmux
-  # Don't copy tmuxline status scripts, use custom one for debian
-  # cp ~/.tmux.conf "$here"
-  # cp ~/.tmux/tmuxline.conf "$here"
-
   # cp ~/.inputrc "$here"
 
-  # Tmux statusline scripts
-  # cp -r ~/Code/Status "$here"
-
   printf "\nDone! Dotfiles updated.\n"
+
   # git add "$(basename "${0}")"
   # git add .
   # git commit -m "$(date "+%Y-%m-%d %H:%M")"

@@ -97,10 +97,10 @@ alias brc="vim ~/.bashrc"
 alias sbrc="clear && source ~/.bashrc"
 alias vrc="vim ~/.vimrc"
 alias tmuxconf="vim ~/.tmux.conf"
-alias tmuxline="vim ~/.tmux/tmuxline.conf"
-alias tmuxtemp="clear ; tmux attach -t Temp $@ &>/dev/null || tmux new -s Temp $@"
+alias tmuxline="vim ~/.tmux/tmuxline/tmuxline.conf"
+alias tmuxtemp="clear ; tmux attach -t Devbox-Temp $@ &>/dev/null || tmux new -s Devbox-Temp $@"
 alias tt="tmuxtemp"
-alias t="clear ; tmux attach -t All $@ &>/dev/null || tmux new -s All $@"
+alias t="clear ; tmux attach -t Devbox-All $@ &>/dev/null || tmux new -s Devbox-All $@"
 alias weather="curl wttr.in/boston"
 
 ################################################################################
@@ -139,15 +139,15 @@ tre() {
 ################################################################################
 
 # red="\[\e[0;31m\]"
-# yellow="\[\e[0;32m\]"
+yellow="\[\e[0;32m\]"
 # magenta="\[\e[0;35m\]"
 # cyan="\[\e[0;36m\]"
-blue="\[\e[0;34m\]"
+# blue="\[\e[0;34m\]"
+reset="\[\e[0m\]"
 
 dir="\w"
-reset="\[\e[0m\]"
 time24h="\A"
 
 # export PS1="\n${cyan}${dir}${reset} "
 # export PS1="[\A] \w "
-export PS1="\n${blue}[${reset}${time24h}${blue}] ${yellow}${dir}${reset} "
+export PS1="\n${time24h} ${yellow}${dir}${reset} "
