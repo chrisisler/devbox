@@ -9,6 +9,9 @@ RUN git clone https://github.com/chrisisler/devbox ~/devbox && \
     ln --symbolic --force ~/devbox/dotfiles/.bashrc-debian ~/.bashrc && \
     ln --symbolic ~/devbox/dotfiles/.tmux.conf ~/.tmux.conf 
 
+# Next
+# RUN vim +PlugInstall!
+
 # RUN vim +PlugInstall
 
 CMD ["/bin/bash"]
