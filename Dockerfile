@@ -8,8 +8,8 @@ RUN git clone https://github.com/chrisisler/devbox ~/devbox && \
     ln --symbolic ~/devbox/dotfiles/.vimrc ~/.vimrc && \
     ln --symbolic ~/devbox/dotfiles/.vim/rc ~/.vim/rc && \
     ln --symbolic ~/devbox/dotfiles/.vim/autoload/plug.vim ~/.vim/autoload/plug.vim && \
-    ln --symbolic --force ~/devbox/dotfiles/.bashrc-debian ~/.bashrc
-    # ln --symbolic ~/devbox/dotfiles/.tmux.conf ~/.tmux.conf && \
+    ln --symbolic --force ~/devbox/dotfiles/.bashrc-debian ~/.bashrc && \
+    ln --symbolic ~/devbox/dotfiles/.tmux.conf ~/.tmux.conf
     # mkdir ~/.tmux && \
     # ln --symbolic ~/devbox/dotfiles/tmuxline.conf ~/.tmux/tmuxline.conf
 

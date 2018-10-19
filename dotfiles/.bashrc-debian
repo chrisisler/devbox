@@ -70,6 +70,7 @@ lslaVar="ls -la"
 # Aliases ######################################################################
 ################################################################################
 
+alias q="exit"
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias back="cd -"
 alias tkill="tmux kill-pane -t $@"

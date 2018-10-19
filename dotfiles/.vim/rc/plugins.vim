@@ -188,7 +188,7 @@ let g:racer_cmd = "/Users/litebox/.cargo/bin/racer"
 " gitgutter
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:gitgutter_enabled=1
+let g:gitgutter_enabled=0
 " you think you can just walk into my house and add configuration? oh heck no.
 let g:gitgutter_map_keys=0
 
