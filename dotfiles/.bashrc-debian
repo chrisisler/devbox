@@ -141,10 +141,13 @@ tre() {
 # red="\[\e[0;31m\]"
 # yellow="\[\e[0;32m\]"
 # magenta="\[\e[0;35m\]"
-cyan="\[\e[0;36m\]"
-# blue="\[\e[0;34m\]"
+# cyan="\[\e[0;36m\]"
+blue="\[\e[0;34m\]"
 
-directory="\w"
-colorEnd="\[\e[0m\]"
+dir="\w"
+reset="\[\e[0m\]"
+time24h="\A"
 
-export PS1="\n${cyan}${directory}${colorEnd} "
+# export PS1="\n${cyan}${dir}${reset} "
+# export PS1="[\A] \w "
+export PS1="\n${blue}[${reset}${time24h}${blue}] ${yellow}${dir}${reset} "
