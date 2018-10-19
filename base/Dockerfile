@@ -5,7 +5,7 @@ ENV TERM xterm-256color
 # Install base packages
 RUN apt-get update
 RUN apt-get install --assume-yes --quiet --no-install-recommends \
-      git tmux wget curl man ca-certificates sudo build-essential
+      git tmux wget curl man ca-certificates sudo build-essential tree
 
 # Install Vim dependencies
 RUN apt-get install --assume-yes --quiet --no-install-recommends \

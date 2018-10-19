@@ -56,7 +56,6 @@ export EDITOR="vim"
 # source ~/.bash_profile
 
 # Custom
-source ~/.bash_functions
 # source ~/.bash_aliases
 
 # if [ -f ~/.bash_private_stuff ]; then
@@ -104,6 +103,37 @@ alias tmuxtemp="clear ; tmux attach -t Temp $@ &>/dev/null || tmux new -s Temp $
 alias tt="tmuxtemp"
 alias t="clear ; tmux attach -t All $@ &>/dev/null || tmux new -s All $@"
 alias weather="curl wttr.in/boston"
+
+################################################################################
+# Functions ####################################################################
+################################################################################
+
+# md && cd
+mcd() {
+  mkdir -pv "$1" && cd "$1"
+}
+
+# (Jess Frazelle) Make a temporary directory and enter it
+tempdir() {
+  local dir=
+
+  if [[ "$#" -eq 0 ]]; then
+    dir="$(mktemp -d)"
+  else
+    dir="$(mktemp -d -t "${1}.XXXXXXXXXX")"
+  fi
+
+  cd "$dir" || exit
+}
+
+# (Jess Frazelle)
+# `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
+# the `.git` directory, listing directories first. The output gets piped into
+# `less` with options to preserve color and line numbers, unless the output is
+# small enough for one screen.
+tre() {
+	tree -aC -I '.git' --dirsfirst "$@" | less -FRNX
+}
 
 ################################################################################
 # Prompt #######################################################################
