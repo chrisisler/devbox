@@ -306,10 +306,16 @@ let g:fzf_layout = { 'down': '~25%' }
 nnoremap <C-p> :GFiles<CR>
 nnoremap <C-b> :Buffers<CR>
 nnoremap <C-h> :History<CR>
-nnoremap <C-j> :Lines<CR>
 nnoremap <C-c> :Commands<CR>
-nnoremap <C-i> :Files<CR>
-nnoremap <C-o> :Maps<CR>
+
+" difficult to find good mappings for these (case-insensitive!):
+" <C-m> is a native alias for <Enter>
+" <C-[> is a native alias for <ESC>
+" <C-l> is a native alias for screen refresh
+" <C-o> is a native alias for jumping to latest edited file && location
+nnoremap <C-g> :Files<CR>
+nnoremap <C-?> :Lines<CR>
+nnoremap <C-v> :Maps<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

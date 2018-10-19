@@ -13,6 +13,9 @@ main() {
   mkdir -p "$here/.vim/autoload"
   cp ~/.vim/autoload/plug.vim "$here/.vim/autoload/"
 
+  # Vim plugins
+  cp -r ~/.vim/plugged "$here/.vim/"
+
   # cp ~/.inputrc "$here"
 
   printf "\nDone! Dotfiles updated.\n"
