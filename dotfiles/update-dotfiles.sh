@@ -14,7 +14,7 @@ main() {
   cp ~/.vim/autoload/plug.vim "$here/.vim/autoload/"
 
   # Vim plugins
-  cp -r ~/.vim/plugged/* "$here/.vim/plugged"
+  cp -R ~/.vim/plugged "$here/.vim/plugged"
 
   # cp ~/.inputrc "$here"
 
