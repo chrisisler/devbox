@@ -14,8 +14,8 @@ main() {
   cp ~/.vim/autoload/plug.vim "$here/.vim/autoload/"
 
   # Tmux
-  # cp ~/.tmux.conf "$here"
-  # cp ~/.tmux/tmuxline.conf "$here"
+  cp ~/.tmux.conf "$here"
+  cp ~/.tmux/tmuxline.conf "$here"
 
   # cp ~/.inputrc "$here"
 

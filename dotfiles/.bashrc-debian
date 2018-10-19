@@ -23,6 +23,10 @@ shopt -s cdspell
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
+# history length
+HISTSIZE=1000
+HISTFILESIZE=2000
+
 # # https://unix.stackexchange.com/questions/55203
 bind "TAB:menu-complete"
 bind "set show-all-if-ambiguous on"
@@ -34,10 +38,6 @@ bind "set show-all-if-ambiguous on"
 
 # Prepend datetime of command to command itself in ~/.bash_history file
 export HISTTIMEFORMAT="%y-%m-%d %T "
-
-# history length
-HISTSIZE=1000
-HISTFILESIZE=2000
 
 # Don't put duplicate lines in the history.
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
@@ -54,8 +54,6 @@ export EDITOR="vim"
 ################################################################################
 
 # source ~/.bash_profile
-
-# Custom
 # source ~/.bash_aliases
 
 # if [ -f ~/.bash_private_stuff ]; then

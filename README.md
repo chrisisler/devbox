@@ -1,12 +1,18 @@
 ## Introduction
 
-This repository contains the configuration and build files for my containerized
+This repository contains the config and build files for my containerized
 development environment.
 
 ## Install
 
-1. Install [Docker](https://docs.docker.com/install/)
-1. Clone repository and `cd`
+#### Pre-reqs
+
+1. [Docker](https://docs.docker.com/install/)
+1. Make
+
+#### Run
+
+1. Clone repo then `cd devbox`
 1. `make dotfiles`
 1. `make run`
 
@@ -25,3 +31,4 @@ development environment.
 - https://superuser.com/questions/151557/what-are-build-essential-build-dep
 - https://stackoverflow.com/questions/19472554/build-vim-with-lua-on-linux-mint
 - https://github.com/Shougo/neocomplete.vim/issues/31#issuecomment-22956310
+- https://serverfault.com/a/894545

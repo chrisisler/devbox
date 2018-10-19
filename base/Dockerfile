@@ -5,7 +5,7 @@ ENV TERM xterm-256color
 # Install base packages
 RUN apt-get update
 RUN apt-get install --assume-yes --quiet --no-install-recommends \
-      git tmux wget curl man ca-certificates sudo build-essential tree
+      git tmux wget curl man ca-certificates sudo build-essential tree locales
 
 # Install Vim dependencies
 RUN apt-get install --assume-yes --quiet --no-install-recommends \
@@ -20,6 +20,13 @@ RUN git clone https://github.com/vim/vim.git
 RUN cd vim/src && ./configure --enable-fail-if-missing --with-lua-prefix=/usr/include/lua5.3 \
       --enable-luainterp=yes --enable-pythoninterp=yes && \
       make && make install
+
+# Set UTF-8 locale (for tmux)
+RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && \
+      locale-gen en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
 
 # Be passwordless non-root user
 RUN groupadd --gid 1000 devuser && \
