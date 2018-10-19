@@ -21,14 +21,7 @@ RUN cd vim/src && ./configure --enable-fail-if-missing --with-lua-prefix=/usr/in
       --enable-luainterp=yes --enable-pythoninterp=yes && \
       make && make install
 
-# Set UTF-8 locale (for tmux)
-RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && \
-      locale-gen en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
-
-# Be passwordless non-root user
+# Create passwordless non-root user account
 RUN groupadd --gid 1000 devuser && \
       useradd --uid 1000 --gid devuser --shell /bin/bash --create-home devuser && \
       chgrp --recursive devuser /usr/local && \
@@ -36,6 +29,14 @@ RUN groupadd --gid 1000 devuser && \
       printf "devuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/devuser && \
       chmod 0440 /etc/sudoers.d/devuser
 
+# UTF-8 locale (for tmux)
+RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && \
+      locale-gen en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+
+# Be non-root user
 USER devuser
 ENV HOME /home/devuser
 WORKDIR /home/devuser
