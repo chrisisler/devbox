@@ -8,10 +8,15 @@ main() {
 
   # Vim
   cp ~/.vimrc "$here"
+
   mkdir -p "$here/.vim"
   cp -r ~/.vim/rc "$here/.vim/"
+
   mkdir -p "$here/.vim/autoload"
-  cp ~/.vim/autoload/plug.vim "$here/.vim/autoload/"
+  cp ~/.vim/autoload/plug.vim "$here/.vim/autoload"
+
+  mkdir -p "$here/.vim/snippets"
+  cp -r ~/.vim/snippets "$here/.vim/"
 
   # cp ~/.inputrc "$here"
 

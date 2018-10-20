@@ -5,7 +5,7 @@ ENV TERM xterm-256color
 RUN apt-get update
 RUN apt-get install --assume-yes --quiet --no-install-recommends git tmux \
       wget curl man ca-certificates sudo build-essential tree locales less \
-      python-dev gpg
+      python-dev gpg ssh
 
 # UTF-8 locale (for tmux)
 RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && \

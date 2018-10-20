@@ -99,9 +99,9 @@ alias sbrc="clear && source ~/.bashrc"
 alias vrc="vim ~/.vimrc"
 alias tmuxconf="vim ~/.tmux.conf"
 alias tmuxline="vim ~/.tmux/tmuxline/tmuxline.conf"
-alias tmuxtemp="clear ; tmux attach -t Devbox-Temp $@ &>/dev/null || tmux new -s Devbox-Temp $@"
+alias tmuxtemp="clear ; tmux attach -t Temp $@ &>/dev/null || tmux new -s Temp $@"
 alias tt="tmuxtemp"
-alias t="clear ; tmux attach -t Devbox-All $@ &>/dev/null || tmux new -s Devbox-All $@"
+alias t="clear ; tmux attach -t All $@ &>/dev/null || tmux new -s All $@"
 alias weather="curl wttr.in/boston"
 
 ################################################################################
