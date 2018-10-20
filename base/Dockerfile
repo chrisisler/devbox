@@ -2,14 +2,21 @@ FROM debian:latest
 LABEL maintainer="Chris Isler <christopherisler1@gmail.com>"
 ENV TERM xterm-256color
 
-# Install base packages
 RUN apt-get update
 RUN apt-get install --assume-yes --quiet --no-install-recommends git tmux \
-      wget curl man ca-certificates sudo build-essential tree locales less
+      wget curl man ca-certificates sudo build-essential tree locales less \
+      python-dev gpg
 
-# Install Vim dependencies
+# UTF-8 locale (for tmux)
+RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && \
+      locale-gen en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+
+# Vim dependencies
 RUN apt-get install --assume-yes --quiet --no-install-recommends \
-      libncurses-dev liblua5.3-dev python-dev
+      libncurses-dev liblua5.3-dev
 
 # Vim: download source, configure dependencies, then install
 WORKDIR /usr/include/lua5.3
@@ -22,6 +29,11 @@ RUN cd vim/src && ./configure --enable-fail-if-missing \
       --enable-pythoninterp=yes && \
       make && make install
 
+# Node, Yarn
+RUN apt-get install --assume-yes --quiet --no-install-recommends nodejs && \
+      sudo ln -s /usr/bin/nodejs /usr/bin/node && \
+      curl -o- -L https://yarnpkg.com/install.sh | bash
+
 # Create passwordless non-root user account
 RUN groupadd --gid 1000 devuser && \
       useradd --uid 1000 --gid devuser --shell /bin/bash \
@@ -30,13 +42,6 @@ RUN groupadd --gid 1000 devuser && \
       find /usr/local -type d | xargs chmod g+w && \
       printf "devuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/devuser && \
       chmod 0440 /etc/sudoers.d/devuser
-
-# UTF-8 locale (for tmux)
-RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && \
-      locale-gen en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
 
 # Be non-root user
 USER devuser

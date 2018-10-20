@@ -10,4 +10,9 @@ RUN git clone https://github.com/chrisisler/devbox ~/devbox && \
     ln --symbolic --force ~/devbox/dotfiles/.bashrc-debian ~/.bashrc && \
     ln --symbolic ~/devbox/dotfiles/.tmux.conf ~/.tmux.conf 
 
+# Tmuxline
+# - Any package updates available?
+# - Num of installed packages
+# - Amount of memory remaining
+
 CMD ["/bin/bash"]

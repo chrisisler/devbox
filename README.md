@@ -16,7 +16,7 @@ development environment.
 1. `make dotfiles`
 1. `make run`
 
-### Knowledge Gains
+## Reading
 
 - https://www.youtube.com/watch?v=Qhg2XqwL6nY
 - https://github.com/bobpace/devbox/
@@ -32,3 +32,4 @@ development environment.
 - https://stackoverflow.com/questions/19472554/build-vim-with-lua-on-linux-mint
 - https://github.com/Shougo/neocomplete.vim/issues/31#issuecomment-22956310
 - https://serverfault.com/a/894545
+- https://ss64.com/bash/syntax-inputrc.html
