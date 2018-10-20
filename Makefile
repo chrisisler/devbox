@@ -12,6 +12,6 @@ base:
 	@docker build --tag $(REPOSITORY) base
 
 dotfiles: base
-	@docker build --tag $(REPOSITORY) .
+	@docker build --no-cache --tag $(REPOSITORY)-dotfiles .
 
 .PHONY: all base dotfiles clean

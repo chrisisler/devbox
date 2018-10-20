@@ -1,6 +1,6 @@
-## dotfiles
+# dotfiles
 
-Dotfiles are separated into their own image to enable quick modify and rebuild
+Dotfiles are separated into their own Docker image to enable quick modify and rebuild
 cycles, as config changes quite often.
 
 ## Run
