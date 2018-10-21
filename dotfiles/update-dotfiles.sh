@@ -3,6 +3,8 @@
 # Throw error if any subcommand fails.
 set -e
 
+# This script copies dotfiles from litebox to devbox.
+
 main() {
   local here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 

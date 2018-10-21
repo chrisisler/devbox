@@ -53,6 +53,10 @@ export EDITOR="vim"
 # Sources ######################################################################
 ################################################################################
 
+if [ -f /usr/share/bash-completion/bash_completion ]; then
+  source /usr/share/bash-completion/bash_completion
+if
+
 # source ~/.bash_profile
 # source ~/.bash_aliases
 
@@ -152,4 +156,5 @@ time24h="\A"
 
 # export PS1="\n${cyan}${dir}${reset} "
 # export PS1="\n${time24h} ${yellow}${dir}${reset} "
+
 export PS1="\n${yellow}${dir}${reset} "
