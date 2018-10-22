@@ -35,3 +35,4 @@ development environment.
 - https://ss64.com/bash/syntax-inputrc.html
 - https://tecadmin.net/install-yarn-debian/
 - https://github.com/moby/moby/issues/6396#issuecomment-270550056
+- https://tecadmin.net/install-latest-nodejs-npm-on-debian/

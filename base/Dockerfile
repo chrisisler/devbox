@@ -29,11 +29,6 @@ RUN cd vim/src && ./configure --enable-fail-if-missing \
       --enable-pythoninterp=yes && \
       make && make install
 
-# Node, Yarn
-RUN apt-get install --assume-yes --quiet --no-install-recommends nodejs && \
-      sudo ln -s /usr/bin/nodejs /usr/bin/node && \
-      curl -o- -L https://yarnpkg.com/install.sh | bash
-
 # Create passwordless non-root user account
 RUN groupadd --gid 1000 devuser && \
       useradd --uid 1000 --gid devuser --shell /bin/bash \
@@ -42,6 +37,11 @@ RUN groupadd --gid 1000 devuser && \
       find /usr/local -type d | xargs chmod g+w && \
       printf "devuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/devuser && \
       chmod 0440 /etc/sudoers.d/devuser
+
+# Node, NPM, Yarn
+RUN curl -sSL https://deb.nodesource.com/setup_10.x | bash - && \
+      apt-get install --assume-yes --quiet --no-install-recommends nodejs && \
+      npm install --global yarn
 
 # Be non-root user
 USER devuser
