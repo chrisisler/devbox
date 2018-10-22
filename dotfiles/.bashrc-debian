@@ -53,9 +53,10 @@ export EDITOR="vim"
 # Sources ######################################################################
 ################################################################################
 
-if [ -f /usr/share/bash-completion/bash_completion ]; then
-  source /usr/share/bash-completion/bash_completion
-if
+[ -f /usr/share/bash-completion/bash_completion ] && source /usr/share/bash-completion/bash_completion
+# if [ -f /usr/share/bash-completion/bash_completion ]; then
+#   source /usr/share/bash-completion/bash_completion
+# if
 
 # source ~/.bash_profile
 # source ~/.bash_aliases
