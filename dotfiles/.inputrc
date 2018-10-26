@@ -4,12 +4,14 @@
 
 $if Bash
   set completion-ignore-case on
-  set completion-query-items 50
+  set completion-query-items 32
   set skip-completed-text on
   set show-all-if-ambiguous on
   set mark-directories on
   set mark-symlinked-directories on
   set match-hidden-files on
+
+  # this feature actually kinda sucks - no <C-l> binding
   # set editing-mode vi
 
   # Bash 4.4 features:

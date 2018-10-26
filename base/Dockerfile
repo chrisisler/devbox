@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM debian:stretch-slim
 LABEL maintainer="Chris Isler <christopherisler1@gmail.com>"
 ENV TERM xterm-256color
 
@@ -48,4 +48,13 @@ USER devuser
 ENV HOME /home/devuser
 WORKDIR /home/devuser
 
-CMD ["/bin/bash"]
+# Pass along SSH keys for Git
+# RUN mkdir -m 700 ~/.ssh \
+#     && curl -w "\n" https://github.com/chrisisler.keys >> ~/.ssh/authorized_keys \
+#     && sudo chmod 600 /home/devuser/.ssh/authorized_keys
+
+# Github is a known host
+RUN mkdir ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+
+# Act like an abstract base class - this image is not runnable.
+CMD ["true"]

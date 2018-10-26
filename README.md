@@ -9,6 +9,7 @@ development environment.
 
 1. [Docker](https://docs.docker.com/install/)
 1. Make
+1. GitHub SSH keys for devbox in `~/.ssh/devbox`
 
 #### Run
 
@@ -36,3 +37,7 @@ development environment.
 - https://tecadmin.net/install-yarn-debian/
 - https://github.com/moby/moby/issues/6396#issuecomment-270550056
 - https://tecadmin.net/install-latest-nodejs-npm-on-debian/
+- https://elegantinfrastructure.com/containers/cotw-debian-jessie-slim/
+- https://stackoverflow.com/questions/27482504/how-to-access-git-repo-with-my-private-key-from-dockerfile
+- https://github.com/moby/moby/issues/6396#issuecomment-54328263
+- https://github.com/moby/moby/issues/6396#issuecomment-267261192
