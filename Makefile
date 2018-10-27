@@ -3,10 +3,13 @@ REPOSITORY := chrisisler/devbox
 all: base
 
 run:
-	@docker run --interactive --tty --rm --volume "${HOME}/.ssh/devbox:/home/devuser/.ssh" $(REPOSITORY)
+	@source ./dotfiles/devbox-scripts.sh && devbox
 
 clean:
 	@docker rmi --force $(REPOSITORY)
+
+clean-unused-images:
+	@source ./dotfiles/devbox-scripts.sh && cleanUnusedImages
 
 base:
 	@docker build --tag $(REPOSITORY) base
@@ -14,4 +17,4 @@ base:
 dotfiles: base
 	@docker build --no-cache --tag $(REPOSITORY) .
 
-.PHONY: all base dotfiles clean echo
+.PHONY: all base dotfiles clean

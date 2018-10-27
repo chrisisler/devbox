@@ -2,10 +2,10 @@ FROM debian:stretch-slim
 LABEL maintainer="Chris Isler <christopherisler1@gmail.com>"
 ENV TERM xterm-256color
 
-RUN apt-get update
-RUN apt-get install --assume-yes --quiet --no-install-recommends git tmux \
+RUN apt-get update && \
+      apt-get install --assume-yes --quiet --no-install-recommends git tmux \
       wget curl man ca-certificates sudo build-essential tree locales less \
-      python-dev gpg ssh file bash-completion
+      python-dev gpg ssh file bash-completion libncurses-dev liblua5.3-dev
 
 # UTF-8 locale (for tmux)
 RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && \
@@ -14,17 +14,13 @@ ENV LANGUAGE en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
-# Vim dependencies
-RUN apt-get install --assume-yes --quiet --no-install-recommends \
-      libncurses-dev liblua5.3-dev
-
 # Vim: download source, configure dependencies, then install
 WORKDIR /usr/include/lua5.3
 RUN mkdir include && cp ./*.h include && \
       ln -s /usr/lib/x86_64-linux-gnu/liblua5.3.so /usr/local/lib/liblua.so
 WORKDIR /usr/local/lib
-RUN git clone https://github.com/vim/vim.git
-RUN cd vim/src && ./configure --enable-fail-if-missing \
+RUN git clone https://github.com/vim/vim.git ; \
+      cd vim/src && ./configure --enable-fail-if-missing \
       --with-lua-prefix=/usr/include/lua5.3 --enable-luainterp=yes \
       --enable-pythoninterp=yes && \
       make && make install
@@ -48,10 +44,11 @@ USER devuser
 ENV HOME /home/devuser
 WORKDIR /home/devuser
 
-# Pass along SSH keys for Git
-# RUN mkdir -m 700 ~/.ssh \
-#     && curl -w "\n" https://github.com/chrisisler.keys >> ~/.ssh/authorized_keys \
-#     && sudo chmod 600 /home/devuser/.ssh/authorized_keys
+# Rust
+RUN wget --quiet "https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init" && \
+      chmod +x rustup-init && \
+      ./rustup-init -y && \
+      rm rustup-init
 
 # Github is a known host
 RUN mkdir ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
