@@ -6,10 +6,8 @@ set -eu
 main() {
   local here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-  # Vim
-  cp ~/.vimrc "$here"
-
   # Copy vim config
+  cp ~/.vimrc "$here"
   mkdir -p "$here/.vim"
   cp -r ~/.vim/rc "$here/.vim/"
 
