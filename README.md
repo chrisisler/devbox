@@ -1,7 +1,7 @@
 ## Introduction
 
-This repository contains the config and build files for my containerized
-development environment.
+This repository contains the necessary files for my Dockerized development
+environment.
 
 ## Install
 
