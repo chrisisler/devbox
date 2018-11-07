@@ -23,8 +23,10 @@ RUN git clone https://github.com/chrisisler/devbox ~/devbox && \
 # RUN ln --symbolic ~/devbox/dotfiles/.rainbow_config.json ~/.rainbow_config.json
 
 # Tmuxline
-# - Any package updates available?
-# - Num of installed packages
-# - Amount of memory remaining
+# - arch info
+# - num installed packages
+# - memory 
+
+# Mail setup (mutt, fetchmail, procmail, etc.)
 
 CMD ["/bin/bash"]

@@ -172,20 +172,19 @@ nnoremap <Leader>t4 :set shiftwidth=4<CR>:set tabstop=4<CR>
 " switch to last open buffer
 nnoremap <Leader><Leader> :b#<CR>
 
-" Add a semi-colon to the end of the cursor's current line.
-" disabled/commented out for whole-line auto-completion
-" nnoremap <Leader>; A;<ESC>
-
 nnoremap <Leader>z :NeoCompleteToggle<CR>
 nnoremap <Leader>g :GitGutterToggle<CR>
 nnoremap <Leader>x :ALEToggle<CR>
 
 " Linter mappings
-nnoremap <Leader>p :ALEPreviousWrap<CR>kj
-nnoremap <Leader>n :ALENextWrap<CR>kj
-nnoremap <Leader>a :ALELint<CR>kj
+nnoremap <silent> <Leader>p :ALEPreviousWrap<CR>kj
+nnoremap <silent> <Leader>n :ALENextWrap<CR>kj
+nnoremap <silent> <Leader>a :ALELint<CR>kj
 
 nnoremap <silent> <Leader>: :set cursorline!<CR>
+nnoremap <silent> <Leader>; :set relativenumber!<CR>
+nnoremap <silent> <Leader>' :set number!<CR>
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
@@ -304,3 +303,4 @@ nnoremap <Leader>j2<CR> :w<CR>:AsyncRun java %:t:r<CR>:copen<CR>:wincmd k<CR>
 
 " C++
 " nnoremap <Leader>cpp :w<CR>:AsyncRun g++ % && ./a.out<CR>:copen<CR>:wincmd k<CR>
+"

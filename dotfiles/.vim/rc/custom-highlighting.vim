@@ -27,6 +27,9 @@ set background=dark
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" 3 is golden/yellow, 4 is blue
+" highlight PmenuSel ctermfg=4 ctermbg=bg
+
 " make background of statusline transparent (same as background)
 highlight StatusLine ctermfg=fg ctermbg=bg
 highlight StatusLineNC ctermfg=15 ctermbg=bg
@@ -94,7 +97,8 @@ endfunction
 
 autocmd BufEnter,BufRead,BufNewFile,FileType *.js,javascript call HighlightJavaScriptOne()
 function! HighlightJavaScriptOne()
-  source ~/.vim/rc/syntax-highlighting/one-javascript.vim
+  source ~/.vim/rc/syntax-highlighting/default-dark-js.vim
+  " source ~/.vim/rc/syntax-highlighting/one-javascript.vim
 endfunction
 
 autocmd BufEnter,BufRead,BufNewFile,FileType *.ts,tsx call SetFT()
