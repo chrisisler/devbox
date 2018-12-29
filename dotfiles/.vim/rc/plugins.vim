@@ -32,11 +32,12 @@ Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 
 
 " ----- Interface -----
-" Plug 'rakr/vim-one'
 Plug 'joshdick/onedark.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'kshenoy/vim-signature'
 Plug 'airblade/vim-gitgutter'
+Plug 'majutsushi/tagbar'
+" Plug 'rakr/vim-one'
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'docunext/closetag.vim'
 
@@ -71,9 +72,10 @@ Plug 'ternjs/tern_for_vim', { 'for': 'javascript.jsx' }
 
 " ----- Random -----
 Plug 'airblade/vim-rooter'
+Plug 'metakirby5/codi.vim', { 'for': 'javascript.jsx' }
+" Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'EinfachToll/DidYouMean'
 " Plug 'godlygeek/tabular'
-Plug 'metakirby5/codi.vim', { 'for': 'javascript.jsx' }
 " Plug 'junegunn/goyo.vim'
 " Plug 'yggdroot/indentline'
 " Plug 'severin-lemaignan/vim-minimap'
@@ -96,6 +98,25 @@ call plug#end()
 
 let g:javascript_plugin_flow = 1
 let g:javascript_plugin_jsdoc = 1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" tagbar
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:tagbar_compact = 1
+" au FileType tagbar setlocal nocursorline statusline=Overview
+nnoremap <silent> ,a :TagbarToggle<CR>
+
+function! TagbarStatusFunc(current, sort, fname, flags, ...) abort
+  " let colour = a:current ? '%#StatusLine#' : '%#StatusLineNC#'
+  " let flagstr = join(flags, '')
+  " if flagstr != ''
+  "   let flagstr = '[' . flagstr . '] '
+  " endif
+  " return colour . '[' . sort . '] ' . flagstr . fname
+  return 'Overview'
+endfunction
+let g:tagbar_status_func = 'TagbarStatusFunc'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " auto-pairs
@@ -171,6 +192,16 @@ let g:racer_cmd = "/Users/litebox/.cargo/bin/racer"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" nate kane :: vim-indent-guides
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" hi IndentGuidesOdd  ctermbg=white
+" hi IndentGuidesEven ctermbg=white
+" let g:indent_guides_enable_on_vim_startup = 1
+" let g:indent_guides_guide_size = 1
+" let g:indent_guides_start_level = 2
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " indentline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -228,7 +259,7 @@ let g:gitgutter_map_keys=0
 
 " avoid loading match parenthesis syntax plugin?
 " (may slow down vim if enabled)
-let loaded_matchparen = 1
+" let g:loaded_matchparen = 0
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

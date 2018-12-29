@@ -7,7 +7,6 @@ function! AdjustWindowHeight(minheight, maxheight)
     exe max([min([line('$')+1, a:maxheight]), a:minheight]) . "wincmd _"
 endfunction
 
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Exclude quickfix window from `:bn[ext]` and `:bp[revious]` commands.
@@ -19,7 +18,6 @@ augroup END
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 
 " Highlight all instances of word under cursor, when idle.
 " Useful when studying strange source code.
@@ -90,9 +88,9 @@ au FileType qf setlocal wrap number nocursorline colorcolumn= statusline=Info
 au FileType nerdtree setlocal nocursorline statusline=Explorer
 
 " https://github.com/junegunn/fzf/blob/master/README-VIM.md#hide-statusline
-autocmd! FileType fzf
-autocmd  FileType fzf set laststatus=0 noshowmode noruler
-  \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+" autocmd! FileType fzf
+" autocmd  FileType fzf set laststatus=0 noshowmode noruler
+"   \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
 
 " TODO
@@ -108,6 +106,8 @@ au BufRead,BufNewFile,BufEnter,FileType *.java set shiftwidth=4 tabstop=4 cursor
 au BufRead,BufNewFile,BufEnter,FileType rust set shiftwidth=4 tabstop=4
 " au Filetype rust source ~/.vim/scripts/spacetab.vim
 " au Filetype rust set colorcolumn=100
+
+au BufRead,BufNewFile,BufEnter,FileType *.txt set nocursorline nonumber
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 

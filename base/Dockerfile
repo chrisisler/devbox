@@ -5,7 +5,8 @@ ENV TERM xterm-256color
 RUN apt-get update && \
       apt-get install --assume-yes --quiet --no-install-recommends git tmux \
       wget curl man ca-certificates sudo build-essential tree locales less \
-      python-dev gpg ssh file bash-completion libncurses-dev liblua5.3-dev
+      python-dev gpg ssh file bash-completion libncurses-dev liblua5.3-dev \
+      autojump
 
 # UTF-8 locale (for tmux)
 RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && \
@@ -39,13 +40,18 @@ RUN curl -sSL https://deb.nodesource.com/setup_10.x | bash - && \
       apt-get install --assume-yes --quiet --no-install-recommends nodejs && \
       npm install --global yarn
 
+# Autojump works by caching common directories. Problem is, devbox is immutable.
+# RUN apt-get install --assume-yes --quiet --no-install-recommends autojump && \
+#       . /usr/share/autojump/autojump.sh
+
 # Be non-root user
 USER devuser
 ENV HOME /home/devuser
 WORKDIR /home/devuser
 
 # Rust
-RUN wget --quiet "https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init" && \
+RUN wget --quiet \
+      "https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init" && \
       chmod +x rustup-init && \
       ./rustup-init -y && \
       rm rustup-init

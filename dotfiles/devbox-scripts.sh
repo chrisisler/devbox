@@ -2,6 +2,7 @@
 
 set -eu
 
+# Run the image and jump into it.
 devbox() {
   # local REPOSITORY="$1"
   local REPOSITORY="chrisisler/devbox"

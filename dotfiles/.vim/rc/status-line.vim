@@ -1,5 +1,7 @@
 " https://hackernoon.com/the-last-statusline-for-vim-a613048959b2
 
+" Functions -------------------------------------------------------------------
+
 function! LintStatus() abort
   let l:counts = ale#statusline#Count(bufnr(''))
   let l:all_errors = l:counts.error + l:counts.style_error
@@ -13,9 +15,9 @@ function! LintStatus() abort
   let l:warnings_message = l:all_warnings == 0 ? '' : l:all_warnings == 1 ? '1 Warning ' : printf('%s Warnings ', all_warnings)
   let l:infos_message = l:all_infos == 0 ? '' : printf('%d i ', all_infos)
 
-  return l:all_errors == 0 && l:all_warnings == 0 && l:all_infos == 0 ? '' : printf('%s%s%s| ', errors_message, warnings_message, infos_message)
+  return l:all_errors == 0 && l:all_warnings == 0 && l:all_infos == 0 ? '' : printf('%s%s%s ', errors_message, warnings_message, infos_message)
+  " return l:all_errors == 0 && l:all_warnings == 0 && l:all_infos == 0 ? '' : printf('%s%s%s| ', errors_message, warnings_message, infos_message)
 endfunction
-
 
 function! BufferInfo() abort
   let l:buffers = len(getbufinfo({'buflisted':1}))
@@ -27,7 +29,7 @@ function! BufferInfo() abort
 endfunction
 
 function! Modified() abort
-  let l:modified = getbufvar(bufnr('%'), '&modified') ? ' ∴' : ''
+  let l:modified = getbufvar(bufnr('%'), '&modified') ? ' ∴ ' : ''
   " let l:modified = getbufvar(bufnr('%'), '&modified') ? ' ⊕' : ''
   " let l:modified = getbufvar(bufnr('%'), '&modified') ? ' ●' : ''
   " let l:modified = getbufvar(bufnr('%'), '&modified') ? ' | +' : ''
@@ -37,7 +39,14 @@ endfunction
 function! Spaces() abort
   let l:spaces = getbufvar(bufnr('%'), '&shiftwidth')
   return printf('S:%s', spaces)
-  " return printf('S %s', spaces)
+endfunction
+
+function! TagbarCurrentFunction() abort
+  let l:tag = tagbar#currenttag('%s','')
+  if &filetype == "java"
+    return printf('%s ', tag)
+  endif
+  return printf('')
 endfunction
 
 " http://vim.wikia.com/wiki/Showing_syntax_highlight_group_in_statusline
@@ -45,6 +54,8 @@ endfunction
 "   let l:syntaxItem = synIDattr(synID(line("."),col("."),1),"name")
 "   return printf('%s | ', syntaxItem)
 " endfunction
+
+" Statusline ------------------------------------------------------------------
 
 " clear it
 set statusline=
@@ -68,6 +79,9 @@ set statusline+=%=
 " lint errors and warnings separately and with space padding
 set statusline+=%{LintStatus()}
 
+set statusline+=%{TagbarCurrentFunction()}
+
 " Show line and column numbers (padded with spaces)
-set statusline+=%{Spaces()}\ 
-set statusline+=Ln\ %l\ Col\ %c\ 
+" set statusline+=Ln\ %l\ Col\ %c\ 
+" set statusline+=%l:%c\ 
+" set statusline+=%{Spaces()}\ 
