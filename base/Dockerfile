@@ -44,17 +44,20 @@ RUN curl -sSL https://deb.nodesource.com/setup_10.x | bash - && \
 # RUN apt-get install --assume-yes --quiet --no-install-recommends autojump && \
 #       . /usr/share/autojump/autojump.sh
 
+# Racket (CS451)
+RUN apt-get install --assume-yes --quiet --no-install-recommends racket
+
 # Be non-root user
 USER devuser
 ENV HOME /home/devuser
 WORKDIR /home/devuser
 
-# Rust
-RUN wget --quiet \
-      "https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init" && \
-      chmod +x rustup-init && \
-      ./rustup-init -y && \
-      rm rustup-init
+# # Rust
+# RUN wget --quiet \
+#       "https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init" && \
+#       chmod +x rustup-init && \
+#       ./rustup-init -y && \
+#       rm rustup-init
 
 # Github is a known host
 RUN mkdir ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
