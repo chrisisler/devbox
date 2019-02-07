@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -eu
 
@@ -15,5 +15,6 @@ devbox() {
 }
 
 cleanUnusedImages() {
-  docker rmi "$(docker images --quiet --filter "dangling=true")"
+  # docker rmi "$(docker images --quiet --filter "dangling=true")"
+  docker images --quiet --filter "dangling=true" | xargs docker rmi
 }
