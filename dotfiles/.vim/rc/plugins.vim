@@ -123,6 +123,11 @@ let g:tagbar_status_func = 'TagbarStatusFunc'
 " auto-pairs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" disable auto closing quotes for `.rkt` filetypes
+if &filetype == "racket"
+  let g:AutoPairsLoaded=0
+endif
+
 " automaticaly add closure thingies in rust
 " autocmd FileType rust let g:AutoPairs['|']='|'
 " if &filetype == "rust"
