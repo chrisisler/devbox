@@ -1,6 +1,6 @@
 REPOSITORY := chrisisler/devbox
 
-all: base
+all: dotfiles
 
 run:
 	@source ./dotfiles/devbox-scripts.sh && devbox

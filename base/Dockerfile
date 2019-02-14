@@ -6,7 +6,7 @@ RUN apt-get update && \
       apt-get install --assume-yes --quiet --no-install-recommends git tmux \
       wget curl man ca-certificates sudo build-essential tree locales less \
       python-dev gpg ssh file bash-completion libncurses-dev liblua5.3-dev \
-      autojump ctags
+      ctags
 
 # UTF-8 locale (for tmux)
 RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && \
