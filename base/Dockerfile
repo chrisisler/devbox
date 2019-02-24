@@ -48,12 +48,12 @@ USER devuser
 ENV HOME /home/devuser
 WORKDIR /home/devuser
 
-# # Rust
-# RUN wget --quiet \
-#       "https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init" && \
-#       chmod +x rustup-init && \
-#       ./rustup-init -y && \
-#       rm rustup-init
+# Rust
+RUN wget --quiet \
+      "https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init" && \
+      chmod +x rustup-init && \
+      ./rustup-init -y && \
+      rm rustup-init
 
 # Github is a known host
 RUN mkdir ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
