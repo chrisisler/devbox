@@ -1,6 +1,6 @@
 call clearmatches()
 
-set nocursorline nonumber laststatus=0
+set nocursorline nonumber
 
 let word = '[a-zA-Z0-9:_\-]\+'
 
