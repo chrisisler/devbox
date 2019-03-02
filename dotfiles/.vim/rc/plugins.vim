@@ -74,6 +74,7 @@ Plug 'ternjs/tern_for_vim', { 'for': 'javascript.jsx' }
 " ----- Random -----
 Plug 'airblade/vim-rooter'
 Plug 'metakirby5/codi.vim', { 'for': 'javascript.jsx' }
+Plug 'machakann/vim-highlightedyank'
 " Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'EinfachToll/DidYouMean'
 " Plug 'godlygeek/tabular'
@@ -109,12 +110,6 @@ let g:tagbar_compact = 1
 nnoremap <silent> ,a :TagbarToggle<CR>
 
 function! TagbarStatusFunc(current, sort, fname, flags, ...) abort
-  " let colour = a:current ? '%#StatusLine#' : '%#StatusLineNC#'
-  " let flagstr = join(flags, '')
-  " if flagstr != ''
-  "   let flagstr = '[' . flagstr . '] '
-  " endif
-  " return colour . '[' . sort . '] ' . flagstr . fname
   return 'Overview'
 endfunction
 let g:tagbar_status_func = 'TagbarStatusFunc'
@@ -123,12 +118,12 @@ let g:tagbar_status_func = 'TagbarStatusFunc'
 " auto-pairs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" disable auto closing quotes for `.rkt` filetypes
+" TODO: disable auto closing quotes for `.rkt` filetypes
 if &filetype == "racket"
   let g:AutoPairsLoaded=0
 endif
 
-" automaticaly add closure thingies in rust
+" TODO: automaticaly add closure thingies in rust
 " autocmd FileType rust let g:AutoPairs['|']='|'
 " if &filetype == "rust"
 "     let g:AutoPairs['|']='|'
