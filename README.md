@@ -1,21 +1,25 @@
-## Introduction
+## Devbox
 
-This repository contains the necessary files for my Dockerized development
-environment.
+Containerized development environment.
 
-## Install
-
-#### Pre-reqs
+## Pre-reqs
 
 1. [Docker](https://docs.docker.com/install/)
 1. Make
 1. GitHub SSH keys for devbox in `~/.ssh/devbox`
 
-#### Run
+## Run
 
-1. Clone repo then `cd devbox`
-1. `make dotfiles`
+1. Clone repo
+1. `make`
 1. `make run`
+
+## Next
+
+- Virtualize host filesystem
+- Fish shell
+- Mail
+- Java
 
 ## Reading
 
