@@ -79,9 +79,14 @@ Plug 'machakann/vim-highlightedyank'
 " Plug 'EinfachToll/DidYouMean'
 " Plug 'godlygeek/tabular'
 " Plug 'junegunn/goyo.vim'
-" Plug 'yggdroot/indentline'
+Plug 'yggdroot/indentline'
 " Plug 'severin-lemaignan/vim-minimap'
 
+
+Plug 'amdt/vim-niji'
+
+" Niji breaks JavaScript
+let g:niji_matching_filetypes = ['racket']
 
 " ----- Broken plugins; these do NOT work -----
 " Plug 'junegunn/rainbow_parentheses.vim'
@@ -198,19 +203,23 @@ let g:racer_cmd = "/Users/litebox/.cargo/bin/racer"
 
 " hi IndentGuidesOdd  ctermbg=white
 " hi IndentGuidesEven ctermbg=white
-" let g:indent_guides_enable_on_vim_startup = 1
-" let g:indent_guides_guide_size = 1
-" let g:indent_guides_start_level = 2
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_guide_size = 1
+let g:indent_guides_start_level = 2
+let g:indent_guides_indent_levels = 10
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " indentline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" let g:indentLine_enabled=1
-" let g:indentLine_char='┊'
+let g:indentLine_enabled=1
+let g:indentLine_char='┊'
+let g:indentLine_first_char='┊'
 " let g:indentLine_char='│'
 " let g:indentLine_faster=1
-
+let g:indentLine_showFirstIndentLevel=1
+let g:indentLine_bufTypeExclude = ['help', 'terminal', 'json', 'racket']
+let g:vim_json_syntax_conceal = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " codi (live/inline evaluation)
