@@ -218,7 +218,7 @@ let g:indentLine_first_char='┊'
 " let g:indentLine_char='│'
 " let g:indentLine_faster=1
 let g:indentLine_showFirstIndentLevel=1
-let g:indentLine_bufTypeExclude = ['help', 'terminal', 'json', 'racket', 'tagbar']
+let g:indentLine_bufTypeExclude = ['help', 'terminal', 'json', 'racket', 'tagbar', 'markdown', 'Dockerfile']
 let g:vim_json_syntax_conceal = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -312,7 +312,7 @@ let g:ale_enabled=1
 let g:ale_sign_error='✕'
 let g:ale_sign_warning='--'
 let g:ale_set_signs=1
-let g:ale_lint_delay=800
+let g:ale_lint_delay=1200
 let g:ale_fix_on_save=1
 let g:ale_open_list=0
 let g:ale_set_highlights=0
