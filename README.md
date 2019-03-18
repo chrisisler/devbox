@@ -18,7 +18,8 @@ Containerized development environment.
 
 - Virtualize host filesystem
 - Fish shell
-- Mail
+- Mail CLI
+- Neovim
 
 ## Reading
 
@@ -46,4 +47,3 @@ Containerized development environment.
 - https://github.com/moby/moby/issues/6396#issuecomment-267261192
 - https://www.rust-lang.org/en-US/other-installers.html
 - https://github.com/rust-lang-nursery/docker-rust/blob/master/1.30.0/stretch/slim/Dockerfile
-- apt-get install --assume-yes --quiet --no-install-recommends openjdk-8-jdk-headless
