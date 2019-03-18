@@ -15,16 +15,8 @@ ENV LANGUAGE en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
-# Vim: download source, configure dependencies, then install
-WORKDIR /usr/include/lua5.3
-RUN mkdir include && cp ./*.h include && \
-      ln -s /usr/lib/x86_64-linux-gnu/liblua5.3.so /usr/local/lib/liblua.so
-WORKDIR /usr/local/lib
-RUN git clone https://github.com/vim/vim.git ; \
-      cd vim/src && ./configure --enable-fail-if-missing \
-      --with-lua-prefix=/usr/include/lua5.3 --enable-luainterp=yes \
-      --enable-pythoninterp=yes && \
-      make && make install
+# Neovim
+RUN apt-get install --assume-yes --quiet --no-install-recommends neovim
 
 # Create passwordless non-root user account
 RUN groupadd --gid 1000 devuser && \
@@ -49,6 +41,7 @@ RUN mkdir -pv /usr/share/man/man1
 RUN apt-get install --assume-yes --quiet --no-install-recommends openjdk-8-jdk-headless
 
 # Be non-root user
+# Note! Docker directives like `RUN` require `sudo` after becoming non-root user. 
 USER devuser
 ENV HOME /home/devuser
 WORKDIR /home/devuser
