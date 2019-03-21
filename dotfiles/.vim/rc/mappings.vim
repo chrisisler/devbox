@@ -291,8 +291,10 @@ nnoremap <Leader>py3<CR> :w<CR>:Dispatch python3 %<CR>
 nnoremap <Leader>py2<CR> :w<CR>:Dispatch python2 %<CR>
 
 " Java
-nnoremap <Leader>j1<CR> :w<CR>:AsyncRun javac %<CR>:copen<CR>:wincmd k<CR>
-nnoremap <Leader>j2<CR> :w<CR>:AsyncRun java %:t:r<CR>:copen<CR>:wincmd k<CR>
+nnoremap <Leader>j1<CR> :w<CR>:Dispatch javac %<CR>:copen<CR>
+nnoremap <Leader>j2<CR> :w<CR>:Dispatch java %:t:r<CR>:copen<CR>
+" nnoremap <Leader>j1<CR> :w<CR>:AsyncRun javac %<CR>:copen<CR>:wincmd k<CR>
+" nnoremap <Leader>j2<CR> :w<CR>:AsyncRun java %:t:r<CR>:copen<CR>:wincmd k<CR>
 
 " C#
 " nnoremap <Leader>cs<CR> :w<CR>:AsyncRun csc /nologo /t:exe %<CR>:copen<CR>:wincmd k<CR>

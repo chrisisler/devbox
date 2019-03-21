@@ -29,6 +29,7 @@ autocmd VimEnter * set laststatus=2 " force set 0 on start. display status line 
 
 set showtabline=0              " Display list of buffers at the top
 
+set shortmess+=c
 set showfulltag                " display more info when auto-completing
 set smartcase                  " smart (case-sensitive when you specify) search matching
 set modeline                   " i have no idea what this does tbh
