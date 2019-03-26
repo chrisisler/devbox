@@ -8,10 +8,10 @@ devbox() {
   local REPOSITORY="chrisisler/devbox"
 
   docker run --interactive --tty --rm \
-    --volume "${HOME}/Code:/home/devuser/Code" \
-    --volume "${HOME}/Main:/home/devuser/Main" \
-    --volume "${HOME}/.ssh/devbox:/home/devuser/.ssh" \
-    ${REPOSITORY}
+    --volume "$HOME/Code:/home/devuser/Code" \
+    --volume "$HOME/Main:/home/devuser/Main:ro" \
+    --volume "$HOME/.ssh/devbox:/home/devuser/.ssh:ro" \
+    $REPOSITORY
 }
 
 cleanUnusedImages() {

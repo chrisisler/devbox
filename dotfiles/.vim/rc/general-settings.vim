@@ -6,6 +6,7 @@ set nocompatible
 set tabstop=2
 set shiftwidth=2
 
+set belloff+=ctrlg " If Vim beeps during completion
 set softtabstop=0
 set autoindent                 " auto indent new lines
 set smartindent                " don't indent like an idiot
@@ -72,7 +73,7 @@ set path+=**
 " Visual.
 set noruler
 set number      " show line numbers on left?
-set cursorline  " highlight current line?
+set nocursorline  " highlight current line?
 set norelativenumber " show line numbers relative to current line number?
 
 set hlsearch    " search highlighting

@@ -82,7 +82,7 @@ set statusline+=%=
 set statusline+=%{TagbarCurrentFunction()}
 
 " Show line and column numbers
-set statusline+=Ln\ %l\ Col\ %c\ %{BufferInfo()}
+" set statusline+=Ln\ %l\ Col\ %c\ %{BufferInfo()}
 " set statusline+=Ln\ %l\ Col\ %c\
 " set statusline+=%l:%c\ 
 " set statusline+=%{Spaces()}\ 
