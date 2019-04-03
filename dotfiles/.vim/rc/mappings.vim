@@ -269,7 +269,7 @@ nnoremap <silent> <Leader>" :set relativenumber!<CR>
 " nnoremap <silent> <Leader>rs<CR> :w<CR>:AsyncRun cargo run % --color=never --quiet<CR> :copen<CR>:wincmd k<CR>
 nnoremap <silent> <Leader>rs1 :w<CR>:Dispatch rustc % --out-dir %:p:h<CR>
 nnoremap <silent> <Leader>rs2 :w<CR>:Dispatch %:p:r<CR>
-nnoremap <silent> <Leader>rst :w<CR>:AsyncRun cargo test --color=never<CR>:copen<CR>:wincmd k<CR>
+" nnoremap <silent> <Leader>rst :w<CR>:AsyncRun cargo test --color=never<CR>:copen<CR>:wincmd k<CR>
 
 " Custom dispatch call
 nnoremap <Leader>d<CR> :Dispatch 

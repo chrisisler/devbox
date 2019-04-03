@@ -79,7 +79,7 @@ set statusline+=%=
 " set statusline+=%{LintStatus()}
 
 " Scope
-set statusline+=%{TagbarCurrentFunction()}
+" set statusline+=%{TagbarCurrentFunction()}
 
 " Show line and column numbers
 " set statusline+=Ln\ %l\ Col\ %c\ %{BufferInfo()}

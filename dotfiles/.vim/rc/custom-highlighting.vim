@@ -51,7 +51,7 @@ highlight EndOfBuffer ctermfg=bg ctermbg=NONE
 " do not show split separators
 highlight VertSplit ctermfg=bg ctermbg=bg
 
-highlight MatchParen ctermbg=bg ctermfg=red cterm=underline,reverse
+highlight MatchParen ctermbg=bg ctermfg=red cterm=reverse
 " highlight MatchParen ctermfg=bg ctermbg=12
 " highlight MatchParen cterm=bold,underline ctermfg=3 ctermbg=bg
 
@@ -108,8 +108,8 @@ endfunction
 
 autocmd BufEnter,BufRead,BufNewFile,FileType *.js,javascript call HighlightJavaScriptOne()
 function! HighlightJavaScriptOne()
-  " source ~/.vim/rc/syntax-highlighting/default-dark-js.vim
-  source ~/.vim/rc/syntax-highlighting/one-javascript.vim
+  source ~/.vim/rc/syntax-highlighting/default-dark-js.vim
+  " source ~/.vim/rc/syntax-highlighting/one-javascript.vim
 endfunction
 
 autocmd BufEnter,BufRead,BufNewFile,FileType *.ts,tsx call SetFT()
