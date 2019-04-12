@@ -85,7 +85,11 @@ Plug 'machakann/vim-highlightedyank'
 
 
 " A rainbow parenthesis plugin that finally works!
-Plug 'amdt/vim-niji', { 'for': 'racket' }
+Plug 'amdt/vim-niji', { 'for': ['racket', 'scheme'] }
+
+if &filetype == "scheme"
+  set filetype=racket
+endif
 
 " Niji breaks JavaScript
 let g:niji_matching_filetypes = ['racket']
@@ -129,9 +133,6 @@ let g:tagbar_status_func = 'TagbarStatusFunc'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " TODO: disable auto closing single-quotes for `.rkt` filetypes
-if &filetype == "racket"
-  let g:AutoPairsLoaded=0
-endif
 
 " TODO: automaticaly add closure thingies in rust
 " autocmd FileType rust let g:AutoPairs['|']='|'

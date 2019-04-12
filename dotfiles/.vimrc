@@ -6,5 +6,3 @@ source $HOME/.vim/rc/mappings.vim
 source $HOME/.vim/rc/custom-highlighting.vim
 source $HOME/.vim/rc/misc.vim
 source $HOME/.vim/rc/status-line.vim
-
-source ~/.vim/rc/syntax-highlighting/one-javascript.vim

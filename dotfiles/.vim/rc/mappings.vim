@@ -6,9 +6,16 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" https://vimrcfu.com/snippet/77
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
 " keep selected text selected when fixing indentation
 vnoremap < <gv
 vnoremap > >gv
+
+vnoremap <Tab> >gv
+vnoremap <S-Tab> <LT>gv
 
 nnoremap `` ``zz
 
