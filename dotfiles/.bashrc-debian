@@ -78,11 +78,11 @@ lslaVar="ls --human-readable --almost-all --classify --group-directories-first -
 # Aliases ######################################################################
 ################################################################################
 
+alias test="cd $HOME/Test && $EDITOR ./Test.js"
 alias q="exit"
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias back="cd -"
 alias tkill="tmux kill-pane -t $@"
-alias tm="clear ; ps xc | awk '{ print \$1, \$5 }' | sed 1d | sort -fk 2 | column -t | column"
+# alias tm="clear ; ps xc | awk '{ print \$1, \$5 }' | sed 1d | sort -fk 2 | column -t | column"
 alias gs="git status"
 alias v="vim"
 alias cd..="cd .."

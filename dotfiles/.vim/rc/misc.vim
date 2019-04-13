@@ -1,5 +1,11 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Make hyphens part of word in css files
+au! FileType css,scss,sass setl iskeyword+=-
+
+" let terminal resize scale the internal windows
+autocmd VimResized * :wincmd =
+
 
 " http://vim.wikia.com/wiki/Automatically_fitting_a_quickfix_window_height
 
