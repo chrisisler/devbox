@@ -16,6 +16,7 @@ Containerized development environment.
 
 ## Next
 
+- Neovim
 - Virtualize host filesystem
 - Fish shell
 - Mail

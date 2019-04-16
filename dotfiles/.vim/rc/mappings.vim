@@ -127,8 +127,8 @@ nnoremap <silent> <Leader>k :wincmd k<CR>
 nnoremap <silent> <Leader>l :wincmd l<CR>
 
 " Move horizontal splits to vertical splits
-nnoremap <silent> <Leader>O <C-w>t <C-w>K
-nnoremap <silent> <Leader>o <C-w>t <C-w>H
+nnoremap <silent> <Leader>O <C-w>K
+nnoremap <silent> <Leader>o <C-w>H
 
 " Delete current buffer.
 nnoremap <silent> <Leader>q<CR> :bdelete %<CR>
