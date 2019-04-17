@@ -15,7 +15,7 @@ Plug 'othree/es.next.syntax.vim', { 'for': 'javascript.jsx' }
 Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'racer-rust/vim-racer', { 'for': 'rust' }
-Plug 'wlangstroth/vim-racket', { 'for': 'racket' }
+Plug 'wlangstroth/vim-racket', { 'for': 'racket', 'commit': '365a2aff8fa1d08fc8ab4ab9b1cff27d87d86fbf' }
 " Plug 'pangloss/vim-javascript'
 " Plug 'jparise/vim-graphql'
 " Plug 'posva/vim-vue'
