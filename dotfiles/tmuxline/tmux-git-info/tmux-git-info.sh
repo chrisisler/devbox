@@ -86,7 +86,8 @@ main() {
   # local gitInfo=" $branchName$changes"
   # local gitInfo="[$branchName$changes]"
   # local gitInfo=" $isPrivate$branchName$changes"
-  local gitInfo="[$branchName]$changes"
+  # local gitInfo="[$branchName]$changes"
+  local gitInfo="| $branchName$changes"
   
   printf "$gitInfo"
 }
