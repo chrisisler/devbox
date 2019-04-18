@@ -1,5 +1,11 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Make hyphens part of word in css files
+au! FileType css,scss,sass setl iskeyword+=-
+
+" let terminal resize scale the internal windows
+autocmd VimResized * :wincmd =
+
 
 " http://vim.wikia.com/wiki/Automatically_fitting_a_quickfix_window_height
 
@@ -57,18 +63,10 @@ endfunction
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-
-    " for tmate (brew install tmate)
-    " set term=screen-256color
 else
     let &t_SI = "\<Esc>]50;CursorShape=1\x7"
     let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
-
-" let &t_ti.="\e[1 q"
-" let &t_te.="\e[0 q"
-" let &t_SI.="\e[5 q"
-" let &t_EI.="\e[1 q"
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
