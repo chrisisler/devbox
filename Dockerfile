@@ -1,23 +1,36 @@
 FROM chrisisler/devbox
 LABEL maintainer="Chris Isler <christopherisler1@gmail.com>"
 
-# Clone dotfiles
-RUN git clone https://github.com/chrisisler/devbox ~/devbox
+# Pull latest dotfiles from github master
+# TODO When we push neovim branch master, uncomment the line below
+# RUN git clone https://github.com/chrisisler/devbox ~/devbox
+RUN git clone --single-branch --branch neovim https://github.com/chrisisler/devbox ~/devbox
 
-# Copy config for inputrc, bashrc, and tmuxrc
+# Copy config for inputrc, bashrc, and tmux config
 RUN ln --symbolic ~/devbox/dotfiles/.inputrc ~/.inputrc && \
       ln --symbolic --force ~/devbox/dotfiles/.bashrc-debian ~/.bashrc && \
       ln --symbolic ~/devbox/dotfiles/.tmux.conf ~/.tmux.conf
 
 # Copy config for Neovim
+# TODO
+# - snippets
+# - vim-plug
+# - autocomplete plugin choose
 RUN mkdir ~/.config && \
       mkdir -p ~/.vim/autoload ~/.vim/undodir && \
       ln --symbolic ~/devbox/dotfiles/.vim ~/.config/nvim && \
       ln --symbolic ~/devbox/dotfiles/.vimrc ~/.config/vimrc && \
       ln --symbolic ~/devbox/dotfiles/.vim/snippets ~/.vim/snippets && \
-      ln --symbolic ~/devbox/dotfiles/.vim/autoload/plug.vim ~/.vim/autoload/plug.vim && \
-      ~/devbox/dotfiles/install-neovim-plugins.sh && \
-      yarn install --cwd ~/.vim/plugged/tern_for_vim
+      ~/devbox/dotfiles/install-neovim-plugins.sh
+
+# RUN mkdir ~/.config && \
+#       mkdir -p ~/.vim/autoload ~/.vim/undodir && \
+#       ln --symbolic ~/devbox/dotfiles/.vim ~/.config/nvim && \
+#       ln --symbolic ~/devbox/dotfiles/.vimrc ~/.config/vimrc && \
+#       ln --symbolic ~/devbox/dotfiles/.vim/snippets ~/.vim/snippets && \
+#       ln --symbolic ~/devbox/dotfiles/.vim/autoload/plug.vim ~/.vim/autoload/plug.vim && \
+#       ~/devbox/dotfiles/install-neovim-plugins.sh && \
+#       yarn install --cwd ~/.vim/plugged/tern_for_vim
 
 # RUN git clone https://github.com/chrisisler/devbox ~/devbox && \
 #     mkdir -p ~/.vim/autoload ~/.vim/undodir && \
