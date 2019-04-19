@@ -1,4 +1,4 @@
-set nocompatible
+highlight Normal ctermfg=7 ctermbg=0
 
 source $HOME/.vim/rc/general-settings.vim
 source $HOME/.vim/rc/plugins.vim

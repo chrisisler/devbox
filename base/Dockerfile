@@ -1,12 +1,11 @@
-FROM debian:stretch-slim
+FROM debian:testing
 LABEL maintainer="Chris Isler <christopherisler1@gmail.com>"
 ENV TERM xterm-256color
 
 RUN apt-get update && \
       apt-get install --assume-yes --quiet --no-install-recommends git tmux \
       wget curl man ca-certificates sudo build-essential tree locales less \
-      python-dev gpg ssh file bash-completion libncurses-dev liblua5.3-dev \
-      ctags
+      gpg gpg-agent ssh file bash-completion ctags
 
 # UTF-8 locale (for tmux)
 RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && \
@@ -34,11 +33,11 @@ RUN apt-get install --assume-yes --quiet --no-install-recommends racket
 
 # Java (IT114L)
 # Fake the man pages stuff being installed so this doesn't error.
-RUN mkdir -pv /usr/share/man/man1
-RUN apt-get install --assume-yes --quiet --no-install-recommends openjdk-8-jdk-headless
+# RUN mkdir -pv /usr/share/man/man1
+RUN apt-get install --assume-yes --quiet --no-install-recommends openjdk-11-jdk-headless
 
 # Neovim
-RUN apt-get install --assume-yes --quiet --no-install-recommends neovim
+RUN apt-get install --assume-yes --quiet neovim
 
 # Be non-root user
 # Note! Docker directives like `RUN` require `sudo` after becoming non-root user. 

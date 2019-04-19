@@ -50,3 +50,4 @@ Containerized development environment.
 - https://github.com/rust-lang-nursery/docker-rust/blob/master/1.30.0/stretch/slim/Dockerfile
 - Apparently installing Java on Debian is `apt-get install openjdk-8-jdk-headless`
 - Apparently `ln --symbolic` requires absolute paths to make any fricken sense
+- `fg` and `bg` values for cterm?g require `highlight Normal` to be set first, [see here](https://github.com/neovim/neovim/pull/5319#discussion_r78295368).

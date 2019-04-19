@@ -11,17 +11,24 @@ RUN ln --symbolic ~/devbox/dotfiles/.inputrc ~/.inputrc && \
       ln --symbolic --force ~/devbox/dotfiles/.bashrc-debian ~/.bashrc && \
       ln --symbolic ~/devbox/dotfiles/.tmux.conf ~/.tmux.conf
 
+# Install Neovim plugin manager `vim-plug` (https://github.com/junegunn/vim-plug)
+RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
 # Copy config for Neovim
 # TODO
+# - NeoVim does not use `fg` or `bg` as valid syntax highlight color values
+#   * Fix: `highlight Normal ctermfg=7 ctermbg=0` must be prepended to `custom-highlighting.vim`
+# - ALE requires NeoVim version >= 0.2.0
+# - UltiSnips requires py >= 2.7 or py3
 # - snippets
-# - vim-plug
 # - autocomplete plugin choose
 RUN mkdir ~/.config && \
       mkdir ~/.vim && ln --symbolic ~/devbox/dotfiles/.vim/rc ~/.vim/rc && \
       ln --symbolic ~/devbox/dotfiles/.vim ~/.config/nvim && \
-      ln --symbolic ~/devbox/dotfiles/.vimrc ~/.config/init.vim && \
-      printf "\nset runtimepath^=~/.vim\nlet &packpath = &runtimepath" >> ~/.config/init.vim && \
-      ~/devbox/dotfiles/install-neovim-plugins.sh
+      ln --symbolic ~/devbox/dotfiles/.vimrc ~/.config/init.vim
+      # printf "\nset runtimepath^=~/.vim\nlet &packpath = &runtimepath" >> ~/.config/init.vim && \
+      # ~/devbox/dotfiles/install-neovim-plugins.sh
 #       ln --symbolic ~/devbox/dotfiles/.vim/snippets ~/.vim/snippets && \
 
 
