@@ -1,9 +1,10 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-# straight up stolen from https://github.com/Shougo/neobundle.vim/blob/master/bin/neoinstall
+# "Inspired by" https://github.com/Shougo/neobundle.vim/blob/master/bin/neoinstall
 
 vimrc=$HOME/.config/nvim/init.vim
 
-nvim -u $vimrc -U NONE -i NONE -e -s -c "try | PlugInstall! $* | finally | qall! | endtry"
+printf "\nInstalling plugins...\n"
+nvim -N -u $vimrc -U NONE -v1 -i NONE -e -s -c "try | PlugInstall! $* | finally | qall! | endtry"
 
-echo ''
+exit 0

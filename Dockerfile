@@ -18,13 +18,15 @@ RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 # Neovim configuration (from Vim)
 # TODO
 # - UltiSnips requires py >= 2.7 or py3
-# - snippets
-# - autocomplete plugin choose
+# - Snippets
+# - Autocompletion
 RUN mkdir ~/.config && \
       mkdir ~/.vim && ln --symbolic ~/devbox/dotfiles/.vim/rc ~/.vim/rc && \
       ln --symbolic ~/devbox/dotfiles/.vim ~/.config/nvim && \
-      ln --symbolic ~/devbox/dotfiles/.vimrc ~/.config/nvim/init.vim
-      # ~/devbox/dotfiles/install-neovim-plugins.sh
+      ln --symbolic ~/devbox/dotfiles/.vimrc ~/.config/nvim/init.vim && \
+      ~/devbox/dotfiles/install-neovim-plugins.sh
+
+
 #       ln --symbolic ~/devbox/dotfiles/.vim/snippets ~/.vim/snippets && \
 
 
