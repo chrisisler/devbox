@@ -16,11 +16,9 @@ Containerized development environment.
 
 ## Next
 
-- Neovim (for async support and hopefully a faster editor)
 - Virtualize host filesystem
 - Fish shell
 - Mail CLI
-- Neovim
 
 ## Reading
 
