@@ -49,3 +49,4 @@ Containerized development environment.
 - https://www.rust-lang.org/en-US/other-installers.html
 - https://github.com/rust-lang-nursery/docker-rust/blob/master/1.30.0/stretch/slim/Dockerfile
 - Apparently installing Java on Debian is `apt-get install openjdk-8-jdk-headless`
+- Apparently `ln --symbolic` requires absolute paths to make any fricken sense

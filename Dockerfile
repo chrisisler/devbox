@@ -1,4 +1,4 @@
-FROM chrisisler/devbox
+FROM chrisisler/devbox-neovim-base
 LABEL maintainer="Chris Isler <christopherisler1@gmail.com>"
 
 # Pull latest dotfiles from github master
@@ -17,11 +17,13 @@ RUN ln --symbolic ~/devbox/dotfiles/.inputrc ~/.inputrc && \
 # - vim-plug
 # - autocomplete plugin choose
 RUN mkdir ~/.config && \
-      mkdir -p ~/.vim/autoload ~/.vim/undodir && \
+      mkdir ~/.vim && ln --symbolic ~/devbox/dotfiles/.vim/rc ~/.vim/rc && \
       ln --symbolic ~/devbox/dotfiles/.vim ~/.config/nvim && \
-      ln --symbolic ~/devbox/dotfiles/.vimrc ~/.config/vimrc && \
-      ln --symbolic ~/devbox/dotfiles/.vim/snippets ~/.vim/snippets && \
+      ln --symbolic ~/devbox/dotfiles/.vimrc ~/.config/init.vim && \
       ~/devbox/dotfiles/install-neovim-plugins.sh
+#       ln --symbolic ~/devbox/dotfiles/.vim/snippets ~/.vim/snippets && \
+
+# RUN printf "\nset runtimepath^=~/.vim runtimepath+=~/.vim/after\nlet &packpath = &runtimepath" >> ~/.config/init.vim
 
 # RUN mkdir ~/.config && \
 #       mkdir -p ~/.vim/autoload ~/.vim/undodir && \

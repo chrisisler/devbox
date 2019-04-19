@@ -15,9 +15,6 @@ ENV LANGUAGE en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
-# Neovim
-RUN apt-get install --assume-yes --quiet --no-install-recommends neovim
-
 # Create passwordless non-root user account
 RUN groupadd --gid 1000 devuser && \
       useradd --uid 1000 --gid devuser --shell /bin/bash \
@@ -39,6 +36,9 @@ RUN apt-get install --assume-yes --quiet --no-install-recommends racket
 # Fake the man pages stuff being installed so this doesn't error.
 RUN mkdir -pv /usr/share/man/man1
 RUN apt-get install --assume-yes --quiet --no-install-recommends openjdk-8-jdk-headless
+
+# Neovim
+RUN apt-get install --assume-yes --quiet --no-install-recommends neovim
 
 # Be non-root user
 # Note! Docker directives like `RUN` require `sudo` after becoming non-root user. 
