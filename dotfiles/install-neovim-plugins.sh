@@ -5,6 +5,6 @@
 vimrc=$HOME/.config/init.vim
 
 nvim -N -u $vimrc -c "try | PlugInstall! $* | finally | qall! | endtry" \
-        -U NONE -i NONE -e -s
+        -U NONE -V1 -i NONE -e -s
 
 echo ''

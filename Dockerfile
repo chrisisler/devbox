@@ -26,9 +26,9 @@ RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 RUN mkdir ~/.config && \
       mkdir ~/.vim && ln --symbolic ~/devbox/dotfiles/.vim/rc ~/.vim/rc && \
       ln --symbolic ~/devbox/dotfiles/.vim ~/.config/nvim && \
-      ln --symbolic ~/devbox/dotfiles/.vimrc ~/.config/init.vim
-      # printf "\nset runtimepath^=~/.vim\nlet &packpath = &runtimepath" >> ~/.config/init.vim && \
-      # ~/devbox/dotfiles/install-neovim-plugins.sh
+      ln --symbolic ~/devbox/dotfiles/.vimrc ~/.config/init.vim && \
+      printf "\nset runtimepath^=~/.vim\nlet &packpath = &runtimepath" >> ~/.config/init.vim && \
+      ~/devbox/dotfiles/install-neovim-plugins.sh
 #       ln --symbolic ~/devbox/dotfiles/.vim/snippets ~/.vim/snippets && \
 
 
