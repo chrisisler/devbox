@@ -18,3 +18,16 @@ cleanUnusedImages() {
   # docker rmi "$(docker images --quiet --filter "dangling=true")"
   docker images --quiet --filter "dangling=true" | xargs docker rmi
 }
+
+update() {
+  local here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+  cp ~/.vimrc "$here"
+  mkdir -p "$here/.vim"
+  cp -r ~/.vim/rc "$here/.vim/"
+
+  mkdir -p "$here/.vim/snippets"
+  cp -r ~/.vim/snippets "$here/.vim/"
+
+  printf "\nDotfiles updated.\n"
+}

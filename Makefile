@@ -17,4 +17,7 @@ base:
 dotfiles: base
 	@docker build --no-cache --tag $(REPOSITORY) .
 
+update:
+	@source ./dotfiles/devbox-scripts.sh && update
+
 .PHONY: all base dotfiles clean

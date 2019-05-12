@@ -1,5 +1,22 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
+" Install Plugin Manager
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let isPluginManagerNotInstalled = empty(glob('`find ~/.{config,vim} -name plug.vim`'))
+if isPluginManagerNotInstalled
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  " Do we run this (A) command or the (B) install-plugins.sh command?
+  " A.
+  " autocmd VimEnter * PlugInstall
+  " B.
+  try | PlugInstall! $* | finally | qall! | endtry
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
 " Plugins
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -66,15 +83,15 @@ Plug 'rhysd/clever-f.vim'
 " ----- Completion -----
 Plug 'jiangmiao/auto-pairs'
 Plug 'ervandew/supertab'
-" Plug 'shougo/neocomplete.vim'
+Plug 'shougo/neocomplete.vim'
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'sirver/ultisnips'
-Plug 'ternjs/tern_for_vim', { 'for': 'javascript.jsx' }
+Plug 'ternjs/tern_for_vim', { 'for': 'javascript.jsx', 'do': 'npm i && npm i -g tern' }
 
 
 " ----- Random -----
 Plug 'airblade/vim-rooter'
-" Plug 'metakirby5/codi.vim', { 'for': 'javascript.jsx' }
+Plug 'metakirby5/codi.vim', { 'for': 'javascript.jsx' }
 Plug 'machakann/vim-highlightedyank'
 " Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'EinfachToll/DidYouMean'
@@ -85,14 +102,14 @@ Plug 'machakann/vim-highlightedyank'
 
 
 " A rainbow parenthesis plugin that finally works!
-Plug 'amdt/vim-niji', { 'for': 'racket' }
+Plug 'amdt/vim-niji', { 'for': ['javascript', 'racket'] }
 
 " if &filetype == "scheme"
 "   set filetype=racket
 " endif
 
 " Niji breaks JavaScript
-let g:niji_matching_filetypes = ['racket']
+let g:niji_matching_filetypes = ['racket', 'javascript']
 
 " ----- Broken plugins; these do NOT work -----
 " Plug 'junegunn/rainbow_parentheses.vim'
@@ -309,8 +326,8 @@ let g:UltiSnipsSnippetsDir="~/.vim/snippets"
 " ale
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:ale_lint_on_text_changed='always'
-" let g:ale_lint_on_text_changed='never'
+" let g:ale_lint_on_text_changed='always'
+let g:ale_lint_on_text_changed='never'
 " let g:ale_lint_on_save = 0
 " let g:ale_lint_on_enter = 0
 
@@ -391,7 +408,7 @@ nnoremap <C-m> :Maps<CR>
 inoremap <expr><CR> (pumvisible()?(empty(v:completed_item)?"\<CR>\<CR>":"\<C-y>"):"\<CR>")
 
 " Enabled?
-let g:neocomplete#enable_at_startup=0
+let g:neocomplete#enable_at_startup=1
 
 " refreshes candidates automatically, setting to 1 increases screen flicker
 let g:neocomplete#enable_refresh_always=0
