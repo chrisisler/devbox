@@ -1,7 +1,7 @@
 FROM chrisisler/devbox
 LABEL maintainer="Chris Isler <christopherisler1@gmail.com>"
 
-RUN git clone https://github.com/chrisisler/devbox ~/devbox && \
+RUN git clone --single-branch --branch vim-self-install https://github.com/chrisisler/devbox ~/devbox && \
     mkdir -p ~/.vim/undodir && \
     ln --symbolic ~/devbox/dotfiles/.vimrc ~/.vimrc && \
     ln --symbolic ~/devbox/dotfiles/.vim/rc ~/.vim/rc && \

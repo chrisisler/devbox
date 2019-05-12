@@ -5,6 +5,6 @@
 
 VIMRC=$HOME/.vimrc
 
-vim -N -u $VIMRC -c "try | PlugInstall! $* | finally | qall! | endtry" \
-        -U NONE -i NONE -e -s
-echo ''
+vim -N -u $VIMRC -U NONE -i NONE -e -s
+
+exit 0
