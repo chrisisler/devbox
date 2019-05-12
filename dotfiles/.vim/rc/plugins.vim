@@ -6,13 +6,18 @@
 
 let isPluginManagerNotInstalled = empty(glob('`find ~/.{config,vim} -name plug.vim`'))
 if isPluginManagerNotInstalled
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  " Neovim
+  " silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+  "       \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  " Vim
+  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
   " Do we run this (A) command or the (B) install-plugins.sh command?
   " A.
-  " autocmd VimEnter * PlugInstall
+  autocmd VimEnter * PlugInstall
   " B.
-  try | PlugInstall! $* | finally | qall! | endtry
+  " try | PlugInstall! | finally | qall! | endtry
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

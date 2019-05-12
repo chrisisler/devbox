@@ -24,10 +24,8 @@ update() {
 
   cp ~/.vimrc "$here"
   mkdir -p "$here/.vim"
-  cp -r ~/.vim/rc "$here/.vim/"
+  cp -vr ~/.vim/rc "$here/.vim/"
 
   mkdir -p "$here/.vim/snippets"
-  cp -r ~/.vim/snippets "$here/.vim/"
-
-  printf "\nDotfiles updated.\n"
+  cp -vr ~/.vim/snippets "$here/.vim/"
 }
