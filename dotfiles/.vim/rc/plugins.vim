@@ -1,5 +1,21 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
+" Install Plugin Manager
+" https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Neovim
+" if empty(glob('~/.config/nvim/autoload/plug.vim'))
+" Vim
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
 " Plugins
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -66,15 +82,15 @@ Plug 'rhysd/clever-f.vim'
 " ----- Completion -----
 Plug 'jiangmiao/auto-pairs'
 Plug 'ervandew/supertab'
-" Plug 'shougo/neocomplete.vim'
+Plug 'shougo/neocomplete.vim'
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'sirver/ultisnips'
-Plug 'ternjs/tern_for_vim', { 'for': 'javascript.jsx' }
+Plug 'ternjs/tern_for_vim', { 'for': 'javascript.jsx', 'do': 'npm i && npm i -g tern' }
 
 
 " ----- Random -----
 Plug 'airblade/vim-rooter'
-" Plug 'metakirby5/codi.vim', { 'for': 'javascript.jsx' }
+Plug 'metakirby5/codi.vim', { 'for': 'javascript.jsx' }
 Plug 'machakann/vim-highlightedyank'
 " Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'EinfachToll/DidYouMean'
@@ -309,8 +325,8 @@ let g:UltiSnipsSnippetsDir="~/.vim/snippets"
 " ale
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:ale_lint_on_text_changed='always'
-" let g:ale_lint_on_text_changed='never'
+" let g:ale_lint_on_text_changed='always'
+let g:ale_lint_on_text_changed='never'
 " let g:ale_lint_on_save = 0
 " let g:ale_lint_on_enter = 0
 
@@ -391,7 +407,7 @@ nnoremap <C-m> :Maps<CR>
 inoremap <expr><CR> (pumvisible()?(empty(v:completed_item)?"\<CR>\<CR>":"\<C-y>"):"\<CR>")
 
 " Enabled?
-let g:neocomplete#enable_at_startup=0
+let g:neocomplete#enable_at_startup=1
 
 " refreshes candidates automatically, setting to 1 increases screen flicker
 let g:neocomplete#enable_refresh_always=0
