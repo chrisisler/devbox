@@ -16,6 +16,10 @@ Containerized development environment.
 
 ## Next
 
+- Fix errs: "not found in '{runtimepath,packpath}'"
+- UltiSnips requires py >= 2.7 or py3
+- Snippets
+- Autocompletion
 - Virtualize host filesystem
 - Fish shell
 - Mail CLI

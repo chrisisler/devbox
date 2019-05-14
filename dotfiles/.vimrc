@@ -1,6 +1,7 @@
 " Make Neovim internals understand Vim internals (or something)
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
+" set packpath=/usr/local/share/nvim/runtime,~/.local/share/nvim/site
 
 source $HOME/.vim/rc/general-settings.vim
 source $HOME/.vim/rc/plugins.vim
