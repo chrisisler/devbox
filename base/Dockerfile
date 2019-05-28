@@ -50,6 +50,7 @@ RUN apt-get install --assume-yes --quiet --no-install-recommends openjdk-8-jdk-h
 
 # Be non-root user
 USER devuser
+ENV USER devuser
 ENV HOME /home/devuser
 WORKDIR /home/devuser
 

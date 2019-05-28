@@ -5,15 +5,6 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Neovim
-" if empty(glob('~/.config/nvim/autoload/plug.vim'))
-" Vim
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
 " Plugins
@@ -85,7 +76,7 @@ Plug 'ervandew/supertab'
 Plug 'shougo/neocomplete.vim'
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'sirver/ultisnips'
-Plug 'ternjs/tern_for_vim', { 'for': 'javascript.jsx', 'do': 'npm i && npm i -g tern' }
+Plug 'ternjs/tern_for_vim', { 'for': 'javascript.jsx' }
 
 
 " ----- Random -----
@@ -97,15 +88,11 @@ Plug 'machakann/vim-highlightedyank'
 " Plug 'godlygeek/tabular'
 " Plug 'junegunn/goyo.vim'
 " Plug 'yggdroot/indentline'
-" Plug 'severin-lemaignan/vim-minimap'
+Plug 'severin-lemaignan/vim-minimap'
 
 
 " A rainbow parenthesis plugin that finally works!
 Plug 'amdt/vim-niji', { 'for': 'racket' }
-
-" if &filetype == "scheme"
-"   set filetype=racket
-" endif
 
 " Niji breaks JavaScript
 let g:niji_matching_filetypes = ['racket']
@@ -124,12 +111,13 @@ call plug#end()
 " Plugin Settings
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:dispatch_no_maps = 1
 
 let g:javascript_plugin_flow = 1
 let g:javascript_plugin_jsdoc = 1
 
 
-let g:highlightedyank_highlight_duration = 500
+let g:highlightedyank_highlight_duration = 300
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " tagbar
@@ -299,9 +287,13 @@ let g:gitgutter_map_keys=0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:tern_map_keys=1
-" let g:tern#is_show_argument_hints_enabled=1
-let g:tern_show_argument_hints=1
+let g:tern#is_show_argument_hints_enabled=0
+let g:tern_show_argument_hints=0
 let g:tern_show_signature_in_pum=1
+
+" Use tern_for_vim.
+" let g:tern#command = ["tern"]
+" let g:tern#arguments = ["--persistent"]
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -333,7 +325,7 @@ let g:ale_lint_on_text_changed='never'
 let g:ale_enabled=1
 let g:ale_sign_error='✕'
 let g:ale_sign_warning='--'
-let g:ale_set_signs=1
+let g:ale_set_signs=0
 let g:ale_lint_delay=2000
 let g:ale_fix_on_save=1
 let g:ale_open_list=0

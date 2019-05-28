@@ -148,14 +148,14 @@ highlight FunctionSyntax ctermfg=darkblue
 " function call
 call matchadd("FunctionSyntax", '\<\h\w*\>\ze(')
 " flow function support with generics
-call matchadd("FunctionSyntax", '\<\h\w*\>\ze<.*>(')
+" call matchadd("FunctionSyntax", '\<\h\w*\>\ze<.*>(')
 
 " function definition
 call matchadd("FunctionSyntax", '\<\w\+\>\s\+\zs\<\h\w*\>\ze\s\+=[^{.<>]\+=>') 
 " function definition as a method on something but not in an object instantiation
 " example: Person.staticMethod = () => {}
-call matchadd("FunctionSyntax",        '.\+\.\zs\<\h\w*\>\ze\s\+=[^{.<>]\+=>') 
-call matchadd("FunctionSyntax",        '.\+\.\zs\<\h\w*\>\ze\s\+=[^{.<>]function') 
+" call matchadd("FunctionSyntax",        '.\+\.\zs\<\h\w*\>\ze\s\+=[^{.<>]\+=>') 
+" call matchadd("FunctionSyntax",        '.\+\.\zs\<\h\w*\>\ze\s\+=[^{.<>]function') 
 
 " function definition as an arrow method: `onClick = event => { ... }`
 " call matchadd("FunctionSyntax", '\s\+\zs\<\h\w*\>\ze\s\+=[^{.<>]\+=>') 
@@ -164,7 +164,7 @@ call matchadd("FunctionSyntax",        '.\+\.\zs\<\h\w*\>\ze\s\+=[^{.<>]function
 call matchadd("FunctionSyntax", '\<\w\+\>\s\+\zs\<\h\w*\>\ze\s\+=\s\+(.*)\s\+=>')
 " function definition with destructuring as a method on something but not in an object instantiation
 " example: Person.staticMethod = () => {}
-call matchadd("FunctionSyntax",        '.\+\.\zs\<\h\w*\>\ze\s\+=\s\+(.*)\s\+=>')
+" call matchadd("FunctionSyntax",        '.\+\.\zs\<\h\w*\>\ze\s\+=\s\+(.*)\s\+=>')
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -183,4 +183,4 @@ call matchadd("Comments", '\s\+//\zs.*')
 " highlight link javascriptString javascriptTemplate
 
 " Template string braces and '$' char
-highlight javascriptTemplateSB ctermfg=15
+" highlight javascriptTemplateSB ctermfg=13

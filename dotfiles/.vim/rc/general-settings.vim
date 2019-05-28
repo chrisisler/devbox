@@ -27,7 +27,6 @@ set nolist                     " do not display eol signs ('$')
 set nojoinspaces               " prevents inserting 2 spaces when joining
 set splitright                 " put new vertically split windows to the right of current
 set splitbelow                 " put new split windows to bottom of current
-autocmd VimEnter * set laststatus=2 " force set 0 on start. display status line always?
 
 set shortmess+=c
 set showfulltag                " display more info when auto-completing
