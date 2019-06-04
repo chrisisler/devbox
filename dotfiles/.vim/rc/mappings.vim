@@ -7,8 +7,9 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " https://vimrcfu.com/snippet/77
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
+" Move highlighted blocks up and down
+vnoremap J :m '>+1<CR>gv
+vnoremap K :m '<-2<CR>gv
 
 " keep selected text selected when fixing indentation
 vnoremap < <gv
@@ -18,6 +19,12 @@ vnoremap <Tab> >gv
 vnoremap <S-Tab> <LT>gv
 
 nnoremap `` ``zz
+
+" (Experimental) Auto-indent pasted code (see `:h =`).
+nnoremap P P==
+nnoremap p p==
+vnoremap P P=
+vnoremap p p=
 
 " Go to next/previous buffer.
 nnoremap <silent> ] :silent bn<CR>
@@ -89,12 +96,6 @@ nnoremap D 5jzz
 
 " nnoremap <C-a> ggVG
 
-" (Experimental) Auto-indent pasted code (see `:h =`).
-nnoremap P P==
-nnoremap p p==
-vnoremap P P=
-vnoremap p p=
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
 " Leader Mappings
@@ -114,6 +115,9 @@ nnoremap <Leader>u :let g:ale_open_list=
 
 " Cool new thing: http://mlsamuelson.com/content/vim-search-word-under-cursor
 nnoremap <Leader>[ [I
+
+" Open alacrittyrc quickly.
+nnoremap <Leader>s<CR> :e ~/.config/alacritty/alacritty.yml<CR>
 
 " Open ~/.vimrc quickly.
 nnoremap <Leader>v<CR> :e ~/.vimrc<CR>
@@ -284,7 +288,7 @@ nnoremap <Leader>d<CR> :Dispatch
 " Javascript
 " nnoremap <Leader>js<CR> :w<CR>:AsyncRun node % 2>/dev/null<CR>:copen<CR>:wincmd k<CR><CR>
 " nnoremap <Leader>js<CR> :w<CR>:Dispatch! node %<CR>:cw<CR>:wincmd k<CR>
-nnoremap <Leader>js<CR> :w<CR>:Dispatch node %<CR>
+nnoremap <silent> <Leader>js<CR> :w<CR>:Dispatch node %<CR>
 
 " Racket
 nnoremap <Leader>rkt<CR> :w<CR>:Dispatch racket %<CR>

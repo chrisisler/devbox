@@ -1,4 +1,4 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Note: See :help cterm-colors for more information.
 " Note: See `:vert h highlight`
 " Note: See `:vert h :match`
@@ -94,6 +94,11 @@ endif
 autocmd BufEnter,BufRead,BufNewFile,FileType *.rkt call HighlightRacketOne()
 function! HighlightRacketOne()
   source ~/.vim/rc/syntax-highlighting/one-racket.vim
+endfunction
+
+autocmd BufEnter,BufRead,BufNewFile,FileType *.py call HighlightPython()
+function! HighlightPython()
+  source ~/.vim/rc/syntax-highlighting/custom-python.vim
 endfunction
 
 autocmd BufEnter,BufRead,BufNewFile,FileType *.rs call HighlightRustOneDark()

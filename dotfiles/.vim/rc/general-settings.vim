@@ -6,6 +6,7 @@ set nocompatible
 set tabstop=2
 set shiftwidth=2
 
+set synmaxcol=300
 set belloff+=ctrlg " If Vim beeps during completion
 set softtabstop=0
 set autoindent                 " auto indent new lines
@@ -26,9 +27,6 @@ set nolist                     " do not display eol signs ('$')
 set nojoinspaces               " prevents inserting 2 spaces when joining
 set splitright                 " put new vertically split windows to the right of current
 set splitbelow                 " put new split windows to bottom of current
-autocmd VimEnter * set laststatus=2 " force set 0 on start. display status line always?
-
-set showtabline=0              " Display list of buffers at the top
 
 set shortmess+=c
 set showfulltag                " display more info when auto-completing
@@ -73,7 +71,7 @@ set path+=**
 " Visual.
 set noruler
 set number      " show line numbers on left?
-set nocursorline  " highlight current line?
+set cursorline  " highlight current line?
 set norelativenumber " show line numbers relative to current line number?
 
 set hlsearch    " search highlighting
@@ -88,6 +86,7 @@ set lazyredraw
 " set ttimeoutlen=50
 " set relativenumber
 
+set iskeyword+=- " add `-` to count as part of a text object
 
 " Make :Q and :W work like :q and :w
 command! W w

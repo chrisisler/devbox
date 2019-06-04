@@ -1,7 +1,6 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Make hyphens part of word in css files
-au! FileType css,scss,sass setl iskeyword+=-
+" au! FileType css,scss,sass setl iskeyword+=-
 
 " let terminal resize scale the internal windows
 autocmd VimResized * :wincmd =

@@ -11,12 +11,17 @@ highlight javascriptFuncArg ctermfg=6 cterm=italic
 
 highlight javascriptIdentifierName ctermfg=9
 
+highlight xmlTag ctermfg=7
+" highlight xmlEndTag ctermfg=15
+" JSX prop names
+highlight xmlAttrib ctermfg=11 cterm=italic
+
 
 " let, const
 highlight javascriptVariable ctermfg=magenta cterm=italic
 
 " async/await
-highlight javascriptAwaitFuncKeyword ctermfg=3 cterm=italic
+highlight javascriptAwaitFuncKeyword ctermfg=magenta
 call matchadd("javascriptAwaitFuncKeyword", '\<async\>\ze\s\+')
 
 highlight javascriptClassKeyword ctermfg=magenta cterm=italic
@@ -24,9 +29,10 @@ highlight javascriptTry ctermfg=magenta cterm=italic
 " highlight javascriptArrowFunc ctermfg=magenta
 
 
-highlight javascriptClassExtends ctermfg=darkmagenta cterm=italic
+highlight javascriptClassExtends ctermfg=magenta cterm=italic
 highlight javascriptImport ctermfg=darkmagenta cterm=italic
 highlight javascriptReturn ctermfg=magenta cterm=italic,underline
+call matchadd("javascriptReturn", '\<throw\>\ze\s\+')
 
 " keywords: default, export
 highlight javascriptExport ctermfg=darkmagenta cterm=italic
@@ -119,7 +125,6 @@ call matchadd("Red", ']\.\zs\<\h\w*\>')
 " call matchadd("GoldenItalic", '\<self\>')
 
 
-" highlight Golden ctermfg=3
 " call matchadd("Golden", 'new\s\+\zs\<[A-Z]\w*\>\ze(')
 " call matchadd("Golden", '\<window\>')
 " jsx customs
@@ -127,11 +132,11 @@ call matchadd("Red", ']\.\zs\<\h\w*\>')
 " call matchadd("Golden", '\<__dirname\>')
 " call matchadd("Golden", '\<__filename\>')
 
-highlight Bananas ctermfg=blue
+" highlight Bananas ctermfg=blue
 
-let parens = '[()]'
-call matchadd("Bananas", parens)
-highlight javascriptBraces ctermfg=10
+" let parens = '[()]'
+" call matchadd("Bananas", parens)
+" highlight javascriptBraces ctermfg=10
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -141,14 +146,14 @@ highlight FunctionSyntax ctermfg=darkblue
 " function call
 call matchadd("FunctionSyntax", '\<\h\w*\>\ze(')
 " flow function support with generics
-call matchadd("FunctionSyntax", '\<\h\w*\>\ze<.*>(')
+" call matchadd("FunctionSyntax", '\<\h\w*\>\ze<.*>(')
 
 " function definition
 call matchadd("FunctionSyntax", '\<\w\+\>\s\+\zs\<\h\w*\>\ze\s\+=[^{.<>]\+=>') 
 " function definition as a method on something but not in an object instantiation
 " example: Person.staticMethod = () => {}
-call matchadd("FunctionSyntax",        '.\+\.\zs\<\h\w*\>\ze\s\+=[^{.<>]\+=>') 
-call matchadd("FunctionSyntax",        '.\+\.\zs\<\h\w*\>\ze\s\+=[^{.<>]function') 
+" call matchadd("FunctionSyntax",        '.\+\.\zs\<\h\w*\>\ze\s\+=[^{.<>]\+=>') 
+" call matchadd("FunctionSyntax",        '.\+\.\zs\<\h\w*\>\ze\s\+=[^{.<>]function') 
 
 " function definition as an arrow method: `onClick = event => { ... }`
 " call matchadd("FunctionSyntax", '\s\+\zs\<\h\w*\>\ze\s\+=[^{.<>]\+=>') 
@@ -157,7 +162,7 @@ call matchadd("FunctionSyntax",        '.\+\.\zs\<\h\w*\>\ze\s\+=[^{.<>]function
 call matchadd("FunctionSyntax", '\<\w\+\>\s\+\zs\<\h\w*\>\ze\s\+=\s\+(.*)\s\+=>')
 " function definition with destructuring as a method on something but not in an object instantiation
 " example: Person.staticMethod = () => {}
-call matchadd("FunctionSyntax",        '.\+\.\zs\<\h\w*\>\ze\s\+=\s\+(.*)\s\+=>')
+" call matchadd("FunctionSyntax",        '.\+\.\zs\<\h\w*\>\ze\s\+=\s\+(.*)\s\+=>')
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -165,9 +170,7 @@ call matchadd("FunctionSyntax",        '.\+\.\zs\<\h\w*\>\ze\s\+=\s\+(.*)\s\+=>'
 call matchadd("MagentaItalic", '\<function\>\ze\s*.*(')
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" highlight Strings ctermfg=green
-" TODO: Use non-greedy version of .*
-" call matchadd("Strings", "'.*'")
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 highlight Comments ctermfg=white
@@ -175,3 +178,7 @@ call matchadd("Comments", '^//\zs.*')
 call matchadd("Comments", '\s\+//\zs.*')
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" highlight link javascriptString javascriptTemplate
+
+" Template string braces and '$' char
+" highlight javascriptTemplateSB ctermfg=13

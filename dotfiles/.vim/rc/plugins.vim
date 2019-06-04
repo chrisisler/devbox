@@ -1,5 +1,12 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
+" Install Plugin Manager
+" https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
 " Plugins
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -66,7 +73,7 @@ Plug 'rhysd/clever-f.vim'
 " ----- Completion -----
 Plug 'jiangmiao/auto-pairs'
 Plug 'ervandew/supertab'
-" Plug 'shougo/neocomplete.vim'
+Plug 'shougo/neocomplete.vim'
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'sirver/ultisnips'
 Plug 'ternjs/tern_for_vim', { 'for': 'javascript.jsx' }
@@ -74,22 +81,18 @@ Plug 'ternjs/tern_for_vim', { 'for': 'javascript.jsx' }
 
 " ----- Random -----
 Plug 'airblade/vim-rooter'
-" Plug 'metakirby5/codi.vim', { 'for': 'javascript.jsx' }
+Plug 'metakirby5/codi.vim', { 'for': 'javascript.jsx' }
 Plug 'machakann/vim-highlightedyank'
 " Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'EinfachToll/DidYouMean'
 " Plug 'godlygeek/tabular'
 " Plug 'junegunn/goyo.vim'
 " Plug 'yggdroot/indentline'
-" Plug 'severin-lemaignan/vim-minimap'
+Plug 'severin-lemaignan/vim-minimap'
 
 
 " A rainbow parenthesis plugin that finally works!
 Plug 'amdt/vim-niji', { 'for': 'racket' }
-
-" if &filetype == "scheme"
-"   set filetype=racket
-" endif
 
 " Niji breaks JavaScript
 let g:niji_matching_filetypes = ['racket']
@@ -108,12 +111,13 @@ call plug#end()
 " Plugin Settings
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:dispatch_no_maps = 1
 
 let g:javascript_plugin_flow = 1
 let g:javascript_plugin_jsdoc = 1
 
 
-let g:highlightedyank_highlight_duration = 500
+let g:highlightedyank_highlight_duration = 300
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " tagbar
@@ -283,9 +287,13 @@ let g:gitgutter_map_keys=0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:tern_map_keys=1
-" let g:tern#is_show_argument_hints_enabled=1
-let g:tern_show_argument_hints=1
+let g:tern#is_show_argument_hints_enabled=0
+let g:tern_show_argument_hints=0
 let g:tern_show_signature_in_pum=1
+
+" Use tern_for_vim.
+" let g:tern#command = ["tern"]
+" let g:tern#arguments = ["--persistent"]
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -309,15 +317,15 @@ let g:UltiSnipsSnippetsDir="~/.vim/snippets"
 " ale
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:ale_lint_on_text_changed='always'
-" let g:ale_lint_on_text_changed='never'
+" let g:ale_lint_on_text_changed='always'
+let g:ale_lint_on_text_changed='never'
 " let g:ale_lint_on_save = 0
 " let g:ale_lint_on_enter = 0
 
 let g:ale_enabled=1
 let g:ale_sign_error='✕'
 let g:ale_sign_warning='--'
-let g:ale_set_signs=1
+let g:ale_set_signs=0
 let g:ale_lint_delay=2000
 let g:ale_fix_on_save=1
 let g:ale_open_list=0
@@ -391,7 +399,7 @@ nnoremap <C-m> :Maps<CR>
 inoremap <expr><CR> (pumvisible()?(empty(v:completed_item)?"\<CR>\<CR>":"\<C-y>"):"\<CR>")
 
 " Enabled?
-let g:neocomplete#enable_at_startup=0
+let g:neocomplete#enable_at_startup=1
 
 " refreshes candidates automatically, setting to 1 increases screen flicker
 let g:neocomplete#enable_refresh_always=0
