@@ -1,9 +1,7 @@
 FROM chrisisler/devbox-neovim-base
 LABEL maintainer="Chris Isler <christopherisler1@gmail.com>"
 
-# Pull latest dotfiles from github master
-# TODO When we push neovim branch master, uncomment the line below
-# RUN git clone https://github.com/chrisisler/devbox ~/devbox
+# Pull dotfiles from github
 RUN git clone --single-branch --branch neovim https://github.com/chrisisler/devbox ~/devbox
 
 # Copy config for inputrc, bashrc, and tmux config
@@ -20,6 +18,7 @@ RUN mkdir -p ~/.config && \
       mkdir ~/.vim && ln --symbolic ~/devbox/dotfiles/.vim/rc ~/.vim/rc && \
       ln --symbolic ~/devbox/dotfiles/.vim ~/.config/nvim && \
       ln --symbolic ~/devbox/dotfiles/.vimrc ~/.config/nvim/init.vim && \
+      ln --symbolic ~/.config/nvim/init.vim ~/.vimrc && \
       ~/devbox/dotfiles/install-neovim-plugins.sh
 
 CMD ["/bin/bash"]
