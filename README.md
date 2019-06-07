@@ -16,7 +16,6 @@ Containerized development environment.
 
 ## Next
 
-- Fix errs: "not found in '{runtimepath,packpath}'"
 - UltiSnips requires py >= 2.7 or py3
 - Snippets
 - Autocompletion
@@ -53,3 +52,4 @@ Containerized development environment.
 - Apparently installing Java on Debian is `apt-get install openjdk-8-jdk-headless`
 - Apparently `ln --symbolic` requires absolute paths to make any fricken sense
 - `fg` and `bg` values for cterm?g require `highlight Normal` to be set first, [see here](https://github.com/neovim/neovim/pull/5319#discussion_r78295368).
+- https://github.com/junegunn/vim-plug/issues/675#issuecomment-328157169
