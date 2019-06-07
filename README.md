@@ -16,9 +16,8 @@ Containerized development environment.
 
 ## Next
 
-- UltiSnips requires py >= 2.7 or py3
-- Snippets
 - Autocompletion
+  - Lua warning dissappears when neocomplete does
 - Virtualize host filesystem
 - Fish shell
 - Mail CLI

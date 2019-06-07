@@ -5,7 +5,8 @@ ENV TERM xterm-256color
 RUN apt-get update && \
       apt-get install --assume-yes --quiet --no-install-recommends git tmux \
       wget curl man ca-certificates sudo build-essential tree locales less \
-      gpg gpg-agent ssh file bash-completion ctags neovim
+      gpg gpg-agent ssh file bash-completion ctags neovim python-neovim \
+      xclip python3-neovim 
 
 # UTF-8 locale (for tmux)
 RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && \
@@ -39,7 +40,7 @@ WORKDIR /home/devuser
 RUN wget --quiet \
       "https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init" && \
       chmod +x rustup-init && \
-      ./rustup-init --verbose -y && \
+      ./rustup-init -y 2>&1 && \
       rm rustup-init
 
 # Github is a known host

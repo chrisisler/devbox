@@ -19,6 +19,6 @@ RUN mkdir -p ~/.config && \
       ln --symbolic ~/devbox/dotfiles/.vim ~/.config/nvim && \
       ln --symbolic ~/devbox/dotfiles/.vimrc ~/.config/nvim/init.vim && \
       ln --symbolic ~/.config/nvim/init.vim ~/.vimrc && \
-      vim -N -i NONE -u ~/config/nvim/init.vim +'PlugInstall --sync' +qa
+      vim -Es -N -i NONE -U NONE -u ~/.config/nvim/init.vim +'PlugInstall --sync' +qa
 
 CMD ["/bin/bash"]
