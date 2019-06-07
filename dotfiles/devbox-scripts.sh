@@ -10,6 +10,7 @@ devbox() {
     --volume "$HOME/Code:/home/devuser/Code" \
     --volume "$HOME/Main:/home/devuser/Main" \
     --volume "$HOME/.ssh/devbox:/home/devuser/.ssh" \
+    --volume "$HOME/.config/alacritty:/home/devuser/.config/alacritty" \
     $repo
 }
 

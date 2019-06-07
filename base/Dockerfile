@@ -42,6 +42,7 @@ RUN apt-get install --assume-yes --quiet neovim
 # Be non-root user
 # Note! Docker directives like `RUN` require `sudo` after becoming non-root user. 
 USER devuser
+ENV USER devuser
 ENV HOME /home/devuser
 WORKDIR /home/devuser
 

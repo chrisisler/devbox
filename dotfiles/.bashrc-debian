@@ -139,15 +139,15 @@ tempdir() {
 # `less` with options to preserve color and line numbers, unless the output is
 # small enough for one screen.
 tre() {
-	tree -aC -I '.git' --dirsfirst "$@" | less -FRNX
+	tree -aC -I '.git' -I 'node_modules' --dirsfirst "$@" | less -FRNX
 }
 
 ################################################################################
 # Prompt #######################################################################
 ################################################################################
 
-# red="\[\e[0;31m\]"
-yellow="\[\e[0;33m\]"
+red="\[\e[0;31m\]"
+# yellow="\[\e[0;33m\]"
 # green="\[\e[0;32m\]"
 # magenta="\[\e[0;35m\]"
 # cyan="\[\e[0;36m\]"
@@ -160,7 +160,7 @@ time24h="\A"
 # export PS1="\n${cyan}${dir}${reset} "
 # export PS1="\n${time24h} ${yellow}${dir}${reset} "
 
-export PS1="\n${yellow}${dir}${reset} "
+export PS1="\n${red}${dir}${reset} "
 
 ################################################################################
 # Tmux Autostart ###############################################################
