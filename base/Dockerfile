@@ -5,7 +5,7 @@ ENV TERM xterm-256color
 RUN apt-get update && \
       apt-get install --assume-yes --quiet --no-install-recommends git tmux \
       wget curl man ca-certificates sudo build-essential tree locales less \
-      gpg gpg-agent ssh file bash-completion ctags
+      gpg gpg-agent ssh file bash-completion ctags neovim
 
 # UTF-8 locale (for tmux)
 RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && \
@@ -26,10 +26,7 @@ RUN groupadd --gid 1000 devuser && \
 # Node, NPM, Yarn
 RUN curl -sSL https://deb.nodesource.com/setup_10.x | bash - && \
       apt-get install --assume-yes --quiet --no-install-recommends nodejs && \
-      npm install --global yarn
-
-# Neovim
-RUN apt-get install --assume-yes --quiet neovim
+      npm install --global yarn typescript
 
 # Be non-root user
 # Note! Docker directives like `RUN` require `sudo` after becoming non-root user. 
@@ -42,7 +39,7 @@ WORKDIR /home/devuser
 RUN wget --quiet \
       "https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init" && \
       chmod +x rustup-init && \
-      ./rustup-init -y && \
+      ./rustup-init --verbose -y && \
       rm rustup-init
 
 # Github is a known host

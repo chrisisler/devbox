@@ -5,6 +5,6 @@
 vimrc=$HOME/.config/nvim/init.vim
 
 printf "\nInstalling plugins...\n"
-vim -N -u $vimrc -U NONE -V1 -i NONE -e -s -c "try | PlugInstall! $* | finally | qall! | endtry"
+vim -N -u $vimrc -U NONE -V2 -i NONE -e -s -c "try | PlugInstall! | finally | qall! | endtry"
 
 exit 0
