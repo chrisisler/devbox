@@ -28,14 +28,6 @@ RUN curl -sSL https://deb.nodesource.com/setup_10.x | bash - && \
       apt-get install --assume-yes --quiet --no-install-recommends nodejs && \
       npm install --global yarn
 
-# Racket programming language (CS450)
-RUN apt-get install --assume-yes --quiet --no-install-recommends racket
-
-# Java (IT114L)
-# Fake the man pages stuff being installed so this doesn't error.
-# RUN mkdir -pv /usr/share/man/man1
-RUN apt-get install --assume-yes --quiet --no-install-recommends openjdk-11-jdk-headless
-
 # Neovim
 RUN apt-get install --assume-yes --quiet neovim
 

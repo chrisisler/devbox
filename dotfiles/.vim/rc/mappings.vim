@@ -156,8 +156,8 @@ nnoremap <silent> <Leader>r :set cc=
 nnoremap <silent> <Leader>w :lclose<CR>:cclose<CR>:pclose<CR>
 
 " Mappings for saving and sourcing .vimrc.
-nnoremap <silent> <Leader>5<CR> :w<CR>:so %<CR>
 nnoremap <silent> <Leader>4<CR> :so ~/.vimrc<CR>
+" nnoremap <silent> <Leader>5<CR> :w<CR>:so %<CR>
 
 " Copy the currently hovered word and console.log it on the next line.
 nnoremap <Leader>cl "xyiwoconsole.log(<ESC>"xpA)<ESC>

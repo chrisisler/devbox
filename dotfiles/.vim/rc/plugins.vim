@@ -16,13 +16,13 @@ call plug#begin('~/.vim/plugged')
 
 " ----- Language -----
 Plug 'ekalinin/dockerfile.vim', { 'for': 'Dockerfile' }
-Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
+" Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 Plug 'othree/yajs.vim', { 'for': 'javascript.jsx' }
 Plug 'othree/es.next.syntax.vim', { 'for': 'javascript.jsx' }
 Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'racer-rust/vim-racer', { 'for': 'rust' }
-Plug 'wlangstroth/vim-racket', { 'for': 'racket', 'commit': '365a2aff8fa1d08fc8ab4ab9b1cff27d87d86fbf' }
+" Plug 'wlangstroth/vim-racket', { 'for': 'racket', 'commit': '365a2aff8fa1d08fc8ab4ab9b1cff27d87d86fbf' }
 " Plug 'pangloss/vim-javascript'
 " Plug 'jparise/vim-graphql'
 " Plug 'posva/vim-vue'
@@ -44,8 +44,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'kshenoy/vim-signature'
 Plug 'airblade/vim-gitgutter'
-Plug 'majutsushi/tagbar'
-" Plug 'rakr/vim-one'
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'docunext/closetag.vim'
 
@@ -65,7 +64,6 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-dispatch'
 Plug 'rhysd/clever-f.vim'
 " Plug 'skywind3000/asyncrun.vim'
-" Plug 'jmcantrell/vim-diffchanges'
 " Plug 'easymotion/vim-easymotion'
 " Plug 'prettier/vim-prettier'
 
@@ -81,7 +79,7 @@ Plug 'ternjs/tern_for_vim', { 'for': 'javascript.jsx' }
 
 " ----- Random -----
 Plug 'airblade/vim-rooter'
-Plug 'metakirby5/codi.vim', { 'for': 'javascript.jsx' }
+Plug 'metakirby5/codi.vim'
 Plug 'machakann/vim-highlightedyank'
 " Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'EinfachToll/DidYouMean'
@@ -92,10 +90,10 @@ Plug 'severin-lemaignan/vim-minimap'
 
 
 " A rainbow parenthesis plugin that finally works!
-Plug 'amdt/vim-niji', { 'for': 'racket' }
+Plug 'amdt/vim-niji', { 'for': [] }
 
 " Niji breaks JavaScript
-let g:niji_matching_filetypes = ['racket']
+let g:niji_matching_filetypes = []
 
 " ----- Broken plugins; these do NOT work -----
 " Plug 'junegunn/rainbow_parentheses.vim'
@@ -150,15 +148,6 @@ let g:tagbar_status_func = 'TagbarStatusFunc'
 
 " let g:minimap_highlight='Special'
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" java-complete2
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
-
-let g:JavaComplete_EnableDefaultMappings = 0 
-" let g:JavaComplete_LibsPath = "/Users/litebox/Main/Uni/Compilers/Project-2/j--/lib"
-" let g:JavaComplete_SourcesPath = "/Users/litebox/Main/Uni/Compilers/Project-2/j--/src/jminusminus"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Goyo (distraction free)
@@ -166,13 +155,6 @@ let g:JavaComplete_EnableDefaultMappings = 0
 
 " let g:goyo_height=90
 " let g:goyo_width=80
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" rainbow (parenthesis)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" let g:rainbow#max_level = 16
-" let g:rainbow#pairs = [['(', ')'], ['{', '}']]
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -304,16 +286,6 @@ let g:UltiSnipsSnippetsDir="~/.vim/snippets"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" emmet (html auto-completion)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" let g:user_emmet_mode='a'         " enable emmet in all vim modes
-" let g:user_emmet_install_global=0 " enable emmet for just the below types
-" " autocmd FileType html,css,js,jsx EmmetInstall
-" let g:user_emmet_leader_key='<C-u>' " remap the default emmet leader from <C-y> to <C-j>. Note: trailing comma still needed. See docs.
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ale
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -334,7 +306,7 @@ let g:ale_sign_column_always=1
 
 let g:ale_fixers = {}
 let g:ale_fixers['javascript'] = ['prettier']
-let g:ale_fixers['rust'] = ['rustfmt']
+" let g:ale_fixers['rust'] = ['rustfmt']
 
 " let g:ale_rust_cargo_use_check = 1
 " let g:ale_rust_cargo_check_all_targets = 1
@@ -393,8 +365,7 @@ nnoremap <C-m> :Maps<CR>
 " tab to select
 " inoremap <expr><Tab> (pumvisible()?(empty(v:completed_item)?"\<C-n>":"\<C-y>"):"\<Tab>")
 
-" the neocomplete auto complete should NOT hijack my enter key when
-" autocomplete menu is displayed
+" the neocomplete auto complete should NOT hijack my enter key when autocomplete menu is displayed
 " inoremap <expr><Tab> (pumvisible()?(empty(v:completed_item)?"\<C-n>":"\<C-y>"):"\<Tab>")
 inoremap <expr><CR> (pumvisible()?(empty(v:completed_item)?"\<CR>\<CR>":"\<C-y>"):"\<CR>")
 
@@ -411,23 +382,9 @@ let g:neocomplete#enable_smart_case=1
 let g:neocomplete#max_list=12
 let g:neocomplete#sources#syntax#min_keyword_length=2
 let g:neocomplete#enable_auto_close_preview=0
-" Define dictionary.
-" let g:neocomplete#sources#dictionary#dictionaries = {
-"             \ 'default' : '',
-"             \ 'text' : '/usr/share/dict/connectives',
-"             \ 'javascript' : $HOME.'/Code/JS/Dictionary/all.txt',
-"             \ 'cpp' : $HOME.'/Code/Cpp/Dictionary/cpp-dictionary-keywords.txt'
-"             \ }
-" Define keyword.
 if !exists('g:neocomplete#keyword_patterns')
     let g:neocomplete#keyword_patterns = {}
 endif
-" let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-" Enable heavy omni completion.
-" if !exists('g:neocomplete#sources#omni#input_patterns')
-"     let g:neocomplete#sources#omni#input_patterns = {}
-" endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
