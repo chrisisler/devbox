@@ -13,12 +13,16 @@ RUN ln --symbolic ~/devbox/dotfiles/.inputrc ~/.inputrc && \
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-# Neovim config and install plugins
+# Neovim config
 RUN mkdir -p ~/.config && \
       mkdir ~/.vim && ln --symbolic ~/devbox/dotfiles/.vim/rc ~/.vim/rc && \
       ln --symbolic ~/devbox/dotfiles/.vim ~/.config/nvim && \
       ln --symbolic ~/devbox/dotfiles/.vimrc ~/.config/nvim/init.vim && \
-      ln --symbolic ~/.config/nvim/init.vim ~/.vimrc && \
-      vim -Es -N -i NONE -U NONE -u ~/.config/nvim/init.vim +'PlugInstall --sync' +qa
+      ln --symbolic ~/.config/nvim/init.vim ~/.vimrc
+
+# Install all plugins (and their dependencies) non-interactively
+RUN vim -Es -N -i NONE -U NONE -u ~/.config/nvim/init.vim +'PlugInstall --sync' +qa && \
+      npm install --global neovim && \
+      pip3 install pynvim
 
 CMD ["/bin/bash"]

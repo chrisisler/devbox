@@ -29,7 +29,7 @@ Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 " Plug 'fsharp/vim-fsharp'
 " Plug 'ElmCast/elm-vim'
 Plug 'quramy/tsuquyomi'
-Plug 'mhartington/nvim-typescript'
+Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
 " Plug 'mattn/emmet-vim'
 " Plug 'eagletmt/neco-ghc'
 " Plug 'neovimhaskell/haskell-vim'
@@ -105,6 +105,8 @@ call plug#end()
 " Plugin Settings
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:deoplete#enable_at_startup = 1
 
 " Niji breaks JavaScript
 let g:niji_matching_filetypes = []
