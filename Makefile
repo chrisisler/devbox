@@ -20,4 +20,4 @@ dotfiles: base
 cached: base
 	@docker build --tag $(REPOSITORY) .
 
-.PHONY: all base dotfiles clean
+.PHONY: all base dotfiles clean cached

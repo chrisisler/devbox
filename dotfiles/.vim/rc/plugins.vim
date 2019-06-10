@@ -71,7 +71,7 @@ Plug 'rhysd/clever-f.vim'
 " ----- Completion -----
 Plug 'jiangmiao/auto-pairs'
 Plug 'ervandew/supertab'
-Plug 'shougo/neocomplete.vim'
+Plug 'shougo/deoplete.vim'
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'sirver/ultisnips'
 Plug 'ternjs/tern_for_vim', { 'for': 'javascript.jsx' }

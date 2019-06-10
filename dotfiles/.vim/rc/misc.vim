@@ -97,7 +97,7 @@ au BufRead,BufNewFile,BufEnter,FileType rust set shiftwidth=4 tabstop=4
 " au Filetype rust source ~/.vim/scripts/spacetab.vim
 " au Filetype rust set colorcolumn=100
 
-au BufRead,BufNewFile,BufEnter,FileType *.txt,*.md set nocursorline nonumber
+" au BufRead,BufNewFile,BufEnter,FileType *.txt,*.md set nocursorline nonumber
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
