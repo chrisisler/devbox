@@ -25,7 +25,7 @@ RUN sudo apt-get install --assume-yes --quiet --no-install-recommends python3-pi
 RUN pip3 install --upgrade pip && \
       pip3 install --user --upgrade pynvim
 RUN vim -Es -N -i NONE -U NONE -u ~/.config/nvim/init.vim +'PlugInstall --sync' +qa
-RUN vim -Es -N -i NONE -U NONE -u ~/.config/nvim/init.vim +'UpdateRemotePlugins --sync' +qa
+RUN vim -Es -N -i NONE -U NONE -u ~/.config/nvim/init.vim +UpdateRemotePlugins +qa
 
 # EXPOSE 3000
 

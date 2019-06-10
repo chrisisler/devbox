@@ -24,6 +24,7 @@ Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 " Plug 'ElmCast/elm-vim'
 Plug 'quramy/tsuquyomi'
 Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
+Plug 'herringtondarkholme/yats.vim', { 'for': 'typescript' }
 " Plug 'mattn/emmet-vim'
 " Plug 'eagletmt/neco-ghc'
 " Plug 'neovimhaskell/haskell-vim'
@@ -322,7 +323,7 @@ let g:ale_linters={
 " fzf (fuzzy finder (better than ctrl-p plugin)) - best plugin ever!
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:fzf_layout = { 'down': '~35%' }
+let g:fzf_layout = { 'down': '~40%' }
 
 " https://github.com/junegunn/fzf.vim
 " mappings for fzf plugin

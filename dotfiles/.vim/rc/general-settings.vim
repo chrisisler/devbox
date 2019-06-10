@@ -82,7 +82,7 @@ set noshowmode  " do not show me which mode im in
 set timeout
 set timeoutlen=250
 set lazyredraw
-" set showcmd     " show me what command im typing as i type it (see `timeoutlen`)
+set noshowcmd     " show me what command im typing as i type it (see `timeoutlen`)
 " set ttimeoutlen=50
 " set relativenumber
 

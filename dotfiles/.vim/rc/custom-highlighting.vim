@@ -27,13 +27,12 @@ set background=dark
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" 3 is golden/yellow, 4 is blue
 " highlight PmenuSel ctermfg=4 ctermbg=bg
 
 " make background of statusline transparent (same as background)
-highlight StatusLine ctermfg=fg ctermbg=bg
+highlight StatusLine ctermfg=fg ctermbg=bg cterm=bold
 highlight StatusLineNC ctermfg=15 ctermbg=bg
-highlight StatusLineTerm ctermfg=fg ctermbg=bg
+highlight StatusLineTerm ctermfg=fg ctermbg=bg cterm=bold
 highlight StatusLineTermNC ctermfg=15 ctermbg=bg
 
 " remove obnoxious highlighting from quickfix window
@@ -41,7 +40,6 @@ highlight QuickFixLine ctermfg=fg ctermbg=bg
 
 highlight Comment cterm=italic
 
-" do not change the background color of the line numbers (flat ui)
 highlight LineNr ctermbg=bg
 " highlight CursorLineNr ctermbg=bg
 
@@ -49,7 +47,7 @@ highlight LineNr ctermbg=bg
 highlight EndOfBuffer ctermfg=bg ctermbg=NONE
 
 " do not show split separators
-highlight VertSplit ctermfg=bg ctermbg=bg
+highlight VertSplit ctermfg=bg ctermbg=8
 
 highlight MatchParen ctermbg=bg ctermfg=red cterm=reverse
 " highlight MatchParen ctermfg=bg ctermbg=12
