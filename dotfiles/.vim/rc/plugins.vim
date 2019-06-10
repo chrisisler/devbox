@@ -1,17 +1,11 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
-" Install Plugin Manager
-" https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
-"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"
 " Plugins
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-call plug#begin('~/.vim/plugged')
+
+call plug#begin('~/.local/share/nvim/plugged')
 
 
 " ----- Language -----
@@ -69,7 +63,6 @@ Plug 'rhysd/clever-f.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'ervandew/supertab'
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'sirver/ultisnips'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm i -g tern' }
 Plug 'autozimu/LanguageClient-neovim', {

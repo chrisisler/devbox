@@ -11,10 +11,6 @@ devbox() {
     --volume "$HOME/Main:/home/devuser/Main" \
     --volume "$HOME/.ssh/devbox:/home/devuser/.ssh" \
     --volume "$HOME/.config/alacritty:/home/devuser/.config/alacritty" \
+    --publish 3000:3000 \
     $repo
-}
-
-cleanUnusedImages() {
-  # docker rmi "$(docker images --quiet --filter "dangling=true")"
-  docker images --quiet --filter "dangling=true" | xargs docker rmi
 }

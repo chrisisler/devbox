@@ -8,9 +8,6 @@ run:
 clean:
 	@docker rmi --force $(REPOSITORY)
 
-clean-unused-images:
-	@source ./dotfiles/devbox-scripts.sh && cleanUnusedImages
-
 base:
 	@docker build --tag $(REPOSITORY)-base base
 
