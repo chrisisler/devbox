@@ -68,7 +68,7 @@ Plug 'rhysd/clever-f.vim'
 " ----- Completion -----
 Plug 'jiangmiao/auto-pairs'
 Plug 'ervandew/supertab'
-Plug 'shougo/deoplete.nvim'
+Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'sirver/ultisnips'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm i -g tern' }

@@ -21,8 +21,9 @@ RUN mkdir -p ~/.config && \
       ln --symbolic ~/.config/nvim/init.vim ~/.vimrc
 
 # Install all plugins (and their dependencies) non-interactively
-RUN sudo apt-get install --assume-yes --quiet --no-install-recommends python3-pip python3-setuptools && \
-      vim -Es -N -i NONE -U NONE -u ~/.config/nvim/init.vim '+PlugInstall +UpdateRemotePlugins --sync' +qa && \
+RUN sudo apt-get install --assume-yes --quiet --no-install-recommends python3-pip python3-setuptools
+RUN pip3 install --upgrade pip && \
       pip3 install --user --upgrade pynvim
+RUN vim -Es -N -i NONE -U NONE -u ~/.config/nvim/init.vim +'PlugInstall --sync' +qa
 
 CMD ["/bin/bash"]
