@@ -17,22 +17,19 @@ call plug#begin('~/.vim/plugged')
 " ----- Language -----
 Plug 'ekalinin/dockerfile.vim', { 'for': 'Dockerfile' }
 " Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
-Plug 'othree/yajs.vim', { 'for': 'javascript.jsx' }
-Plug 'othree/es.next.syntax.vim', { 'for': 'javascript.jsx' }
-Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
+Plug 'othree/yajs.vim'
+Plug 'othree/es.next.syntax.vim'
+Plug 'mxw/vim-jsx'
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'racer-rust/vim-racer', { 'for': 'rust' }
-" Plug 'wlangstroth/vim-racket', { 'for': 'racket', 'commit': '365a2aff8fa1d08fc8ab4ab9b1cff27d87d86fbf' }
-" Plug 'pangloss/vim-javascript'
 " Plug 'jparise/vim-graphql'
 " Plug 'posva/vim-vue'
 " Plug 'octol/vim-cpp-enhanced-highlight'
 " Plug 'hail2u/vim-css3-syntax'
-" Plug 'flowtype/vim-flow'
 " Plug 'fsharp/vim-fsharp'
 " Plug 'ElmCast/elm-vim'
-" Plug 'quramy/tsuquyomi'
-" Plug 'leafgarland/typescript-vim'
+Plug 'quramy/tsuquyomi'
+Plug 'mhartington/nvim-typescript'
 " Plug 'mattn/emmet-vim'
 " Plug 'eagletmt/neco-ghc'
 " Plug 'neovimhaskell/haskell-vim'
@@ -74,10 +71,12 @@ Plug 'ervandew/supertab'
 Plug 'shougo/deoplete.nvim'
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'sirver/ultisnips'
-Plug 'ternjs/tern_for_vim', { 'for': 'javascript.jsx' }
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm i -g tern' }
+Plug 'autozimu/LanguageClient-neovim' " Language server protocol
 
 
 " ----- Random -----
+Plug 'neovim/pynvim'
 Plug 'airblade/vim-rooter'
 Plug 'metakirby5/codi.vim'
 Plug 'machakann/vim-highlightedyank'
@@ -91,9 +90,6 @@ Plug 'severin-lemaignan/vim-minimap'
 
 " A rainbow parenthesis plugin that finally works!
 Plug 'amdt/vim-niji', { 'for': [] }
-
-" Niji breaks JavaScript
-let g:niji_matching_filetypes = []
 
 " ----- Broken plugins; these do NOT work -----
 " Plug 'junegunn/rainbow_parentheses.vim'
@@ -109,11 +105,16 @@ call plug#end()
 " Plugin Settings
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Niji breaks JavaScript
+let g:niji_matching_filetypes = []
+
+let g:deoplete#sources#ternjs#case_insensitive = 1
+
 let g:dispatch_no_maps = 1
 
 let g:javascript_plugin_flow = 1
 let g:javascript_plugin_jsdoc = 1
-
 
 let g:highlightedyank_highlight_duration = 300
 
@@ -129,18 +130,6 @@ function! TagbarStatusFunc(current, sort, fname, flags, ...) abort
   return 'Overview'
 endfunction
 let g:tagbar_status_func = 'TagbarStatusFunc'
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" auto-pairs
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" TODO: disable auto closing single-quotes for `.rkt` filetypes
-
-" TODO: automaticaly add closure thingies in rust
-" autocmd FileType rust let g:AutoPairs['|']='|'
-" if &filetype == "rust"
-"     let g:AutoPairs['|']='|'
-" endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " minimap
