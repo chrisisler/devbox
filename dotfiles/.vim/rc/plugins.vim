@@ -72,7 +72,10 @@ Plug 'shougo/deoplete.nvim'
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'sirver/ultisnips'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm i -g tern' }
-Plug 'autozimu/LanguageClient-neovim' " Language server protocol
+Plug 'autozimu/LanguageClient-neovim', {
+      \ 'branch': 'next',
+      \ 'do': 'bash install.sh',
+      \ }
 
 
 " ----- Random -----

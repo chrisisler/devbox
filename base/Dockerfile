@@ -24,18 +24,6 @@ RUN groupadd --gid 1000 devuser && \
       printf "devuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/devuser && \
       chmod 0440 /etc/sudoers.d/devuser
 
-# Node, NPM, Yarn
-RUN curl -sSL https://deb.nodesource.com/setup_10.x | bash - && \
-      apt-get install --assume-yes --quiet --no-install-recommends nodejs && \
-      npm install --global yarn typescript
-
-# Be non-root user
-# Note! Docker directives like `RUN` require `sudo` after becoming non-root user. 
-USER devuser
-ENV USER devuser
-ENV HOME /home/devuser
-WORKDIR /home/devuser
-
 # Rust
 RUN wget --quiet \
       "https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init" && \
@@ -45,6 +33,18 @@ RUN wget --quiet \
 
 # Github is a known host
 RUN mkdir ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+
+# Node, NPM, Yarn
+RUN curl -sSL https://deb.nodesource.com/setup_10.x | bash - && \
+      apt-get install --assume-yes --quiet --no-install-recommends nodejs && \
+      npm install --global add yarn typescript neovim
+
+# Be non-root user
+# Note! Docker directives like `RUN` require `sudo` after becoming non-root user. 
+USER devuser
+ENV USER devuser
+ENV HOME /home/devuser
+WORKDIR /home/devuser
 
 # Act like an abstract base class - this image is not runnable.
 CMD ["true"]
