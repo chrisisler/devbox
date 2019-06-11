@@ -68,7 +68,7 @@ if &background == "dark"
     call HighlightJava()
   endif
 
-  if &filetype == "javascript" || &filetype == "typescript" || &filetype == "javascript.jsx"
+  if &filetype == "javascript" || &filetype == "javascript.jsx"
     call HighlightJavaScriptOne()
     " call HighlightJavaScriptSolarized()
   endif
@@ -84,7 +84,7 @@ if &background == "dark"
   "     highlight Statement ctermfg=magenta cterm=italic
   " endif
 elseif &background == "light"
-  if &filetype == "javascript" || &filetype == "typescript" || &filetype == "javascript.jsx"
+  if &filetype == "javascript" || &filetype == "javascript.jsx"
     call HighlightJavaScriptOne()
   endif
 endif
