@@ -1,33 +1,30 @@
 " call clearmatches()
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 
 " keyword: this
 highlight javascriptIdentifier ctermfg=3 cterm=italic
 highlight javascriptFuncArg ctermfg=6 cterm=italic
 
-
 highlight javascriptIdentifierName ctermfg=9
 
 highlight xmlTag ctermfg=7
-" highlight xmlEndTag ctermfg=15
 " JSX prop names
 highlight xmlAttrib ctermfg=11 cterm=italic
-
 
 " let, const
 highlight javascriptVariable ctermfg=magenta cterm=italic
 
-" async/await
+" await
 highlight javascriptAwaitFuncKeyword ctermfg=magenta
+" async
 call matchadd("javascriptAwaitFuncKeyword", '\<async\>\ze\s\+')
 
+" class
 highlight javascriptClassKeyword ctermfg=magenta cterm=italic
+" try
 highlight javascriptTry ctermfg=magenta cterm=italic
 " highlight javascriptArrowFunc ctermfg=magenta
-
 
 highlight javascriptClassExtends ctermfg=magenta cterm=italic
 highlight javascriptImport ctermfg=darkmagenta cterm=italic

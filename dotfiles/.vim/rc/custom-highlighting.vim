@@ -55,38 +55,15 @@ highlight MatchParen ctermbg=bg ctermfg=red cterm=reverse
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-if &background == "dark"
-  if &filetype == "rust"
-    call HighlightRustOneDark()
-  endif
-
-  if &filetype == "racket"
-    call HighlightRacketOne()
-  endif
-
-  if &filetype == "java"
-    call HighlightJava()
-  endif
-
-  if &filetype == "javascript" || &filetype == "javascript.jsx"
-    call HighlightJavaScriptOne()
-    " call HighlightJavaScriptSolarized()
-  endif
-
-  " if &filetype == "java"
-  "     highlight _FuncDefAndCall ctermfg=darkblue
-  "     call matchadd("_FuncDefAndCall", '\<\h\w*\>\ze(')
-
-  "     highlight javaConditional ctermfg=magenta cterm=italic
-  "     highlight javaExceptions ctermfg=magenta cterm=italic
-  "     highlight javaRepeat ctermfg=magenta cterm=italic
-  "     highlight javaOperator ctermfg=magenta cterm=italic
-  "     highlight Statement ctermfg=magenta cterm=italic
-  " endif
-elseif &background == "light"
-  if &filetype == "javascript" || &filetype == "javascript.jsx"
-    call HighlightJavaScriptOne()
-  endif
+if &filetype == "javascript" || &filetype == "javascript.jsx"
+  call HighlightJavaScriptOne()
+  " call HighlightJavaScriptSolarized()
+elseif &filetype == "rust"
+  call HighlightRustOneDark()
+elseif &filetype == "racket"
+  call HighlightRacketOne()
+elseif &filetype == "java"
+  call HighlightJava()
 endif
 
 autocmd BufEnter,BufRead,BufNewFile,FileType *.rkt call HighlightRacketOne()
@@ -109,11 +86,25 @@ function! HighlightJava()
   source ~/.vim/rc/syntax-highlighting/java.vim
 endfunction
 
-autocmd BufEnter,BufRead,BufNewFile,FileType *.js,*.ts,*.tsx,javascript,typescript call HighlightJavaScriptOne()
+autocmd BufEnter,BufRead,BufNewFile,FileType *.js,javascript call HighlightJavaScriptOne()
 function! HighlightJavaScriptOne()
-  " source ~/.vim/rc/syntax-highlighting/default-dark-js.vim
-  source ~/.vim/rc/syntax-highlighting/one-javascript.vim
+  if &background == "dark"
+    source ~/.vim/rc/syntax-highlighting/one-javascript.vim
+  elseif &background == "light"
+    source ~/.vim/rc/syntax-highlighting/default-dark-js.vim
+  endif
 endfunction
+
+autocmd BufEnter,BufRead,BufNewFile,FileType *.ts,*.tsx,typescript call HighlightJavaScriptOneTS()
+function! HighlightJavaScriptOneTS()
+  set filetype=javascript.jsx.typescript
+  if &background == "dark"
+    source ~/.vim/rc/syntax-highlighting/one-javascript.vim
+  elseif &background == "light"
+    source ~/.vim/rc/syntax-highlighting/default-dark-js.vim
+  endif
+endfunction
+
 
 " function! HighlightJavaScriptSolarized()
 "   source ~/.vim/rc/syntax-highlighting/solarized-javascript.vim
