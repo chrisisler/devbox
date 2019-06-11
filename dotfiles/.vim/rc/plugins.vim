@@ -104,19 +104,21 @@ call plug#end()
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+let g:deoplete#sources#ternjs#case_insensitive = 1
 let g:deoplete#enable_at_startup = 1
+call deoplete#custom#option('auto_complete_delay', 200)
+call deoplete#custom#option('max_list', 32)
+call deoplete#custom#option('refresh_always', v:false)
 
 " Niji breaks JavaScript
 let g:niji_matching_filetypes = []
-
-let g:deoplete#sources#ternjs#case_insensitive = 1
 
 let g:dispatch_no_maps = 1
 
 let g:javascript_plugin_flow = 1
 let g:javascript_plugin_jsdoc = 1
 
-let g:highlightedyank_highlight_duration = 300
+let g:highlightedyank_highlight_duration = 200
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " tagbar

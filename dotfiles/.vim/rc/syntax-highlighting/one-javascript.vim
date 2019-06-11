@@ -1,33 +1,30 @@
 " call clearmatches()
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 
 " keyword: this
 highlight javascriptIdentifier ctermfg=3 cterm=italic
 highlight javascriptFuncArg ctermfg=6 cterm=italic
 
-
 highlight javascriptIdentifierName ctermfg=9
 
 highlight xmlTag ctermfg=7
-" highlight xmlEndTag ctermfg=15
 " JSX prop names
 highlight xmlAttrib ctermfg=11 cterm=italic
-
 
 " let, const
 highlight javascriptVariable ctermfg=magenta cterm=italic
 
-" async/await
+" await
 highlight javascriptAwaitFuncKeyword ctermfg=magenta
+" async
 call matchadd("javascriptAwaitFuncKeyword", '\<async\>\ze\s\+')
 
+" class
 highlight javascriptClassKeyword ctermfg=magenta cterm=italic
+" try
 highlight javascriptTry ctermfg=magenta cterm=italic
 " highlight javascriptArrowFunc ctermfg=magenta
-
 
 highlight javascriptClassExtends ctermfg=magenta cterm=italic
 highlight javascriptImport ctermfg=darkmagenta cterm=italic
@@ -85,7 +82,9 @@ highlight Exception cterm=italic ctermfg=magenta
 
 
 " instanceof, typeof, new, in, void
-" highlight Identifier cterm=italic ctermfg=magenta
+highlight Identifier cterm=italic ctermfg=magenta
+
+highlight javascriptTypeHintOnly ctermfg=11
 
 
 highlight MagentaItalic ctermfg=magenta cterm=italic
@@ -96,16 +95,16 @@ call matchadd("MagentaItalic", '\<delete\>\ze\s\+')
 call matchadd("MagentaItalic", '\<get\>\ze\s\+')
 call matchadd("MagentaItalic", '\<set\>\ze\s\+')
 call matchadd("MagentaItalic", '(export )\?\|\s*\<type\>\ze\s\+')
-call matchadd("MagentaItalic", '\s\+\zs\<instanceof\>\ze\s\+')
-call matchadd("MagentaItalic", '\<typeof\>\ze\s\+')
+" call matchadd("MagentaItalic", '\s\+\zs\<instanceof\>\ze\s\+')
+" call matchadd("MagentaItalic", '\<typeof\>\ze\s\+')
 call matchadd("MagentaItalic", '\<yield\>\ze')
 
 
 highlight JustMagenta ctermfg=magenta
 call matchadd("JustMagenta", '\s\+=>\s*')
-call matchadd("JustMagenta", '\<new\>\ze\s\+\h')
-call matchadd("JustMagenta", '\s\+\zs\<in\>\ze\s\+')
-call matchadd("JustMagenta", '\<void\>\ze\s\+')
+" call matchadd("JustMagenta", '\<new\>\ze\s\+\h')
+" call matchadd("JustMagenta", '\s\+\zs\<in\>\ze\s\+')
+" call matchadd("JustMagenta", '\<void\>\ze\s\+')
 call matchadd("JustMagenta", '\s\+\zs\<as\>\ze\s\+')
 
 
