@@ -23,7 +23,7 @@ Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 " Plug 'fsharp/vim-fsharp'
 " Plug 'ElmCast/elm-vim'
 Plug 'quramy/tsuquyomi'
-Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
+Plug 'mhartington/nvim-typescript', { 'do': 'sudo ./install.sh' }
 " Plug 'leafgarland/typescript-vim'
 Plug 'herringtondarkholme/yats.vim'
 " Plug 'mattn/emmet-vim'
@@ -49,7 +49,7 @@ Plug 'w0rp/ale'             " async linter
 
 
 " ----- Commands -----
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin >/dev/null' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'sudo ./install --bin >/dev/null' }
 Plug 'junegunn/fzf.vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround'
@@ -66,10 +66,10 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'ervandew/supertab'
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'sirver/ultisnips'
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm i -g tern' }
+Plug 'carlitux/deoplete-ternjs'
 Plug 'autozimu/LanguageClient-neovim', {
       \ 'branch': 'next',
-      \ 'do': 'bash install.sh',
+      \ 'do': 'sudo bash install.sh',
       \ }
 
 

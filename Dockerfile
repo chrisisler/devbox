@@ -15,8 +15,8 @@ RUN git clone --single-branch --branch neovim https://github.com/chrisisler/devb
       ln --symbolic ~/.config/nvim/init.vim ~/.vimrc
 
 # Install all plugins (and their dependencies) (see ./dotfiles/.vim/rc/plugins.vim)
-RUN vim -Es -N -i NONE -U NONE -u ~/.config/nvim/init.vim +'PlugInstall --sync' +qa
-RUN vim -Es -N -i NONE -U NONE -u ~/.config/nvim/init.vim +UpdateRemotePlugins +qa
+# RUN vim -Es -N -i NONE -U NONE -u ~/.config/nvim/init.vim +'PlugInstall --sync' +qa
+# RUN vim -Es -N -i NONE -U NONE -u ~/.config/nvim/init.vim +UpdateRemotePlugins +qa
 
 # EXPOSE 3000
 

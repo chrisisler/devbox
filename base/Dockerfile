@@ -37,7 +37,7 @@ RUN mkdir ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 # Node, NPM, Yarn, and global packages
 RUN curl -sSL https://deb.nodesource.com/setup_10.x | bash - && \
       apt-get install --assume-yes --quiet --no-install-recommends nodejs && \
-      npm install --global add yarn typescript neovim
+      npm install --global add yarn typescript neovim tern
 
 # Be non-root user
 # Note! Docker directives like `RUN` require `sudo` after becoming non-root user. 
