@@ -30,10 +30,10 @@ set background=dark
 " highlight PmenuSel ctermfg=4 ctermbg=bg
 
 " make background of statusline transparent (same as background)
-highlight StatusLine ctermfg=fg ctermbg=bg cterm=bold
-highlight StatusLineNC ctermfg=15 ctermbg=bg
-highlight StatusLineTerm ctermfg=fg ctermbg=bg cterm=bold
-highlight StatusLineTermNC ctermfg=15 ctermbg=bg
+highlight StatusLine ctermfg=fg ctermbg=8 cterm=bold
+highlight StatusLineNC ctermfg=15 ctermbg=8
+highlight StatusLineTerm ctermfg=fg ctermbg=8 cterm=bold
+highlight StatusLineTermNC ctermfg=15 ctermbg=8
 
 " remove obnoxious highlighting from quickfix window
 highlight QuickFixLine ctermfg=fg ctermbg=bg
@@ -54,7 +54,6 @@ highlight MatchParen ctermbg=bg ctermfg=red cterm=reverse
 " highlight MatchParen cterm=bold,underline ctermfg=3 ctermbg=bg
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 if &background == "dark"
   if &filetype == "rust"
     call HighlightRustOneDark()
@@ -110,6 +109,16 @@ function! HighlightJava()
 endfunction
 
 autocmd BufEnter,BufRead,BufNewFile,FileType *.js,javascript call HighlightJavaScriptOne()
+function! HighlightJavaScriptOne()
+  " source ~/.vim/rc/syntax-highlighting/default-dark-js.vim
+  source ~/.vim/rc/syntax-highlighting/one-javascript.vim
+endfunction
+
+if &filetype == "typescript"
+  set ft=javascript.jsx.typescript
+endif
+
+autocmd BufEnter,BufRead,BufNewFile,FileType *.ts,*.tsx,typescript call HighlightJavaScriptOne()
 function! HighlightJavaScriptOne()
   " source ~/.vim/rc/syntax-highlighting/default-dark-js.vim
   source ~/.vim/rc/syntax-highlighting/one-javascript.vim

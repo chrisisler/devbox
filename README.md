@@ -52,3 +52,4 @@ Containerized development environment.
 - Apparently `ln --symbolic` requires absolute paths to make any fricken sense
 - `fg` and `bg` values for cterm?g require `highlight Normal` to be set first, [see here](https://github.com/neovim/neovim/pull/5319#discussion_r78295368).
 - https://github.com/junegunn/vim-plug/issues/675#issuecomment-328157169
+- https://github.com/Shougo/deoplete.nvim
