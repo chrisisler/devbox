@@ -62,7 +62,7 @@ autocmd VimEnter * set laststatus=2
 " Clear
 set statusline=
 
-set statusline+=%{SyntaxItem()}
+" set statusline+=%{SyntaxItem()}
 
 " Whitespace and path to file
 set statusline+=\ %f
