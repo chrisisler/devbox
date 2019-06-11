@@ -115,11 +115,6 @@ function! HighlightJavaScriptOne()
   source ~/.vim/rc/syntax-highlighting/one-javascript.vim
 endfunction
 
-autocmd BufEnter,BufRead,BufNewFile,FileType *.ts,tsx call SetFT()
-function! SetFT()
-  set ft=javascript
-endfunction
-
 " function! HighlightJavaScriptSolarized()
 "   source ~/.vim/rc/syntax-highlighting/solarized-javascript.vim
 " endfunction

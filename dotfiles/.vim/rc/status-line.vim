@@ -71,7 +71,6 @@ set statusline+=\ %f
 
 " Special symbol if file is modified
 set statusline+=%{Modified()}
-" set statusline+=\ %M
 
 " Statusline info after this will be on the right side
 set statusline+=%=
@@ -83,9 +82,9 @@ set statusline+=%{LintStatus()}
 " set statusline+=%{TagbarCurrentFunction()}
 
 " Show line and column numbers
-set statusline+=Ln\ %l\ Col\ %c\ 
+" set statusline+=Ln\ %l\ Col\ %c\ 
 " set statusline+=%{Spaces()}\ 
-" set statusline+=Ln\ %l\ Col\ %c\ ${BufferInfo()}\ 
+set statusline+=Ln\ %l\ Col\ %c\ %{BufferInfo()}\ 
 " set statusline+=%l:%c\ 
 
 " Tabline (Status bar at top) -------------------------------------------------

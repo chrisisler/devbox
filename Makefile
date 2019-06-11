@@ -17,4 +17,7 @@ dotfiles: base
 cached: base
 	@docker build --tag $(REPOSITORY) .
 
+update:
+		@./dotfiles/update-dotfiles.sh
+
 .PHONY: all base dotfiles clean cached

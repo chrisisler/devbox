@@ -65,7 +65,7 @@ set wildmenu                  " visual autocomplete
 set wildmode=list:longest 
 set wildignore=*.swp,*.bak,*.pyc,*.class,*/.git/*,.hg,.svn,*~,*.png,*.gif,*.jpg,*.settings,Thumbs.db,*.min.js
 set previewheight=8
-set completeopt=noinsert,noselect,menuone
+set completeopt=menu,menuone,preview,noselect,noinsert
 set path+=**
 
 " Visual.
