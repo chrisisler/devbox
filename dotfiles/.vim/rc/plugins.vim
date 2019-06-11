@@ -22,7 +22,7 @@ Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 " Plug 'hail2u/vim-css3-syntax'
 " Plug 'fsharp/vim-fsharp'
 " Plug 'ElmCast/elm-vim'
-Plug 'quramy/tsuquyomi'
+" Plug 'quramy/tsuquyomi'
 Plug 'mhartington/nvim-typescript', { 'do': 'sudo ./install.sh' }
 " Plug 'leafgarland/typescript-vim'
 Plug 'herringtondarkholme/yats.vim'
@@ -103,6 +103,10 @@ call plug#end()
 " Plugin Settings
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:nvim_typescript#signature_complete = 1
+let g:nvim_typescript#type_info_on_hold = 1
+let g:nvim_typescript#vue_support = 1
 
 let g:deoplete#sources#ternjs#case_insensitive = 1
 let g:deoplete#enable_at_startup = 1
