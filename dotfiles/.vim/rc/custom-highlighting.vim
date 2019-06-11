@@ -54,6 +54,7 @@ highlight MatchParen ctermbg=bg ctermfg=red cterm=reverse
 " highlight MatchParen cterm=bold,underline ctermfg=3 ctermbg=bg
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 if &background == "dark"
   if &filetype == "rust"
     call HighlightRustOneDark()
@@ -108,17 +109,7 @@ function! HighlightJava()
   source ~/.vim/rc/syntax-highlighting/java.vim
 endfunction
 
-autocmd BufEnter,BufRead,BufNewFile,FileType *.js,javascript call HighlightJavaScriptOne()
-function! HighlightJavaScriptOne()
-  " source ~/.vim/rc/syntax-highlighting/default-dark-js.vim
-  source ~/.vim/rc/syntax-highlighting/one-javascript.vim
-endfunction
-
-if &filetype == "typescript"
-  set ft=javascript.jsx.typescript
-endif
-
-autocmd BufEnter,BufRead,BufNewFile,FileType *.ts,*.tsx,typescript call HighlightJavaScriptOne()
+autocmd BufEnter,BufRead,BufNewFile,FileType *.js,*.ts,*.tsx,javascript,typescript call HighlightJavaScriptOne()
 function! HighlightJavaScriptOne()
   " source ~/.vim/rc/syntax-highlighting/default-dark-js.vim
   source ~/.vim/rc/syntax-highlighting/one-javascript.vim

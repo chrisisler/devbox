@@ -6,7 +6,7 @@ run:
 	@source ./dotfiles/devbox-scripts.sh && devbox $(REPOSITORY)
 
 clean:
-	@docker rmi --force $(REPOSITORY)
+	@docker rmi --force $(REPOSITORY) $(REPOSITORY)-base
 
 base:
 	@docker build --tag $(REPOSITORY)-base base
