@@ -106,9 +106,13 @@ call plug#end()
 
 let g:deoplete#sources#ternjs#case_insensitive = 1
 let g:deoplete#enable_at_startup = 1
-call deoplete#custom#option('auto_complete_delay', 200)
-call deoplete#custom#option('max_list', 32)
-call deoplete#custom#option('refresh_always', v:false)
+try
+  call deoplete#custom#option('auto_complete_delay', 200)
+  call deoplete#custom#option('max_list', 32)
+  call deoplete#custom#option('refresh_always', v:false)
+catch /:E117:/
+  " Ignore if deoplete not installed
+endtry
 
 " Niji breaks JavaScript
 let g:niji_matching_filetypes = []
