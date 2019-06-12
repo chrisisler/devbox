@@ -25,7 +25,7 @@ Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 " Plug 'quramy/tsuquyomi'
 Plug 'mhartington/nvim-typescript', { 'do': 'sudo ./install.sh', 'for': 'typescript' }
 " Plug 'leafgarland/typescript-vim'
-Plug 'herringtondarkholme/yats.vim' { 'for', 'typescript' }
+Plug 'herringtondarkholme/yats.vim', { 'for', 'typescript' }
 " Plug 'mattn/emmet-vim'
 " Plug 'eagletmt/neco-ghc'
 " Plug 'neovimhaskell/haskell-vim'
