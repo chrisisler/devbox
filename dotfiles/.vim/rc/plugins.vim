@@ -11,9 +11,9 @@ call plug#begin('~/.local/share/nvim/plugged')
 " ----- Language -----
 Plug 'ekalinin/dockerfile.vim', { 'for': 'Dockerfile' }
 " Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
-Plug 'othree/yajs.vim'
-Plug 'othree/es.next.syntax.vim'
-Plug 'mxw/vim-jsx'
+Plug 'othree/yajs.vim', { 'for': 'javascript.jsx' }
+Plug 'othree/es.next.syntax.vim', { 'for': 'javascript.jsx' }
+Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 " Plug 'jparise/vim-graphql'
@@ -23,9 +23,9 @@ Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 " Plug 'fsharp/vim-fsharp'
 " Plug 'ElmCast/elm-vim'
 " Plug 'quramy/tsuquyomi'
-Plug 'mhartington/nvim-typescript', { 'do': 'sudo ./install.sh' }
+Plug 'mhartington/nvim-typescript', { 'do': 'sudo ./install.sh', 'for': 'typescript' }
 " Plug 'leafgarland/typescript-vim'
-Plug 'herringtondarkholme/yats.vim'
+Plug 'herringtondarkholme/yats.vim' { 'for', 'typescript' }
 " Plug 'mattn/emmet-vim'
 " Plug 'eagletmt/neco-ghc'
 " Plug 'neovimhaskell/haskell-vim'
@@ -66,7 +66,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'ervandew/supertab'
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'sirver/ultisnips'
-Plug 'carlitux/deoplete-ternjs'
+Plug 'carlitux/deoplete-ternjs', { 'for', 'javascript.jsx.typescript' }
 Plug 'autozimu/LanguageClient-neovim', {
       \ 'branch': 'next',
       \ 'do': 'sudo bash install.sh',
@@ -83,7 +83,7 @@ Plug 'machakann/vim-highlightedyank'
 " Plug 'godlygeek/tabular'
 " Plug 'junegunn/goyo.vim'
 " Plug 'yggdroot/indentline'
-Plug 'severin-lemaignan/vim-minimap'
+" Plug 'severin-lemaignan/vim-minimap'
 
 
 " A rainbow parenthesis plugin that finally works!
@@ -115,7 +115,8 @@ try
   call deoplete#custom#option('max_list', 32)
   call deoplete#custom#option('refresh_always', v:false)
 catch /:E117:/
-  " Ignore if deoplete not installed
+  " Ignore error since `deoplete#foo...` functions are not available until
+  " plugins are installed.
 endtry
 
 " Niji breaks JavaScript
@@ -288,40 +289,33 @@ let g:UltiSnipsSnippetsDir="~/.vim/snippets"
 " ale
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:ale_linters_ignore = { 'typescript': ['tslint', 'flow'] }
-
-" let g:ale_lint_on_text_changed='always'
-let g:ale_lint_on_text_changed='never'
-" let g:ale_lint_on_save = 0
-" let g:ale_lint_on_enter = 0
 
 let g:ale_enabled=1
+
 let g:ale_sign_error='✕'
 let g:ale_sign_warning='--'
-let g:ale_set_signs=0
-let g:ale_lint_delay=2000
-let g:ale_fix_on_save=1
-let g:ale_open_list=0
-let g:ale_set_highlights=0
 let g:ale_sign_column_always=1
+
+let g:ale_lint_delay=2000
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_text_changed='never'
+
+let g:ale_set_signs=0
+let g:ale_set_highlights=0
+let g:ale_open_list=0
+let g:ale_fix_on_save=1
 
 " let g:ale_rust_cargo_use_check = 1
 " let g:ale_rust_cargo_check_all_targets = 1
 
 " suppress warnings when browsing files ignored by `.eslintignore` file
 let g:ale_javascript_eslint_suppress_eslintignore=1
-" let g:ale_javascript_eslint_use_global=1
 
-" only use home config `~/.flowconfig` when ...? idk
-" let g:ale_javascript_flow_executable='/usr/local/bin/flow'
-" let g:ale_javascript_flow_use_home_config=1
-" let g:ale_javascript_flow_use_global=1
-
-let g:ale_echo_cursor = 1
+let g:ale_echo_cursor = 0
 let g:ale_echo_msg_error_str='Error'
 let g:ale_echo_msg_warning_str='Warning'
 let g:ale_echo_msg_info_str='Info'
-let g:ale_echo_msg_format = '%severity% [%linter%] %code: %%s'
+let g:ale_echo_msg_format = '%severity% %code% [%linter%]: %s'
 let g:ale_pattern_options = {'\.min.js$': {'ale_enabled': 0}}
 let g:ale_linters={
       \   'javascript': ['eslint', 'flow'],
@@ -331,6 +325,7 @@ let g:ale_linters={
       \   'python': ['pylint'],
       \   'cpp': ['g++'],
       \}
+let g:ale_linters_ignore = { 'typescript': ['tslint', 'flow'] }
 
 let g:ale_fixers = {}
 let g:ale_fixers['javascript'] = ['prettier']
@@ -363,33 +358,9 @@ nnoremap <C-]> :Lines<CR>
 nnoremap <C-m> :Maps<CR>
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" neocomplete (language-agnostic autocompleter)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" tab to select
-" inoremap <expr><Tab> (pumvisible()?(empty(v:completed_item)?"\<C-n>":"\<C-y>"):"\<Tab>")
-
-" the neocomplete auto complete should NOT hijack my enter key when autocomplete menu is displayed
+" the auto complete should NOT hijack my enter key when autocomplete menu is displayed
 " inoremap <expr><Tab> (pumvisible()?(empty(v:completed_item)?"\<C-n>":"\<C-y>"):"\<Tab>")
 inoremap <expr><CR> (pumvisible()?(empty(v:completed_item)?"\<CR>\<CR>":"\<C-y>"):"\<CR>")
-
-" Enabled?
-let g:neocomplete#enable_at_startup=1
-
-" refreshes candidates automatically, setting to 1 increases screen flicker
-let g:neocomplete#enable_refresh_always=0
-
-" if getting completion options is longer than this time than skip it.
-let g:neocomplete#skip_auto_completion_time="0.3"
-let g:neocomplete#auto_complete_delay=100
-let g:neocomplete#enable_smart_case=1
-let g:neocomplete#max_list=12
-let g:neocomplete#sources#syntax#min_keyword_length=2
-let g:neocomplete#enable_auto_close_preview=0
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
