@@ -288,6 +288,8 @@ let g:UltiSnipsSnippetsDir="~/.vim/snippets"
 " ale
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+let g:ale_linters_ignore = { 'typescript': ['tslint', 'flow'] }
+
 " let g:ale_lint_on_text_changed='always'
 let g:ale_lint_on_text_changed='never'
 " let g:ale_lint_on_save = 0
@@ -303,13 +305,8 @@ let g:ale_open_list=0
 let g:ale_set_highlights=0
 let g:ale_sign_column_always=1
 
-let g:ale_fixers = {}
-let g:ale_fixers['javascript'] = ['prettier']
-" let g:ale_fixers['rust'] = ['rustfmt']
-
 " let g:ale_rust_cargo_use_check = 1
 " let g:ale_rust_cargo_check_all_targets = 1
-
 
 " suppress warnings when browsing files ignored by `.eslintignore` file
 let g:ale_javascript_eslint_suppress_eslintignore=1
@@ -320,15 +317,24 @@ let g:ale_javascript_eslint_suppress_eslintignore=1
 " let g:ale_javascript_flow_use_home_config=1
 " let g:ale_javascript_flow_use_global=1
 
-" let g:ale_echo_msg_warning_str=''
-" let g:ale_echo_msg_error_str=''
-let g:ale_echo_msg_format = '[%linter%] %s'
+let g:ale_echo_cursor = 1
+let g:ale_echo_msg_error_str='Error'
+let g:ale_echo_msg_warning_str='Warning'
+let g:ale_echo_msg_info_str='Info'
+let g:ale_echo_msg_format = '%severity% [%linter%] %code: %%s'
+let g:ale_pattern_options = {'\.min.js$': {'ale_enabled': 0}}
 let g:ale_linters={
-\   'javascript': ['eslint', 'flow'],
-\   'java': ['javac'],
-\}
-" \   'cpp': ['g++'],
-" \   'rust': ['cargo', 'rls', 'rustc'],
+      \   'javascript': ['eslint', 'flow'],
+      \   'java': ['javac'],
+      \   'typescript': ['eslint', 'tsserver', 'typecheck'],
+      \   'rust': ['cargo', 'rls', 'rustc'],
+      \   'python': ['pylint'],
+      \   'cpp': ['g++'],
+      \}
+
+let g:ale_fixers = {}
+let g:ale_fixers['javascript'] = ['prettier']
+" let g:ale_fixers['rust'] = ['rustfmt']
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " fzf (fuzzy finder (better than ctrl-p plugin)) - best plugin ever!

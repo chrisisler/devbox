@@ -55,8 +55,8 @@ set encoding=utf-8
 set backupcopy=yes
 
 " http://vim.wikia.com/wiki/Automatic_word_wrapping
-" set wrap linebreak
-set nowrap                     " stop vim from auto-wrapping lines when there's not enough horizontal space http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
+set wrap linebreak
+" set nowrap                     " stop vim from auto-wrapping lines when there's not enough horizontal space http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
 
 " https://robots.thoughtbot.com/vim-you-complete-me
 " set complete=.,b,u,]

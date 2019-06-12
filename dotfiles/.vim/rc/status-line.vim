@@ -11,9 +11,9 @@ function! LintStatus() abort
   " let l:errors_message = l:all_errors == 0 ? '' : printf('%d ✕', all_errors)
   " let l:warnings_message = l:all_warnings == 0 ? '' : printf('%d⚠  ', all_warnings)
 
-  let l:errors_message = l:all_errors == 0 ? '' : l:all_errors == 1 ? 'E:1 ' : printf('E %s ', all_errors)
+  let l:errors_message = l:all_errors == 0 ? '' : l:all_errors == 1 ? 'E:1 ' : printf('E:%s ', all_errors)
   let l:warnings_message = l:all_warnings == 0 ? '' : l:all_warnings == 1 ? 'W:1 ' : printf('W:%s ', all_warnings)
-  let l:infos_message = l:all_infos == 0 ? '' : printf('I: %d ', all_infos)
+  let l:infos_message = l:all_infos == 0 ? '' : printf('I:%d ', all_infos)
 
   return l:all_errors == 0 && l:all_warnings == 0 && l:all_infos == 0 ? '' : printf('%s%s%s', errors_message, warnings_message, infos_message)
 endfunction
