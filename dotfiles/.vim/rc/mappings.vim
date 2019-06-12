@@ -185,9 +185,15 @@ nnoremap <Leader>t4 :set shiftwidth=4<CR>:set tabstop=4<CR>
 " switch to last open buffer
 nnoremap <Leader><Leader> :b#<CR>
 
-nnoremap <Leader>z :NeoCompleteToggle<CR>
+if has('nvim')
+  nnoremap <Leader>z :call deoplete#toggle()<CR>
+else
+  nnoremap <Leader>z :NeoCompleteToggle<CR>
+endif
 nnoremap <Leader>g :GitGutterToggle<CR>
 nnoremap <Leader>x :ALEToggle<CR>
+
+nnoremap <silent> <Leader>N :GitGutterNextHunk<CR>kj
 
 " Linter mappings
 nnoremap <silent> <Leader>p :ALEPreviousWrap<CR>kj
@@ -290,6 +296,9 @@ nnoremap <Leader>d<CR> :Dispatch
 " nnoremap <Leader>js<CR> :w<CR>:Dispatch! node %<CR>:cw<CR>:wincmd k<CR>
 nnoremap <silent> <Leader>js<CR> :w<CR>:Dispatch node %<CR>
 
+" Typescript
+nnoremap <silent> <Leader>ts<CR> :w<CR>:Dispatch! tsc --allowJs --target ES6 %<CR>:Dispatch node %:t:r.js<CR>
+
 " Racket
 nnoremap <Leader>rkt<CR> :w<CR>:Dispatch racket %<CR>
 
@@ -302,10 +311,8 @@ nnoremap <Leader>py3<CR> :w<CR>:Dispatch python3 %<CR>
 nnoremap <Leader>py2<CR> :w<CR>:Dispatch python2 %<CR>
 
 " Java
-nnoremap <Leader>j1<CR> :w<CR>:Dispatch javac %<CR>:copen<CR>
+nnoremap <Leader>j1<CR> :w<CR>:Dispatch javac %<CR>:Copen<CR>
 nnoremap <Leader>j2<CR> :w<CR>:Dispatch java %:t:r<CR>:copen<CR>
-" nnoremap <Leader>j1<CR> :w<CR>:AsyncRun javac %<CR>:copen<CR>:wincmd k<CR>
-" nnoremap <Leader>j2<CR> :w<CR>:AsyncRun java %:t:r<CR>:copen<CR>:wincmd k<CR>
 
 " C#
 " nnoremap <Leader>cs<CR> :w<CR>:AsyncRun csc /nologo /t:exe %<CR>:copen<CR>:wincmd k<CR>
@@ -322,4 +329,3 @@ nnoremap <Leader>j2<CR> :w<CR>:Dispatch java %:t:r<CR>:copen<CR>
 
 " C++
 " nnoremap <Leader>cpp :w<CR>:AsyncRun g++ % && ./a.out<CR>:copen<CR>:wincmd k<CR>
-"

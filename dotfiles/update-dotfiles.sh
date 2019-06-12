@@ -8,7 +8,7 @@ main() {
 
   mkdir -p "$here/.vim"
   cp -r ~/.vim/rc/syntax-highlighting "$here/.vim/rc/"
-  cp ~/.vim/rc/{custom-highlighting,general-settings,misc,status-line,misc}.vim "$here/.vim/rc/"
+  cp ~/.vim/rc/{custom-highlighting,mappings,general-settings,misc,status-line,misc}.vim "$here/.vim/rc/"
 
   mkdir -p "$here/.vim/snippets"
   cp -r ~/.vim/snippets "$here/.vim/"
