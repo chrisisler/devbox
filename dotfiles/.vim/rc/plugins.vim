@@ -25,7 +25,7 @@ Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 " Plug 'quramy/tsuquyomi'
 Plug 'mhartington/nvim-typescript', { 'do': 'sudo ./install.sh', 'for': 'typescript' }
 " Plug 'leafgarland/typescript-vim'
-Plug 'herringtondarkholme/yats.vim', { 'for', 'typescript' }
+Plug 'herringtondarkholme/yats.vim', { 'for': 'typescript' }
 " Plug 'mattn/emmet-vim'
 " Plug 'eagletmt/neco-ghc'
 " Plug 'neovimhaskell/haskell-vim'
@@ -66,7 +66,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'ervandew/supertab'
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'sirver/ultisnips'
-Plug 'carlitux/deoplete-ternjs', { 'for', 'javascript.jsx.typescript' }
+Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript.jsx.typescript' }
 Plug 'autozimu/LanguageClient-neovim', {
       \ 'branch': 'next',
       \ 'do': 'sudo bash install.sh',
