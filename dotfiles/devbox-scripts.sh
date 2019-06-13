@@ -11,6 +11,5 @@ devbox() {
     --volume "$HOME/Main:/home/devuser/Main" \
     --volume "$HOME/.ssh/devbox:/home/devuser/.ssh" \
     --volume "$HOME/.config/alacritty:/home/devuser/.config/alacritty" \
-    --publish 3000:3000 \
     $repo
 }

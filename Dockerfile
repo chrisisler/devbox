@@ -18,6 +18,4 @@ RUN git clone --single-branch --branch neovim https://github.com/chrisisler/devb
 RUN vim -V0 -Es -N -i NONE -U NONE -u ~/.config/nvim/init.vim +'PlugInstall --sync' +qa
 RUN vim -V0 -Es -N -i NONE -U NONE -u ~/.config/nvim/init.vim +UpdateRemotePlugins +qa
 
-# EXPOSE 3000
-
 CMD ["/bin/bash"]
