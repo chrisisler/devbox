@@ -66,13 +66,13 @@ Plug 'rhysd/clever-f.vim'
 " ----- Completion -----
 Plug 'jiangmiao/auto-pairs'
 Plug 'ervandew/supertab'
-Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'sirver/ultisnips'
 Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript.jsx.typescript' }
 Plug 'autozimu/LanguageClient-neovim', {
       \ 'branch': 'next',
       \ 'do': 'sudo bash install.sh',
       \ }
+Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 
 " ----- Random -----

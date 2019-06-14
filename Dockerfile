@@ -9,7 +9,7 @@ RUN git clone --single-branch --branch neovim https://github.com/chrisisler/devb
       ln --symbolic ~/devbox/dotfiles/.tmux.conf ~/.tmux.conf && \
       mkdir ~/.vim && \
       ln --symbolic ~/devbox/dotfiles/.vim/rc ~/.vim/rc && \
-      mkdir -p ~/.config && \
+      mkdir ~/.config && \
       ln --symbolic ~/devbox/dotfiles/.vim ~/.config/nvim && \
       ln --symbolic ~/devbox/dotfiles/.vimrc ~/.config/nvim/init.vim && \
       ln --symbolic ~/.config/nvim/init.vim ~/.vimrc

@@ -1,10 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Import functions defined in this script file.
-# source ~/Code/Status/git.sh
+# http://vim.wikia.com/wiki/Entering_special_characters
 
 # Error if any subcommand fails.
-set -e
+set -eu
 
 addedChanges() {
   local status="$1"
@@ -39,7 +38,7 @@ unaddedChanges() {
 
   if [[ "$modified" -ne 0 || "$deleted" -ne 0 || "$added" -ne 0 ]]; then
     # unaddedChanges+=" +$added ~$modified -$deleted !"
-    unaddedChanges+="+$added ~$modified -$deleted"
+    unaddedChanges+=" +$added ~$modified -$deleted"
   fi
 
   printf "$unaddedChanges"
@@ -53,7 +52,7 @@ branchName() {
 }
 
 isPrivate() {
-  # Requires $1 to be: "autherName/repoName"
+  # Requires $1 to be: "authorName/repoName"
   # Usage: isPrivate facebook/react
 
   url="$1"
@@ -68,22 +67,15 @@ main() {
   [ ! -d .git ] && return 1
 
   local branchName="$(branchName)"
-
   local repoName="$(basename "$(git rev-parse --show-toplevel)")"
-  #   local isPrivate="$(./git-repo-is-private.sh "$author/$repoName")"
-
   # local authorAndRepoName="$(git config --get remote.origin.url | sed -e "s/^.*://g")" # assumes git@github.com, not https
   # local isPrivate="$(isPrivate "$authorAndRepoName")"
-
   local porcelainStatus="$(git status --porcelain)"
-  local changes="$(addedChanges "$porcelainStatus")| $(unaddedChanges "$porcelainStatus")"
+  local added="$(addedChanges "$porcelainStatus")"
+  local unadded="$(unaddedChanges "$porcelainStatus")"
+  local changes="$added$unadded"
 
-  # http://vim.wikia.com/wiki/Entering_special_characters
-  # local gitInfo=" $branchName$changes"
-  # local gitInfo="[$branchName$changes]"
-  # local gitInfo=" $isPrivate$branchName$changes"
-  # local gitInfo="[$branchName]$changes"
-  local gitInfo="[$repoName] $branchName$changes"
+  local gitInfo="$repoName:$branchName$changes"
   
   printf "$gitInfo"
 }
