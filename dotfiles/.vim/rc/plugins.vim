@@ -10,6 +10,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 " ----- Language -----
 Plug 'ekalinin/dockerfile.vim', { 'for': 'Dockerfile' }
+Plug 'wellle/tmux-complete.vim'
 " Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 Plug 'othree/yajs.vim', { 'for': 'javascript.jsx' }
 Plug 'othree/es.next.syntax.vim', { 'for': 'javascript.jsx' }
@@ -39,7 +40,7 @@ Plug 'kshenoy/vim-signature'
 Plug 'airblade/vim-gitgutter'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 " Plug 'altercation/vim-colors-solarized'
-" Plug 'docunext/closetag.vim'
+Plug 'docunext/closetag.vim'
 
 
 " ----- Integrations -----
@@ -89,11 +90,6 @@ Plug 'machakann/vim-highlightedyank'
 " A rainbow parenthesis plugin that finally works!
 Plug 'amdt/vim-niji', { 'for': [] }
 
-" ----- Broken plugins; these do NOT work -----
-" Plug 'junegunn/rainbow_parentheses.vim'
-" Plug 'luochen1990/rainbow'
-" Plug 'kien/rainbow_parentheses.vim'
-
 
 call plug#end()
 
@@ -104,8 +100,21 @@ call plug#end()
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+let g:tmuxcomplete#trigger = ''
+
+let g:deoplete#sources#ternjs#docs = 1
+let g:deoplete#sources#ternjs#types = 1
 let g:deoplete#sources#ternjs#case_insensitive = 1
+let g:deoplete#sources#ternjs#omit_object_prototype = 0
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#ternjs#in_literal = 0
+let g:deoplete#sources#ternjs#filetypes = [
+      \ 'jsx',
+      \ 'javascript.jsx',
+      \ 'tsx',
+      \ 'typescript',
+      \ 'vue',
+      \ ]
 try
   call deoplete#custom#option('auto_complete_delay', 200)
   call deoplete#custom#option('max_list', 32)
@@ -115,7 +124,7 @@ catch /:E117:/
   " plugins are installed.
 endtry
 
-" Enable typescript lint errors?
+" Enable TS lint feedback?
 let g:nvim_typescript#diagnostics_enable = 1
 let g:nvim_typescript#default_mappings = 0
 " Print function signature to echo area?
@@ -123,7 +132,6 @@ let g:nvim_typescript#signature_complete = 1
 let g:nvim_typescript#type_info_on_hold = 0
 let g:nvim_typescript#vue_support = 0
 let g:nvim_typescript#max_completion_detail = 16
-
 
 " Niji breaks JavaScript
 let g:niji_matching_filetypes = []
@@ -306,7 +314,7 @@ let g:ale_lint_delay=2000
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_text_changed='never'
 
-let g:ale_set_signs=0
+let g:ale_set_signs=1
 let g:ale_set_highlights=0
 let g:ale_open_list=0
 let g:ale_fix_on_save=1
