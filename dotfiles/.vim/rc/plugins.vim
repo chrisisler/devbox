@@ -115,8 +115,15 @@ catch /:E117:/
   " plugins are installed.
 endtry
 
+" Enable typescript lint errors?
+let g:nvim_typescript#diagnostics_enable = 1
+let g:nvim_typescript#default_mappings = 0
+" Print function signature to echo area?
 let g:nvim_typescript#signature_complete = 1
-" let g:nvim_typescript#vue_support = 1
+let g:nvim_typescript#type_info_on_hold = 0
+let g:nvim_typescript#vue_support = 0
+let g:nvim_typescript#max_completion_detail = 16
+
 
 " Niji breaks JavaScript
 let g:niji_matching_filetypes = []
