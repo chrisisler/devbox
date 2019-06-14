@@ -8,5 +8,5 @@ source $HOME/.vim/rc/misc.vim
 source $HOME/.vim/rc/status-line.vim
 
 " `Normal` must be defined before `fg` and `bg` can be set.
-highlight Normal ctermfg=7 ctermbg=0
+highlight Normal ctermbg=NONE
 source $HOME/.vim/rc/custom-highlighting.vim

@@ -305,7 +305,7 @@ let g:UltiSnipsSnippetsDir="~/.vim/snippets"
 " Milliseconds before requesting language completion after stopped typing
 let g:ale_completion_delay = 1000
 " LSP autocomplete
-let g:ale_completion_enabled = 1
+let g:ale_completion_enabled = 0
 let g:ale_completion_max_suggestions = 24
 
 let g:ale_enabled=1

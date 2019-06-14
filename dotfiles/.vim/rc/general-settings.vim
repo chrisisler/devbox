@@ -65,7 +65,7 @@ set wildmenu                  " visual autocomplete
 set wildmode=list:longest 
 set wildignore=*.swp,*.bak,*.pyc,*.class,*/.git/*,.hg,.svn,*~,*.png,*.gif,*.jpg,*.settings,Thumbs.db,*.min.js
 set previewheight=8
-set completeopt=menu,menuone,preview,noselect,noinsert
+set completeopt=menuone,preview,noselect,noinsert
 set path+=**
 
 " Visual.
@@ -87,6 +87,7 @@ set noshowcmd     " show me what command im typing as i type it (see `timeoutlen
 " set relativenumber
 
 set iskeyword+=- " add `-` to count as part of a text object
+set iskeyword+=$ " add `$` to count as part of a text object
 
 " Make :Q and :W work like :q and :w
 command! W w
