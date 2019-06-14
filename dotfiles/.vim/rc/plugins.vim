@@ -1,4 +1,4 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
 " Plugins
 "
@@ -23,9 +23,9 @@ Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 " Plug 'fsharp/vim-fsharp'
 " Plug 'ElmCast/elm-vim'
 " Plug 'quramy/tsuquyomi'
-" Plug 'mhartington/nvim-typescript', { 'do': 'sudo ./install.sh', 'for': 'javascript.jsx.typescript' }
+Plug 'mhartington/nvim-typescript', { 'do': 'sudo ./install.sh' }
 " Plug 'leafgarland/typescript-vim'
-Plug 'herringtondarkholme/yats.vim', { 'for': 'javascript.jsx.typescript' }
+" Plug 'herringtondarkholme/yats.vim', { 'for': 'javascript.jsx.typescript' }
 " Plug 'mattn/emmet-vim'
 " Plug 'eagletmt/neco-ghc'
 " Plug 'neovimhaskell/haskell-vim'
@@ -104,9 +104,6 @@ call plug#end()
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:nvim_typescript#signature_complete = 1
-" let g:nvim_typescript#vue_support = 1
-
 let g:deoplete#sources#ternjs#case_insensitive = 1
 let g:deoplete#enable_at_startup = 1
 try
@@ -117,6 +114,9 @@ catch /:E117:/
   " Ignore error since `deoplete#foo...` functions are not available until
   " plugins are installed.
 endtry
+
+let g:nvim_typescript#signature_complete = 1
+" let g:nvim_typescript#vue_support = 1
 
 " Niji breaks JavaScript
 let g:niji_matching_filetypes = []

@@ -20,25 +20,27 @@ highlight javascriptAwaitFuncKeyword ctermfg=magenta
 " async
 call matchadd("javascriptAwaitFuncKeyword", '\<async\>\ze\s\+')
 
-" class
-highlight javascriptClassKeyword ctermfg=magenta
 " try
 highlight javascriptTry ctermfg=magenta
 " highlight javascriptArrowFunc ctermfg=magenta
 
-" keywords: default, export
-highlight javascriptExport ctermfg=darkmagenta cterm=italic
-highlight javascriptClassExtends ctermfg=magenta cterm=italic
-highlight javascriptImport ctermfg=darkmagenta
+" keywords: default, export, from
+" highlight javascriptExport ctermfg=magenta
+" highlight javascriptClassExtends cterm=italic
+
+" class
+highlight javascriptClassKeyword ctermfg=magenta
+highlight javascriptImport ctermfg=magenta
 
 
-highlight javascriptReturn ctermfg=magenta cterm=italic,underline
+highlight javascriptReturn ctermfg=magenta cterm=underline
 call matchadd("javascriptReturn", '\<throw\>\ze\s\+')
 
 " object keys (not es6 key/val sorthand)
 highlight javaScriptObjectLabel ctermfg=darkmagenta
 
 highlight javascriptTypeHintOnly ctermfg=11
+call matchadd("javascriptTypeHintOnly", '\<enum\>\|\<interface\>\s\+\zs\<\u\w*\>\ze\s\+{')
 
 " highlight javascriptComma ctermfg=cyan
 " spread/rest operator
@@ -97,6 +99,11 @@ call matchadd("Magenta", '\<type\>\ze\s\+')
 call matchadd("Magenta", '\<yield\>\ze')
 call matchadd("Magenta", '\s\+=>\s*')
 
+call matchadd("Magenta", '\<enum\>\ze\s\+')
+call matchadd("Magenta", '\<interface\>\ze\s\+')
+call matchadd("Magenta", '\<declare\>\ze\s\+')
+call matchadd("Magenta", '\<namespace\>\ze\s\+')
+call matchadd("Magenta", '\<private\>\ze\s\+')
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 

@@ -30,11 +30,22 @@ vnoremap p p=
 nnoremap <silent> ] :silent bn<CR>
 nnoremap <silent> } :silent bp<CR>
 
+" Remove other ]* mappings so that ] is faster.
+try
+  unmap <buffer> ]%
+  unmap <buffer> ]"
+  unmap <buffer> ]]
+  unmap <buffer> [[
+  unmap <buffer> []
+  unmap <buffer> ][
+  unmap <buffer> [%
+  unmap <buffer> ["
+catch /:E31:/
+  " skip.
+endtry
+
 " Next buffer.
 nnoremap <silent> [ <C-w>w
-
-" pressing enter key when auto-complete (pop-up) menu is open will press enter
-" inoremap <expr><CR> pumvisible()? "\3" : "\<CR>" 
 
 vnoremap 3 5
 
