@@ -282,14 +282,13 @@ let g:gitgutter_map_keys=0
 " tern (js auto-completion)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:tern_map_keys=1
-let g:tern#is_show_argument_hints_enabled=0
-let g:tern_show_argument_hints=0
+let g:tern_map_keys=0
+let g:tern_show_argument_hints="on_hold"
 let g:tern_show_signature_in_pum=1
 
 " Use tern_for_vim.
-" let g:tern#command = ["tern"]
-" let g:tern#arguments = ["--persistent"]
+let g:tern#command = ["tern"]
+let g:tern#arguments = ["--persistent", "--no-port-file"]
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -300,9 +299,14 @@ let g:UltiSnipsSnippetsDir="~/.vim/snippets"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" ale
+" ALE
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Milliseconds before requesting language completion after stopped typing
+let g:ale_completion_delay = 1000
+" LSP autocomplete
+let g:ale_completion_enabled = 1
+let g:ale_completion_max_suggestions = 24
 
 let g:ale_enabled=1
 
@@ -316,6 +320,8 @@ let g:ale_lint_on_text_changed='never'
 
 let g:ale_set_signs=1
 let g:ale_set_highlights=0
+" Auto-open preview window when cursor is hovering line with problems?
+let g:ale_cursor_detail=0
 let g:ale_open_list=0
 let g:ale_fix_on_save=1
 
@@ -325,7 +331,8 @@ let g:ale_fix_on_save=1
 " suppress warnings when browsing files ignored by `.eslintignore` file
 let g:ale_javascript_eslint_suppress_eslintignore=1
 
-let g:ale_echo_cursor = 0
+let g:ale_echo_delay = 300
+let g:ale_echo_cursor = 1
 let g:ale_echo_msg_error_str='Error'
 let g:ale_echo_msg_warning_str='Warning'
 let g:ale_echo_msg_info_str='Info'
