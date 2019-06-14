@@ -33,8 +33,14 @@ set showfulltag                " display more info when auto-completing
 set smartcase                  " smart (case-sensitive when you specify) search matching
 set modeline                   " i have no idea what this does tbh
 set modelines=5                " see above
-set formatoptions+=j           " delete comment character when Joining comments
-set formatoptions-=t           " stop vim  from auto-wrapping lines at a ruler
+" Wrapping options
+set formatoptions=tc " wrap text and comments using textwidth
+set formatoptions+=r " continue comments when pressing ENTER in I mode
+set formatoptions+=q " enable formatting of comments with gq
+set formatoptions+=n " detect lists for formatting
+set formatoptions+=b " auto-wrap in insert mode, and do not wrap old long lines
+set formatoptions+=j " delete comment character when Joining comments
+
 set backupdir=~/.vim/undodir
 set undodir=~/.vim/undodir        " where to save undo histories
 set directory=~/.vim/undodir
@@ -46,6 +52,7 @@ set ff=unix
 set fileformat=unix
 set ignorecase
 set incsearch
+set gdefault
 set noswapfile
 set virtualedit=block
 set encoding=utf-8
@@ -69,6 +76,7 @@ set completeopt=menuone,preview,noselect,noinsert
 set path+=**
 
 " Visual.
+set signcolumn=yes
 set noruler
 set number      " show line numbers on left?
 set cursorline  " highlight current line?
@@ -82,6 +90,7 @@ set noshowmode  " do not show me which mode im in
 set timeout
 set timeoutlen=250
 set lazyredraw
+set gdefault
 set noshowcmd     " show me what command im typing as i type it (see `timeoutlen`)
 " set ttimeoutlen=50
 " set relativenumber

@@ -5,8 +5,11 @@ all: dotfiles
 run:
 	@source ./dotfiles/devbox-scripts.sh && devbox $(REPOSITORY)
 
+clean-base:
+	@docker rmi --force $(REPOSITORY)-base
+
 clean:
-	@docker rmi --force $(REPOSITORY) $(REPOSITORY)-base
+	@docker rmi --force $(REPOSITORY)
 
 base:
 	@docker build --tag $(REPOSITORY)-base base

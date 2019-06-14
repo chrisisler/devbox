@@ -39,6 +39,7 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'kshenoy/vim-signature'
 Plug 'airblade/vim-gitgutter'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+Plug 'andymass/vim-matchup'
 " Plug 'altercation/vim-colors-solarized'
 Plug 'docunext/closetag.vim'
 
@@ -99,6 +100,10 @@ call plug#end()
 " Plugin Settings
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:matchup_matchparen_enabled = 1
+let g:matchup_mappings_enabled = 0
+let g:matchup_text_obj_enabled = 0
+let g:matchup_motion_enabled = 0
 
 let g:tmuxcomplete#trigger = ''
 
