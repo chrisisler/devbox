@@ -39,18 +39,19 @@ RUN curl -sSL https://deb.nodesource.com/setup_10.x | bash - && \
       apt-get install --assume-yes --quiet --no-install-recommends nodejs && \
       npm install --global add yarn typescript neovim tern
 
+# Neovim plugin dependencies
+RUN apt-get update && \
+      apt-get install --assume-yes --quiet --no-install-recommends \
+      python3-pip python3-setuptools
+RUN pip3 install --upgrade pip && \
+      pip3 install --user --upgrade pynvim
+
 # Be non-root user
 # Note! Docker directives like `RUN` require `sudo` after becoming non-root user.
 USER devuser
 ENV USER devuser
 ENV HOME /home/devuser
 WORKDIR /home/devuser
-
-# Neovim plugin dependencies
-RUN sudo apt-get install --assume-yes --quiet --no-install-recommends \
-      python3-pip python3-setuptools
-RUN pip3 install --upgrade pip && \
-      pip3 install --user --upgrade pynvim
 
 # Install Neovim plugin manager
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
