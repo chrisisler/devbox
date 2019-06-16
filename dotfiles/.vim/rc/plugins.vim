@@ -112,6 +112,7 @@ let g:deoplete#sources#ternjs#types = 1
 let g:deoplete#sources#ternjs#case_insensitive = 1
 let g:deoplete#sources#ternjs#omit_object_prototype = 0
 let g:deoplete#enable_at_startup = 1
+autocmd FileType *.ts,*.tsx call :TSStart
 let g:deoplete#sources#ternjs#in_literal = 0
 let g:deoplete#sources#ternjs#filetypes = [
       \ 'jsx',
@@ -132,11 +133,11 @@ endtry
 " Enable TS lint feedback?
 let g:nvim_typescript#diagnostics_enable = 1
 let g:nvim_typescript#default_mappings = 0
-" Print function signature to echo area?
 let g:nvim_typescript#signature_complete = 1
-let g:nvim_typescript#type_info_on_hold = 0
+" Print function signature to echo area?
+let g:nvim_typescript#type_info_on_hold = 1
 let g:nvim_typescript#vue_support = 0
-let g:nvim_typescript#max_completion_detail = 16
+let g:nvim_typescript#max_completion_detail = 24
 
 " Niji breaks JavaScript
 let g:niji_matching_filetypes = []
@@ -153,8 +154,7 @@ let g:highlightedyank_highlight_duration = 200
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:tagbar_compact = 1
-" au FileType tagbar setlocal nocursorline statusline=Overview
-nnoremap <silent> ,a :TagbarToggle<CR>
+nnoremap <silent> <Leader>a :TagbarToggle<CR>
 
 function! TagbarStatusFunc(current, sort, fname, flags, ...) abort
   return 'Overview'

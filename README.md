@@ -16,8 +16,7 @@ Containerized development environment.
 
 ## Next
 
-- Autocompletion
-  - Lua warning dissappears when neocomplete does
+- Neovim virtual text
 - Virtualize host filesystem
 - Fish shell
 - Mail CLI
@@ -53,3 +52,4 @@ Containerized development environment.
 - `fg` and `bg` values for cterm?g require `highlight Normal` to be set first, [see here](https://github.com/neovim/neovim/pull/5319#discussion_r78295368).
 - https://github.com/junegunn/vim-plug/issues/675#issuecomment-328157169
 - https://github.com/Shougo/deoplete.nvim
+- https://stackoverflow.com/questions/6496778/vim-run-autocmd-on-all-filetypes-except
