@@ -6,6 +6,8 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+tnoremap <ESC> <C-\><C-N>
+
 " https://vimrcfu.com/snippet/77
 " Move highlighted blocks up and down
 vnoremap J :m '>+1<CR>gv
