@@ -363,26 +363,6 @@ let g:ale_fixers['javascript'] = ['prettier']
 
 let g:fzf_layout = { 'down': '~40%' }
 
-" https://github.com/junegunn/fzf.vim
-" mappings for fzf plugin
-nnoremap <C-p> :GFiles<CR>
-nnoremap <C-b> :Buffers<CR>
-nnoremap <C-h> :History<CR>
-nnoremap <C-c> :Commands<CR>
-
-" difficult to find good mappings for these (case-insensitive!):
-" <C-m>, <C-y(?)> are native aliases for <Enter>
-" <C-[> is a native alias for <ESC>
-" <C-l> is a native alias for screen refresh
-" <C-o> is a native alias for jumping to latest edited file && location
-" <C-v> is a native alias for visual-block mode
-" <C-z> is a native alias for background
-" <C-u> seems to be a no-op
-" <C-i> is a native alias for <Tab>
-nnoremap <C-i> :Files<CR>
-nnoremap <C-]> :Lines<CR>
-nnoremap <C-m> :Maps<CR>
-
 
 " the auto complete should NOT hijack my enter key when autocomplete menu is displayed
 " inoremap <expr><Tab> (pumvisible()?(empty(v:completed_item)?"\<C-n>":"\<C-y>"):"\<Tab>")

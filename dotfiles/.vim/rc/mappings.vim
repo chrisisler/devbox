@@ -6,7 +6,17 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-tnoremap <ESC> <C-\><C-N>
+if has('nvim')
+  function! SetMapTerminalEscKey()
+    if &filetype =~ 'fzf'
+      return
+    endif
+    tnoremap <buffer> <ESC> <C-\><C-N>
+  endfunction
+  autocmd FileType * call SetMapTerminalEscKey()
+else
+  tnoremap <buffer> <ESC> <C-\><C-N>
+endif
 
 " https://vimrcfu.com/snippet/77
 " Move highlighted blocks up and down
@@ -108,6 +118,35 @@ nnoremap E 5kzz
 nnoremap D 5jzz
 
 " nnoremap <C-a> ggVG
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+" FZF Mappings
+" https://github.com/junegunn/fzf.vim
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+nnoremap <C-p> :GFiles<CR>
+nnoremap - :GFiles?<CR>
+nnoremap + :Rg!<CR>
+nnoremap <C-b> :Buffers<CR>
+nnoremap <C-h> :History<CR>
+nnoremap <Leader>h; :History:<CR>
+nnoremap <Leader>h/ :History/<CR>
+nnoremap <C-c> :Commands<CR>
+
+" difficult to find good mappings for these (case-insensitive!):
+" <C-m>, <C-y(?)> are native aliases for <Enter>
+" <C-[> is a native alias for <ESC>
+" <C-l> is a native alias for screen refresh
+" <C-o> is a native alias for jumping to latest edited file && location
+" <C-v> is a native alias for visual-block mode
+" <C-z> is a native alias for background
+" <C-u> seems to be a no-op
+" <C-i> is a native alias for <Tab>
+nnoremap <C-i> :Files<CR>
+nnoremap <C-]> :Lines<CR>
+nnoremap <C-m> :Maps<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "

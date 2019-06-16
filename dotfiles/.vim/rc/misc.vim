@@ -85,9 +85,9 @@ au FileType nerdtree setlocal nocursorline statusline=\ Explorer
 
 
 if has('nvim')
-  au TermOpen * setlocal nonumber statusline=\ Terminal
+  au TermOpen * setlocal showmode nonumber statusline=\ Terminal
 else
-  au TerminalOpen * setlocal nonumber statusline=\ Terminal
+  au TerminalOpen * setlocal showmode nonumber statusline=\ Terminal
 endif
 
 
