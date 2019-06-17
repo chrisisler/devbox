@@ -15,7 +15,7 @@ if has('nvim')
   endfunction
   autocmd FileType * call SetMapTerminalEscKey()
 else
-  tnoremap <buffer> <ESC> <C-\><C-N>
+  tnoremap <ESC> <C-\><C-N>
 endif
 
 " https://vimrcfu.com/snippet/77

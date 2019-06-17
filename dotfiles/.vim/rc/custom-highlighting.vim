@@ -29,12 +29,6 @@ set background=dark
 
 " highlight PmenuSel ctermfg=4 ctermbg=bg
 
-" make background of statusline transparent (same as background)
-highlight StatusLine ctermfg=fg ctermbg=8 cterm=italic,bold
-highlight StatusLineNC ctermfg=15 ctermbg=8
-highlight StatusLineTerm ctermfg=fg ctermbg=8 cterm=italic,bold
-highlight StatusLineTermNC ctermfg=15 ctermbg=8
-
 " remove obnoxious highlighting from quickfix window
 highlight QuickFixLine ctermfg=fg ctermbg=bg
 
