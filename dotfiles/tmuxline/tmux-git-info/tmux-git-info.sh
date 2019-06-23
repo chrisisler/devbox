@@ -77,7 +77,7 @@ main() {
 
   local gitInfo="$repoName:$branchName$changes"
   
-  printf "$gitInfo"
+  printf "[$gitInfo]"
 }
 
 main
