@@ -6,17 +6,13 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-if has('nvim')
-  function! SetMapTerminalEscKey()
-    if &filetype =~ 'fzf'
-      return
-    endif
-    tnoremap <buffer> <ESC> <C-\><C-N>
-  endfunction
-  autocmd FileType * call SetMapTerminalEscKey()
-else
+function! SetMapTerminalEscKey()
+  if &filetype =~ 'fzf'
+    return
+  endif
   tnoremap <ESC> <C-\><C-N>
-endif
+endfunction
+autocmd FileType * call SetMapTerminalEscKey()
 
 " https://vimrcfu.com/snippet/77
 " Move highlighted blocks up and down

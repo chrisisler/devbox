@@ -84,11 +84,7 @@ au FileType qf setlocal linebreak wrap nonumber nocursorline colorcolumn= status
 au FileType nerdtree setlocal nocursorline statusline=\ Explorer
 
 
-if has('nvim')
-  au TermOpen * setlocal nonumber statusline=\ Terminal
-else
-  au TerminalOpen * setlocal nonumber statusline=\ Terminal
-endif
+au TermOpen * setlocal nonumber statusline=\ Terminal
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

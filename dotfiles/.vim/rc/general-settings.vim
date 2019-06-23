@@ -1,12 +1,7 @@
 " General.
 filetype plugin indent on      " automatically detect file types
 
-if has('nvim')
-  set nobackup
-else
-  set nocompatible
-  set ttyfast     " assume fast terminal
-endif
+set nobackup
 
 " tab length
 set tabstop=2
