@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# Error if any subcommand fails/throws.
-set -e
+set -eu
 
 _tmuxlineInfo() {
   local windows="$(tmux list-windows | wc -l | tr -d ' ')W"
