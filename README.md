@@ -7,6 +7,7 @@ Containerized development environment.
 1. [Docker](https://docs.docker.com/install/)
 1. Make
 1. GitHub SSH keys for devbox in `~/.ssh/devbox`
+  - Only necessary for `git` commands.
 
 ## Run
 
@@ -20,6 +21,7 @@ Containerized development environment.
 - Virtualize host filesystem
 - Fish shell
 - Mail CLI
+- Utilize `df -kHl` on devbox tmuxline
 
 ## Reading
 

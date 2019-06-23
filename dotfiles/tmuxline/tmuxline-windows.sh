@@ -10,8 +10,8 @@ main() {
   [ "$windows" == "1" ] && exit 0 
 
   # local result="$(printf "$out" | awk '{ print $1, $2 }' | tr '\n' ' ' | sed -e "s/: / /g")"
-  local result="$(printf "$out" | awk '{ print $2 }' | tr '\n' ' ')"
-  printf "$result"
+  local result="$(printf "$out" | awk '{ print $2 }' | tr '\n' ' ' | xargs)"
+  printf "[$result]"
 }
 
 main

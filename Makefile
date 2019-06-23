@@ -1,4 +1,4 @@
-REPOSITORY := chrisisler/devbox-neovim
+REPOSITORY := chrisisler/devbox
 
 all: dotfiles
 

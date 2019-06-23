@@ -1,9 +1,9 @@
 " https://hackernoon.com/the-last-statusline-for-vim-a613048959b2
 
-highlight StatusLine ctermfg=fg ctermbg=bg cterm=bold
-highlight StatusLineNC ctermfg=15 ctermbg=bg
-highlight StatusLineTerm ctermfg=fg ctermbg=bg cterm=bold
-highlight StatusLineTermNC ctermfg=15 ctermbg=bg
+highlight StatusLine ctermfg=fg ctermbg=8 cterm=bold
+highlight StatusLineNC ctermfg=15 ctermbg=8
+highlight StatusLineTerm ctermfg=fg ctermbg=8 cterm=bold
+highlight StatusLineTermNC ctermfg=15 ctermbg=8
 
 " Functions -------------------------------------------------------------------
 
