@@ -7,7 +7,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 function! SetMapTerminalEscKey()
-  if &filetype != 'fzf'
+  if &filetype == "" && &filetype !~ 'fzf'
     tnoremap <ESC> <C-\><C-N>
   endif
 endfunction
