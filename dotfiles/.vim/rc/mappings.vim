@@ -7,10 +7,9 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 function! SetMapTerminalEscKey()
-  if &filetype =~ 'fzf'
-    return
+  if &filetype != 'fzf'
+    tnoremap <ESC> <C-\><C-N>
   endif
-  tnoremap <ESC> <C-\><C-N>
 endfunction
 autocmd FileType * call SetMapTerminalEscKey()
 
