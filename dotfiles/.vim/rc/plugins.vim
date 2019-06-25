@@ -307,11 +307,11 @@ let g:UltiSnipsSnippetsDir="~/.vim/snippets"
 " ALE
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Milliseconds before requesting language completion after stopped typing
-let g:ale_completion_delay = 1000
 " LSP autocomplete
 let g:ale_completion_enabled = 0
-let g:ale_completion_max_suggestions = 24
+" Milliseconds before requesting language completion after stopped typing
+" let g:ale_completion_delay = 1000
+" let g:ale_completion_max_suggestions = 24
 
 let g:ale_enabled=1
 
@@ -321,13 +321,13 @@ let g:ale_sign_column_always=1
 
 let g:ale_lint_delay=2000
 let g:ale_lint_on_enter = 0
-let g:ale_lint_on_text_changed='never'
+let g:ale_lint_on_text_changed='always'
 
 let g:ale_set_signs=1
 let g:ale_set_highlights=0
 " Auto-open preview window when cursor is hovering line with problems?
 let g:ale_cursor_detail=0
-let g:ale_open_list=0
+let g:ale_open_list=1
 let g:ale_fix_on_save=1
 
 " let g:ale_rust_cargo_use_check = 1

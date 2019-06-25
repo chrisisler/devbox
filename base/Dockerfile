@@ -8,7 +8,6 @@ RUN apt-get update && \
       gpg gpg-agent ssh file bash-completion ctags neovim python-neovim \
       xclip python3-neovim python3-pip python3-setuptools
 
-# UTF-8 locale (for tmux)
 RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && \
       locale-gen en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
@@ -24,7 +23,7 @@ RUN groupadd --gid 1000 devuser && \
       printf "devuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/devuser && \
       chmod 0440 /etc/sudoers.d/devuser
 
-# Rust
+# Rust language
 RUN wget --quiet \
       "https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init" && \
       chmod +x rustup-init && \
@@ -34,7 +33,6 @@ RUN wget --quiet \
 # Github is a known host
 RUN mkdir ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
-# Node, NPM, Yarn, and global packages
 RUN curl -sSL https://deb.nodesource.com/setup_10.x | bash - && \
       apt-get install --assume-yes --quiet --no-install-recommends nodejs && \
       npm install --global add yarn typescript neovim tern
@@ -43,13 +41,12 @@ RUN pip3 install --upgrade pip && \
       pip3 install --user --upgrade pynvim
 
 # Be non-root user
-# Note! Docker directives like `RUN` require `sudo` after becoming non-root user.
+# Warning: This affects all future commands!
 USER devuser
 ENV USER devuser
 ENV HOME /home/devuser
 WORKDIR /home/devuser
 
-# Install Neovim plugin manager
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 

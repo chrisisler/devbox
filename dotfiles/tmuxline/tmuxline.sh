@@ -30,13 +30,15 @@ _windows() {
 }
 
 tmuxlineLeft() {
-  _windows
+  # _windows
+  continue
 }
 tmuxlineMiddle() {
   continue
 }
 tmuxlineRight() {
   # _disk
-  _tmuxlineInfo
-  _containerId
+  printf "hfoo"
+  # _tmuxlineInfo
+  # _containerId
 }

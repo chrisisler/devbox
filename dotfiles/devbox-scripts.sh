@@ -2,7 +2,6 @@
 
 set -eu
 
-# Run the image and jump into it.
 devbox() {
   local repo="$1"
 
