@@ -381,13 +381,16 @@ let NERDTreeMouseMode=2
 let NERDTreeShowLineNumbers=0
 let NERDTreeShowBookmarks=0
 let NERDTreeShowHidden=1
-let NERDTreeHighlightCursorline=0
+let NERDTreeHighlightCursorline=1
+let NERDTreeHijackNetrw=1
+let NERDTreeRespectWildIgnore=1
+let NERDTreWinSize=40
 " off
 let NERDTreeStatusLine=''
 " let NERDTreeStatusLine=-1
 let NERDTreeAutoDeleteBuffer=1
 " the CWD is changed whenever the tree root is changed
-" let NERDTreeChDirMode=2
+let NERDTreeChDirMode=2
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " jsx extension settings
