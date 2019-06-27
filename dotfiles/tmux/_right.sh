@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+set -eu
+
 _disk() {
   local result="Disk"
   printf "[$result]"

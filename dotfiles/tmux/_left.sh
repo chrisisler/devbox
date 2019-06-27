@@ -2,6 +2,11 @@
 
 set -eu
 
+_os() {
+  local result="$(lsb_release --description | sed -e "s/^Description:\s\+//")"
+  printf "[$result]"
+}
+
 _windows() {
   local out="$(tmux list-windows)"
 
@@ -14,8 +19,7 @@ _windows() {
 }
 
 tmuxlineLeft() {
+  _os
   _windows
 }
-tmuxlineMiddle() {
-  printf "[middle]"
-}
+tmuxlineLeft
