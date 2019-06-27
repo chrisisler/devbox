@@ -19,9 +19,9 @@ _containerId() {
 }
 
 tmuxlineRight() {
-  _disk
-  _tmuxlineInfo
+  # _disk
   _containerId
+  _tmuxlineInfo
 }
 
 tmuxlineRight
