@@ -31,8 +31,8 @@ _windows() {
 }
 
 tmuxlineRight() {
-  _disk
   _windows
+  _disk
   _containerId
   _tmuxlineInfo
 }
