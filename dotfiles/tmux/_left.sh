@@ -8,6 +8,7 @@ _os() {
 }
 
 tmuxlineLeft() {
-  _os
+  # _os
+  continue
 }
 tmuxlineLeft

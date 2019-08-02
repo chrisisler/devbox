@@ -22,7 +22,7 @@ _windows() {
   local out="$(tmux list-windows)"
   local windows="$(printf "$out\n" | wc -l | xargs)"
   local result=""
-  if [[ $windows -le 2  ]]; then
+  if [[ $windows -le 1  ]]; then
     local result="$(printf "$out" | awk '{ print $2 }' | tr '\n' ' ' | xargs)"
   else
     local result="$(printf "$out" | awk '{ print $1, $2 }' | tr '\n' ' ' | sed -e "s/: /:/g" | xargs)"
@@ -32,8 +32,8 @@ _windows() {
 
 tmuxlineRight() {
   _windows
-  _disk
-  _containerId
+  # _disk
+  # _containerId
   _tmuxlineInfo
 }
 
