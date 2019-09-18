@@ -160,13 +160,15 @@ time24h="\A"
 # export PS1="\n${cyan}${dir}${reset} "
 # export PS1="\n${time24h} ${yellow}${dir}${reset} "
 
-export PS1="\n${red}${dir}${reset} "
+export PS1="\n <${magenta}devbox$reset> ${red}${dir}${reset} $yellow|$reset"
 
 ################################################################################
 # Tmux Autostart ###############################################################
 ################################################################################
 
 if [ -z "${TMUX+foo}" ]; then
-  # see aliases
   t
+else
+  cd $HOME/hosted-home/fs
+  l
 fi

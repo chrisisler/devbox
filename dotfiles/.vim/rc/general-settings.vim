@@ -80,8 +80,8 @@ set path+=**
 set signcolumn=yes
 set noruler
 set number      " show line numbers on left?
-set nocursorline  " highlight current line?
-set norelativenumber " show line numbers relative to current line number?
+set cursorline  " highlight current line?
+set relativenumber " show line numbers relative to current line number?
 
 set hlsearch    " search highlighting
 set showmatch " do not jump to matching brackets/parens when typing

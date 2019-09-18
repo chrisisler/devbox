@@ -1,4 +1,4 @@
-FROM debian:testing
+FROM debian:stable
 LABEL maintainer="Chris Isler <christopherisler1@gmail.com>"
 ENV TERM xterm-256color
 
@@ -33,9 +33,10 @@ RUN wget --quiet \
 # Github is a known host
 RUN mkdir ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
-RUN curl -sSL https://deb.nodesource.com/setup_10.x | bash - && \
-      apt-get install --assume-yes --quiet --no-install-recommends nodejs && \
-      npm install --global add yarn typescript neovim tern
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
+      apt-get install --assume-yes --quiet --no-install-recommends nodejs
+
+RUN npm install --global add yarn typescript neovim tern
 
 RUN pip3 install --upgrade pip && \
       pip3 install --user --upgrade pynvim

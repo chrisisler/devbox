@@ -384,7 +384,7 @@ let NERDTreeShowHidden=1
 let NERDTreeHighlightCursorline=1
 let NERDTreeHijackNetrw=1
 let NERDTreeRespectWildIgnore=1
-let NERDTreWinSize=40
+let NERDTreWinSize=50
 " off
 let NERDTreeStatusLine=''
 " let NERDTreeStatusLine=-1
