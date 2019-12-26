@@ -110,6 +110,7 @@ alias tmuxtemp="clear ; tmux attach -t Temp $@ &>/dev/null || tmux new -s Temp $
 alias tt="tmuxtemp"
 alias t="clear ; tmux attach -t All $@ &>/dev/null || tmux new -s All $@"
 alias weather="curl wttr.in/boston"
+alias cat='bat'
 
 ################################################################################
 # Functions ####################################################################
@@ -146,11 +147,11 @@ tre() {
 # Prompt #######################################################################
 ################################################################################
 
-red="\[\e[0;31m\]"
+# red="\[\e[0;31m\]"
 yellow="\[\e[0;33m\]"
 # green="\[\e[0;32m\]"
 magenta="\[\e[0;35m\]"
-# cyan="\[\e[0;36m\]"
+cyan="\[\e[0;36m\]"
 # blue="\[\e[0;34m\]"
 reset="\[\e[0m\]"
 
@@ -160,7 +161,7 @@ time24h="\A"
 # export PS1="\n${cyan}${dir}${reset} "
 # export PS1="\n${time24h} ${yellow}${dir}${reset} "
 
-export PS1="\n <${magenta}devbox$reset> ${red}${dir}${reset} $yellow|$reset"
+export PS1="\n <${magenta}devbox$reset> ${yellow}${dir}${reset} $cyan|$reset "
 
 ################################################################################
 # Tmux Autostart ###############################################################
