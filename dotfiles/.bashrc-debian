@@ -110,7 +110,6 @@ alias tmuxtemp="clear ; tmux attach -t Temp $@ &>/dev/null || tmux new -s Temp $
 alias tt="tmuxtemp"
 alias t="clear ; tmux attach -t All $@ &>/dev/null || tmux new -s All $@"
 alias weather="curl wttr.in/boston"
-alias cat='bat'
 
 ################################################################################
 # Functions ####################################################################
@@ -169,7 +168,4 @@ export PS1="\n <${magenta}devbox$reset> ${yellow}${dir}${reset} $cyan|$reset "
 
 if [ -z "${TMUX+foo}" ]; then
   t
-else
-  cd $HOME/hosted-home/fs
-  l
 fi

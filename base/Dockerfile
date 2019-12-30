@@ -6,7 +6,7 @@ RUN apt-get update && \
       apt-get install --assume-yes --quiet --no-install-recommends git tmux \
       wget curl man ca-certificates sudo build-essential tree locales less \
       gpg gpg-agent ssh file bash-completion ctags neovim python-neovim \
-      xclip python3-neovim python3-pip python3-setuptools tig zsh bat
+      xclip python3-neovim python3-pip python3-setuptools tig
 
 RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && \
       locale-gen en_US.UTF-8
@@ -36,11 +36,10 @@ RUN mkdir ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
       apt-get install --assume-yes --quiet --no-install-recommends nodejs
 
-RUN npm install --global add yarn typescript neovim tern npx
+RUN npm install --global add yarn typescript neovim tern
 
 # Neovim dependency
-RUN pip3 install --upgrade pip && \
-      pip3 install --user --upgrade pynvim
+RUN pip3 install --upgrade pip pynvim
 
 # Be non-root user
 # Warning: This affects all future commands!
