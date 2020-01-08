@@ -81,7 +81,7 @@ set signcolumn=yes
 set noruler
 set number      " show line numbers on left?
 set cursorline  " highlight current line?
-set relativenumber " show line numbers relative to current line number?
+set norelativenumber " show line numbers relative to current line number?
 
 set hlsearch    " search highlighting
 set showmatch " do not jump to matching brackets/parens when typing

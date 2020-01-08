@@ -18,18 +18,13 @@ Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 " Plug 'jparise/vim-graphql'
-" Plug 'posva/vim-vue'
-" Plug 'octol/vim-cpp-enhanced-highlight'
 " Plug 'hail2u/vim-css3-syntax'
-" Plug 'fsharp/vim-fsharp'
 " Plug 'ElmCast/elm-vim'
 " Plug 'quramy/tsuquyomi'
 Plug 'mhartington/nvim-typescript', { 'do': 'sudo ./install.sh' }
 " Plug 'leafgarland/typescript-vim'
 " Plug 'herringtondarkholme/yats.vim', { 'for': 'javascript.jsx.typescript' }
-" Plug 'mattn/emmet-vim'
 " Plug 'eagletmt/neco-ghc'
-" Plug 'neovimhaskell/haskell-vim'
 " Plug 'xuyuanp/nerdtree-git-plugin'
 
 
@@ -47,7 +42,6 @@ Plug 'docunext/closetag.vim'
 " ----- Integrations -----
 Plug 'tpope/vim-commentary' " sane (un)commenting
 Plug 'w0rp/ale'             " async linter
-" Plug 'tpope/vim-fugitive'   " git integration
 
 
 " ----- Commands -----
@@ -58,9 +52,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-dispatch'
 Plug 'rhysd/clever-f.vim'
-" Plug 'skywind3000/asyncrun.vim'
 " Plug 'easymotion/vim-easymotion'
-" Plug 'prettier/vim-prettier'
 
 
 " ----- Completion -----
@@ -194,8 +186,8 @@ let g:rooter_silent_chdir = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " rust code auto-formatting via `rustfmt` (format upon saving file)
-let g:rustfmt_command = "rustfmt"
-" let g:rustfmt_command = "rustfmt +nightly"
+" let g:rustfmt_command = "rustfmt"
+let g:rustfmt_command = "rustfmt +nightly"
 let g:rustfmt_autosave = 1
 let g:rustfmt_emit_files = 1
 let g:rustfmt_fail_silently = 0
@@ -205,7 +197,7 @@ let g:rustfmt_fail_silently = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:racer_experimental_completer = 1
-" let g:racer_cmd = "/Users/litebox/.cargo/bin/racer"
+let g:racer_cmd = "/home/devuser/.cargo/bin/racer"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -355,7 +347,7 @@ let g:ale_linters_ignore = { 'typescript': ['tslint', 'flow'] }
 
 let g:ale_fixers = {}
 let g:ale_fixers['javascript'] = ['prettier']
-" let g:ale_fixers['rust'] = ['rustfmt']
+let g:ale_fixers['rust'] = ['rustfmt']
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " fzf (fuzzy finder (better than ctrl-p plugin)) - best plugin ever!
