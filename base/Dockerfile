@@ -23,13 +23,6 @@ RUN groupadd --gid 1000 devuser && \
       printf "devuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/devuser && \
       chmod 0440 /etc/sudoers.d/devuser
 
-# Rust language
-RUN wget --quiet \
-      "https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init" && \
-      chmod +x rustup-init && \
-      ./rustup-init -y 2>&1 && \
-      rm rustup-init
-
 # Github is a known host
 RUN mkdir ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
@@ -39,7 +32,8 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
 RUN npm install --global add yarn typescript neovim tern
 
 # Neovim dependency
-RUN pip3 install --upgrade pip pynvim
+RUN pip3 install wheel
+RUN pip3 install --upgrade pynvim
 
 # Be non-root user
 # Warning: This affects all future commands!
@@ -48,8 +42,14 @@ ENV USER devuser
 ENV HOME /home/devuser
 WORKDIR /home/devuser
 
-RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+# Rust language
+RUN wget --quiet \
+      "https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init" && \
+      chmod +x rustup-init && \
+      ./rustup-init -y 2>&1 && \
+      rm rustup-init
+
+RUN curl -sfLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-# Act like an abstract base class - this image is not runnable
-CMD ["true"]
+CMD ["/bin/bash"]
