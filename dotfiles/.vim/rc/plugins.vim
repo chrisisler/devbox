@@ -11,17 +11,17 @@ call plug#begin('~/.local/share/nvim/plugged')
 " ----- Language -----
 Plug 'ekalinin/dockerfile.vim', { 'for': 'Dockerfile' }
 Plug 'wellle/tmux-complete.vim'
-" Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 Plug 'othree/yajs.vim', { 'for': 'javascript.jsx' }
 Plug 'othree/es.next.syntax.vim', { 'for': 'javascript.jsx' }
 Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'racer-rust/vim-racer', { 'for': 'rust' }
+Plug 'mhartington/nvim-typescript', { 'do': 'sudo ./install.sh' }
+" Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 " Plug 'jparise/vim-graphql'
 " Plug 'hail2u/vim-css3-syntax'
 " Plug 'ElmCast/elm-vim'
 " Plug 'quramy/tsuquyomi'
-Plug 'mhartington/nvim-typescript', { 'do': 'sudo ./install.sh' }
 " Plug 'leafgarland/typescript-vim'
 " Plug 'herringtondarkholme/yats.vim', { 'for': 'javascript.jsx.typescript' }
 " Plug 'eagletmt/neco-ghc'
@@ -35,8 +35,8 @@ Plug 'kshenoy/vim-signature'
 Plug 'airblade/vim-gitgutter'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'andymass/vim-matchup'
-" Plug 'altercation/vim-colors-solarized'
 Plug 'docunext/closetag.vim'
+" Plug 'altercation/vim-colors-solarized'
 
 
 " ----- Integrations -----
@@ -92,6 +92,14 @@ call plug#end()
 " Plugin Settings
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+autocmd BufReadPost *.rs setlocal filetype=rust
+
+let g:LanguageClient_autoStart = 1
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ }
+
 let g:matchup_matchparen_enabled = 1
 let g:matchup_mappings_enabled = 0
 let g:matchup_text_obj_enabled = 0
@@ -300,6 +308,7 @@ let g:UltiSnipsSnippetsDir="~/.vim/snippets"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " LSP autocomplete
+let g:ale_virtualtext_cursor = 1
 let g:ale_completion_enabled = 0
 " Milliseconds before requesting language completion after stopped typing
 " let g:ale_completion_delay = 1000
