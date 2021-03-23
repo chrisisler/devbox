@@ -27,7 +27,7 @@ RUN groupadd --gid 1000 devuser && \
 RUN mkdir ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
 RUN curl -sSL https://deb.nodesource.com/setup_10.x | bash - && \
-    apt-get install --assume-yes --quiet --no-install-recommends npm nodejs && \
+    apt-get install --assume-yes --quiet --no-install-recommends nodejs && \
     npm install --global yarn typescript neovim tern
 
 # Neovim dependency
