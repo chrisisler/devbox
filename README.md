@@ -17,10 +17,10 @@ Containerized development environment.
 
 ## Next
 
-- Neovim virtual text
-- Virtualize host filesystem
-- Fish shell
-- Mail CLI
+- Neovim virtual text (ble.sh does this)
+- Virtualize host filesystem (investigate Tailscale)
+- Fish shell (not needed)
+- Mail CLI (configuring CLI email is... not yet attempted)
 - Utilize `df -kHl` on devbox tmuxline
 
 ## Reading
