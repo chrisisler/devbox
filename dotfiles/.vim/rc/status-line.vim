@@ -7,22 +7,22 @@ highlight StatusLineTermNC ctermfg=15 ctermbg=8
 
 " Functions -------------------------------------------------------------------
 
-function! LintStatus() abort
-  let l:counts = ale#statusline#Count(bufnr(''))
-  let l:all_errors = l:counts.error + l:counts.style_error
-  let l:all_warnings = l:counts.warning + l:counts.style_warning
-  let l:all_infos = l:counts.info
-
-  " let l:errors_message = l:all_errors == 0 ? '' : printf('%d ✕', all_errors)
-  " let l:warnings_message = l:all_warnings == 0 ? '' : printf('%d⚠  ', all_warnings)
-
-  let l:errors_message = l:all_errors == 0 ? '' : l:all_errors == 1 ? 'E:1 ' : printf('E:%s ', all_errors)
-  let l:warnings_message = l:all_warnings == 0 ? '' : l:all_warnings == 1 ? 'W:1 ' : printf('W:%s ', all_warnings)
-  let l:infos_message = l:all_infos == 0 ? '' : printf('I:%d ', all_infos)
-
-  return l:all_errors == 0 && l:all_warnings == 0 && l:all_infos == 0 ? '' : printf('%s%s%s', errors_message, warnings_message, infos_message)
-endfunction
-
+"function! LintStatus() abort
+"  let l:counts = ale#statusline#Count(bufnr(''))
+"  let l:all_errors = l:counts.error + l:counts.style_error
+"  let l:all_warnings = l:counts.warning + l:counts.style_warning
+"  let l:all_infos = l:counts.info
+"
+"  " let l:errors_message = l:all_errors == 0 ? '' : printf('%d ✕', all_errors)
+"  " let l:warnings_message = l:all_warnings == 0 ? '' : printf('%d⚠  ', all_warnings)
+"
+"  let l:errors_message = l:all_errors == 0 ? '' : l:all_errors == 1 ? 'E:1 ' : printf('E:%s ', all_errors)
+"  let l:warnings_message = l:all_warnings == 0 ? '' : l:all_warnings == 1 ? 'W:1 ' : printf('W:%s ', all_warnings)
+"  let l:infos_message = l:all_infos == 0 ? '' : printf('I:%d ', all_infos)
+"
+"  return l:all_errors == 0 && l:all_warnings == 0 && l:all_infos == 0 ? '' : printf('%s%s%s', errors_message, warnings_message, infos_message)
+"endfunction
+"
 function! BufferInfo() abort
   let l:buffers = len(getbufinfo({ 'buflisted': 1 }))
   let l:bufferNumber = bufnr('%')
@@ -81,7 +81,7 @@ set statusline+=%{Modified()}
 set statusline+=%=
 
 " Errors and warnings
-set statusline+=%{LintStatus()}
+"set statusline+=%{LintStatus()}
 
 " Scope
 " set statusline+=%{TagbarCurrentFunction()}

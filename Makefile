@@ -1,27 +1,16 @@
-REPOSITORY := chrisisler/devbox
+all: create
 
-all: dotfiles
+create:
+	@sbx create --name "chrisisler-devbox" copilot .
 
 run:
 	@read -p "Enter absolute working directory: " WORKDIR; \
-  source ./dotfiles/devbox-scripts.sh && devbox $(REPOSITORY) $$WORKDIR
-
-clean-base:
-	@docker rmi --force $(REPOSITORY)-base
+	sbx run --name "chrisisler-devbox" copilot $$WORKDIR
 
 clean:
-	@docker rmi --force $(REPOSITORY)
+	@sbx rm "chrisisler-devbox" --force
 
-base:
-	@docker build --tag $(REPOSITORY)-base base
+cached:
+	@sbx run --name "chrisisler-devbox" copilot
 
-dotfiles: base
-	@docker build --no-cache --tag $(REPOSITORY) .
-
-cached: base
-	@docker build --tag $(REPOSITORY) .
-
-update:
-	@./dotfiles/update-dotfiles.sh
-
-.PHONY: all base dotfiles clean cached
+.PHONY: all create run clean cached update

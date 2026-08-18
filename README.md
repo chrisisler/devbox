@@ -7,20 +7,22 @@ Containerized development environment for CLI agent use.
 1. [Docker](https://docs.docker.com/install/)
 1. Make
 1. GitHub SSH keys for devbox in `~/.ssh/devbox`
-  - Only necessary for `git` commands.
+  - Only necessary for `git` commands (maybe not necessary w/ `sbx`)
+1. `gh` cli tool installed and `gh auth login` authenticated
+1. `sbx` (Docker Sandboxes) installed
+  - `brew install docker/tap/sbx` or your system equivalent
 
 ## Run
 
 1. Clone repo
-1. `make && make run  # (re)build + run the image`
+1. `make && make run  # (re)create + run the sandbox`
+1. Choose an absolute directory path to mount (copy + paste recommended)
 
 ## Next
 
 - Virtualize host filesystem (investigate Tailscale)
-- Fish shell (not needed)
-- Mail CLI (configuring CLI email is... not yet attempted)
-- Utilize `df -kHl` on devbox tmuxline
-- `sbx`
+- Utilize `df -kHl` on container shell tmuxline
+- Containerized Mail CLI (configuring CLI email is... not yet attempted)
 
 ## Reading
 
