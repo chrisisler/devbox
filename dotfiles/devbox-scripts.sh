@@ -9,8 +9,10 @@ devbox() {
   local branchName="$(git rev-parse --abbrev-ref HEAD)"
 
   docker run --interactive --tty --rm \
+    -e GH_TOKEN="$(gh auth token)" \
     --volume "$workdir:/home/devuser/$workdirName" \
     --volume "$HOME/.ssh/devbox:/home/devuser/.ssh" \
-    --name "devbox-$branchName" \
+    --volume "$HOME/.copilot:/home/devuser/.copilot" \
+    --name "agentbox-$branchName" \
       ${repo:?}
 }

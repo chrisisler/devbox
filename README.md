@@ -1,6 +1,6 @@
 ## Devbox
 
-Containerized development environment.
+Containerized development environment for CLI agent use.
 
 ## Pre-reqs
 
@@ -12,19 +12,19 @@ Containerized development environment.
 ## Run
 
 1. Clone repo
-1. `make`
-1. `make run`
+1. `make && make run  # (re)build + run the image`
 
 ## Next
 
-- Neovim virtual text (ble.sh does this)
 - Virtualize host filesystem (investigate Tailscale)
 - Fish shell (not needed)
 - Mail CLI (configuring CLI email is... not yet attempted)
 - Utilize `df -kHl` on devbox tmuxline
+- `sbx`
 
 ## Reading
 
+- https://docs.docker.com/reference/cli/sbx/
 - https://www.youtube.com/watch?v=Qhg2XqwL6nY
 - https://github.com/bobpace/devbox/
 - https://blog.codeship.com/running-rails-development-environment-docker/
