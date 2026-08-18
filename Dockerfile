@@ -27,9 +27,9 @@ RUN npm install --global @github/copilot
 
 # Be non-root user
 # Warning: This affects all future commands!
-USER agentuser
-ENV USER=agentuser
-ENV HOME=/home/agentuser
-WORKDIR /home/agentuser
+USER devuser
+ENV USER=devuser
+ENV HOME=/home/devuser
+WORKDIR /home/devuser
 
 CMD ["/bin/bash"]

@@ -1,11 +1,13 @@
-all: create
+REPOSITORY := chrisisler/devbox
+
+all: run
 
 create:
-	@sbx create --name "chrisisler-devbox" copilot .
+	@read -p "Enter absolute working directory: " WORKDIR; \
+	@sbx create --name "chrisisler-devbox" copilot $$WORKDIR
 
 run:
-	@read -p "Enter absolute working directory: " WORKDIR; \
-	sbx run --name "chrisisler-devbox" copilot $$WORKDIR
+	@source ./dotfiles/devbox-scripts.sh && devbox $(REPOSITORY)
 
 clean:
 	@sbx rm "chrisisler-devbox" --force

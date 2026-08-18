@@ -10,9 +10,9 @@ devbox() {
 
   sbx run --interactive --tty --rm \
     -e GH_TOKEN="$(gh auth token)" \
-    --mount "$workdir:/home/agentuser/$workdirName" \
-    --mount "$HOME/.ssh/devbox:/home/agentuser/.ssh" \
-    --mount "$HOME/.copilot:/home/agentuser/.copilot" \
+    --mount "$workdir:/home/devuser/$workdirName" \
+    --mount "$HOME/.ssh/devbox:/home/devuser/.ssh" \
+    --mount "$HOME/.copilot:/home/devuser/.copilot" \
     --name "devbox-$branchName" 
     "${repo:?}"
 }
