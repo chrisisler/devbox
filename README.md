@@ -20,7 +20,8 @@ Containerized development environment for CLI agent use.
 - Fish shell (not needed)
 - Mail CLI (configuring CLI email is... not yet attempted)
 - Utilize `df -kHl` on devbox tmuxline
-- `sbx`
+- `sbx` (can't get it running)
+- smaller base image (alpine has musl/glibc compat issue, will try debian-slim next)
 
 ## Reading
 

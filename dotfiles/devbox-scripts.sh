@@ -4,7 +4,8 @@ set -eu
 
 devbox() {
   local repo="$1"
-  local workdir="$2"
+  local workdir="$HOME/Desktop/projects/habitops"
+  # local workdir="$2"
   local workdirName="$(basename "$workdir")"
   local branchName="$(git rev-parse --abbrev-ref HEAD)"
 

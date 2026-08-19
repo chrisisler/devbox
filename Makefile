@@ -3,8 +3,7 @@ REPOSITORY := chrisisler/devbox
 all: dotfiles
 
 run:
-	@read -p "Enter absolute working directory: " WORKDIR; \
-  source ./dotfiles/devbox-scripts.sh && devbox $(REPOSITORY) $$WORKDIR
+	@source ./dotfiles/devbox-scripts.sh && devbox $(REPOSITORY)
 
 clean-base:
 	@docker rmi --force $(REPOSITORY)-base
