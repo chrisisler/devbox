@@ -20,7 +20,7 @@ RUN groupadd --gid 1000 devuser && \
 RUN ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
 RUN curl -sSL https://deb.nodesource.com/setup_24.x | bash - && \
-    apt-get install --assume-yes --quiet --no-install-recommends nodejs && \
+    apt-get install --assume-yes --quiet --no-install-recommends nodejs lsof && \
     npm install --global typescript && \
     node --version
 
@@ -30,15 +30,18 @@ RUN printf "[user]\nname = Chris I\nemail = isl.chr@proton.me" > ~/.gitconfig
 
 RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && \
       locale-gen en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
+ENV LANGUAGE=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
 
 # Be non-root user
 # Warning: This affects all future commands (for the rest of *this* Dockerfile)
 USER devuser
 ENV USER=devuser
 ENV HOME=/home/devuser
-WORKDIR /home/devuser
+WORKDIR /home/devuser/habitops
+
+RUN go install "github.com/pressly/goose/v3/cmd/goose@v3.27.3"
+RUN go install "github.com/sqlc-dev/sqlc/cmd/sqlc@v1.31.1"
 
 CMD ["/bin/bash"]
