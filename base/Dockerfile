@@ -28,6 +28,12 @@ RUN npm install --global @github/copilot
 
 RUN printf "[user]\nname = Chris I\nemail = isl.chr@proton.me" > ~/.gitconfig
 
+RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && \
+      locale-gen en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+
 # Be non-root user
 # Warning: This affects all future commands (for the rest of *this* Dockerfile)
 USER devuser
