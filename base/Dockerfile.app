@@ -8,6 +8,14 @@ RUN curl -sSL https://deb.nodesource.com/setup_24.x | bash - && \
 
 RUN npm install --global @openai/codex
 
+# Playwright CLI and Chromium for agent-driven UI inspection.
+ENV PLAYWRIGHT_BROWSERS_PATH=/opt/playwright
+RUN npm install --global @playwright/cli@latest && \
+    mkdir --parents "${PLAYWRIGHT_BROWSERS_PATH}" && \
+    npx --yes playwright install --with-deps chromium && \
+    chmod --recursive a+rX "${PLAYWRIGHT_BROWSERS_PATH}" && \
+    playwright-cli --version
+
 RUN apt-get update && \
     apt-get install --assume-yes --quiet --no-install-recommends \
     maven zlib1g-dev
@@ -70,6 +78,8 @@ ENV HOME=/home/devuser
 WORKDIR /home/devuser/habitops
 
 RUN mkdir /home/devuser/.ssh && ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+
+RUN playwright-cli install --skills --global
 
 RUN git clone https://github.com/okta/okta-cli.git /home/devuser/okta-cli && \
     cd /home/devuser/okta-cli && \

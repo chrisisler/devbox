@@ -10,6 +10,8 @@ devbox() {
   local branchName="$(git rev-parse --abbrev-ref HEAD)"
 
   docker run --interactive --tty --rm \
+    --init \
+    --ipc=host \
     -e GH_TOKEN="$(gh auth token)" \
     -p 3000:3000 \
     -p 5173:5173 \

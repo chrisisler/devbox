@@ -7,10 +7,20 @@ RUN apt-get update && \
       wget curl man ca-certificates sudo build-essential tree locales less gh vim \
       gpg gpg-agent ssh file bash-completion xclip python3-pip python3-setuptools tig
 
-RUN groupadd --gid 1000 devuser && \
-      useradd --uid 1000 --gid devuser --shell /bin/bash \
-      --create-home devuser && \
-      chgrp --recursive devuser /usr/local && \
+RUN group_name="$(getent group 1000 | cut --delimiter=: --fields=1)" && \
+      if [ -z "${group_name}" ]; then \
+        groupadd --gid 1000 devuser; \
+        group_name=devuser; \
+      fi && \
+      user_name="$(getent passwd 1000 | cut --delimiter=: --fields=1)" && \
+      if [ -n "${user_name}" ]; then \
+        [ "${user_name}" = devuser ] || usermod --login devuser \
+          --home /home/devuser --move-home "${user_name}"; \
+      else \
+        useradd --uid 1000 --gid "${group_name}" --shell /bin/bash \
+          --create-home devuser; \
+      fi && \
+      chgrp --recursive 1000 /usr/local && \
       find /usr/local -type d | xargs chmod g+w && \
       printf "devuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/devuser && \
       chmod 0440 /etc/sudoers.d/devuser
