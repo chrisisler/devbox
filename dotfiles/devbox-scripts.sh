@@ -19,8 +19,10 @@ devbox() {
     --memory=12g \
     --cpus=6 \
     -e GH_TOKEN="$(gh auth token)" \
+    -e MODEL="openai/gpt-5.6-luna" \
     -p 127.0.0.1:3000:3000 \
     -p 127.0.0.1:5173:5173 \
+    -p 127.0.0.1:8082:8082 \
     --volume devbox-workspace:/home/devuser/devbox \
     --volume habitops-workspace:/home/devuser/habitops \
     --volume devbox-codex:/home/devuser/.codex \

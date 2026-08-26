@@ -63,7 +63,14 @@ RUN curl -sSL https://deb.nodesource.com/setup_24.x | bash - && \
 
 RUN npm install --global @openai/codex@0.151.0 @github/copilot@1.0.82
 
-# Playwright CLI and Chromium for agent-driven UI inspection.
+RUN curl --fail --silent --show-error \
+    --location https://raw.githubusercontent.com/rtk-ai/rtk/v0.46.0/install.sh \
+    --output /tmp/rtk-install.sh && \
+    RTK_INSTALL_DIR=/usr/local/bin RTK_VERSION=v0.46.0 \
+    sh /tmp/rtk-install.sh && \
+    rm --force /tmp/rtk-install.sh && \
+    rtk init -g --codex --copilot
+
 ENV PLAYWRIGHT_BROWSERS_PATH=/opt/playwright
 RUN npm install --global @playwright/cli@0.1.18 && \
     mkdir --parents "${PLAYWRIGHT_BROWSERS_PATH}" && \
@@ -74,7 +81,6 @@ RUN npm install --global @playwright/cli@0.1.18 && \
 RUN mkdir --parents /opt/google/chrome
 RUN ln --symbolic "$(find "${PLAYWRIGHT_BROWSERS_PATH}" -path '*/chrome-linux/chrome' -type f -print -quit)" /opt/google/chrome/chrome
 
-# Terraform CLI from the official HashiCorp Debian repository.
 RUN set -eux; \
     curl --fail --silent --show-error --location https://apt.releases.hashicorp.com/gpg | \
       gpg --dearmor --yes --output /usr/share/keyrings/hashicorp-archive-keyring.gpg; \
@@ -88,8 +94,26 @@ RUN set -eux; \
 USER devuser
 ENV USER=devuser
 ENV HOME=/home/devuser
+ENV PATH="${HOME}/.local/bin:${PATH}"
 
 RUN mkdir --parents ~/.codex ~/.fcc ~/.copilot ~/.config/opencode ~/.local/share/opencode
+
+# Free Claude Code and its provider-backed coding-agent wrappers.
+RUN curl --fail --silent --show-error --location \
+    https://raw.githubusercontent.com/Alishahryar1/free-claude-code/main/scripts/install.sh \
+    --output /tmp/free-claude-code-install.sh && \
+    sed --in-place \
+      -e 's/install_claude=1/install_claude=0/g' \
+      -e 's/install_pi=1/install_pi=0/g' \
+      -e 's/install_opencode=1/install_opencode=0/g' \
+      -e 's/install_cline=1/install_cline=0/g' \
+      -e 's/install_hermes=1/install_hermes=0/g' \
+      -e 's/install_dsh=1/install_dsh=0/g' \
+      -e 's/install_grok=1/install_grok=0/g' \
+      -e 's/install_muse=1/install_muse=0/g' \
+      /tmp/free-claude-code-install.sh && \
+    sh /tmp/free-claude-code-install.sh --rtk && \
+    rm --force /tmp/free-claude-code-install.sh
 # App:
 WORKDIR /home/devuser/habitops
 
