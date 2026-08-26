@@ -16,7 +16,7 @@ devbox() {
     --volume "$workdir:/home/devuser/$workdirName" \
     --volume "$HOME/Desktop/devbox:/home/devuser/devbox" \
     --volume "$HOME/.ssh/devbox:/home/devuser/.ssh:ro" \
-    --volume "$HOME/.copilot:/home/devuser/.copilot" \
+    --volume "$HOME/.codex:/home/devuser/.codex" \
     --name "agentbox-$branchName" \
       ${repo:?}
 }

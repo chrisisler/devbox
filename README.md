@@ -14,6 +14,25 @@ Containerized development environment for CLI agent use.
 1. Clone repo
 1. `make && make run  # (re)build + run the image`
 
+## Playwright UI feedback
+
+Install the Playwright CLI in the devbox for headless browser feedback from a coding agent:
+
+```sh
+npm install -g @playwright/cli@latest
+playwright-cli install --skills
+```
+
+Start a Vite app with `--host 0.0.0.0`, then inspect it with:
+
+```sh
+playwright-cli -s=devbox open http://127.0.0.1:5173
+playwright-cli -s=devbox snapshot --filename=/tmp/devbox-ui.yml
+playwright-cli -s=devbox screenshot --filename=/tmp/devbox-ui.png
+```
+
+Playwright is headless by default. If browser dependencies need to run in a separate container, use the official `mcr.microsoft.com/playwright` image with `--init --ipc=host`. Do not mount `/var/run/docker.sock` or use `--privileged` just to provide browser access.
+
 ## Next
 
 - Virtualize host filesystem (investigate Tailscale)
