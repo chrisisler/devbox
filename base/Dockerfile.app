@@ -1,36 +1,11 @@
-# Trixie is current stable; GraalVM below provides the Java 17 toolchain for Okta CLI.
-FROM chrisisler/devbox-base-sys
-
-RUN curl -sSL https://deb.nodesource.com/setup_24.x | bash - && \
-    apt-get install --assume-yes --quiet --no-install-recommends nodejs lsof && \
-    npm install --global typescript && \
-    node --version
-
-RUN npm install --global @openai/codex
-
-# Playwright CLI and Chromium for agent-driven UI inspection.
-ENV PLAYWRIGHT_BROWSERS_PATH=/opt/playwright
-RUN npm install --global @playwright/cli@latest && \
-    mkdir --parents "${PLAYWRIGHT_BROWSERS_PATH}" && \
-    npx --yes playwright install --with-deps chromium && \
-    chmod --recursive a+rX "${PLAYWRIGHT_BROWSERS_PATH}" && \
-    playwright-cli --version
+# Trixie is current stable; this stage keeps the Java toolchain out of the app image.
+FROM chrisisler/devbox-base-sys AS okta-builder
 
 RUN apt-get update && \
     apt-get install --assume-yes --quiet --no-install-recommends \
     maven zlib1g-dev
 
-# Terraform CLI from the official HashiCorp Debian repository.
-RUN set -eux; \
-    curl --fail --silent --show-error --location https://apt.releases.hashicorp.com/gpg | \
-      gpg --dearmor --yes --output /usr/share/keyrings/hashicorp-archive-keyring.gpg; \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(. /etc/os-release && echo "$VERSION_CODENAME") main" \
-      > /etc/apt/sources.list.d/hashicorp.list; \
-    apt-get update; \
-    apt-get install --assume-yes --quiet --no-install-recommends terraform; \
-    terraform version
-
-# App: Okta CLI's native-image Maven plugin requires a GraalVM JDK.
+# Okta CLI's native-image Maven plugin requires a GraalVM JDK.
 ARG GRAALVM_VERSION=22.3.3
 ARG TARGETARCH
 RUN set -eux; \
@@ -70,6 +45,44 @@ RUN java --version && \
     native-image --version && \
     mvn --version
 
+USER devuser
+ENV USER=devuser
+ENV HOME=/home/devuser
+
+RUN git clone https://github.com/okta/okta-cli.git /home/devuser/okta-cli && \
+    cd /home/devuser/okta-cli && \
+    mvn clean install -DskipTests
+
+FROM chrisisler/devbox-base-sys
+
+RUN curl -sSL https://deb.nodesource.com/setup_24.x | bash - && \
+    apt-get install --assume-yes --quiet --no-install-recommends nodejs lsof && \
+    npm install --global typescript && \
+    node --version
+
+RUN npm install --global @openai/codex
+
+# Playwright CLI and Chromium for agent-driven UI inspection.
+ENV PLAYWRIGHT_BROWSERS_PATH=/opt/playwright
+RUN npm install --global @playwright/cli@latest && \
+    mkdir --parents "${PLAYWRIGHT_BROWSERS_PATH}" && \
+    npx --yes playwright install --with-deps chromium && \
+    chmod --recursive a+rX "${PLAYWRIGHT_BROWSERS_PATH}" && \
+    playwright-cli --version
+
+RUN mkdir --parents /opt/google/chrome
+RUN ln --symbolic "$(find "${PLAYWRIGHT_BROWSERS_PATH}" -path '*/chrome-linux/chrome' -type f -print -quit)" /opt/google/chrome/chrome
+
+# Terraform CLI from the official HashiCorp Debian repository.
+RUN set -eux; \
+    curl --fail --silent --show-error --location https://apt.releases.hashicorp.com/gpg | \
+      gpg --dearmor --yes --output /usr/share/keyrings/hashicorp-archive-keyring.gpg; \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(. /etc/os-release && echo "$VERSION_CODENAME") main" \
+      > /etc/apt/sources.list.d/hashicorp.list; \
+    apt-get update; \
+    apt-get install --assume-yes --quiet --no-install-recommends terraform; \
+    terraform version
+
 # Sys: Be non-root user - Warning: affects remaining docker commands.
 USER devuser
 ENV USER=devuser
@@ -81,13 +94,9 @@ RUN mkdir /home/devuser/.ssh && ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
 RUN playwright-cli install --skills --global
 
-RUN git clone https://github.com/okta/okta-cli.git /home/devuser/okta-cli && \
-    cd /home/devuser/okta-cli && \
-    mvn clean install -DskipTests
+COPY --from=okta-builder /home/devuser/okta-cli/cli/target/okta /usr/local/bin/okta
 
 RUN go install "github.com/pressly/goose/v3/cmd/goose@v3.27.3"
 RUN go install "github.com/sqlc-dev/sqlc/cmd/sqlc@v1.31.1"
-
-ENV PATH="/home/devuser/okta-cli/cli/target:${PATH}"
 
 CMD ["/bin/bash"]
