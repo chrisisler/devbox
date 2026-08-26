@@ -60,7 +60,7 @@ RUN curl -sSL https://deb.nodesource.com/setup_24.x | bash - && \
     npm install --global typescript && \
     node --version
 
-RUN npm install --global @openai/codex
+RUN npm install --global @openai/codex @github/copilot
 
 # Playwright CLI and Chromium for agent-driven UI inspection.
 ENV PLAYWRIGHT_BROWSERS_PATH=/opt/playwright
