@@ -21,9 +21,9 @@ RUN group_name="$(getent group 1000 | cut --delimiter=: --fields=1)" && \
           --create-home devuser; \
       fi && \
       chgrp --recursive 1000 /usr/local && \
-      find /usr/local -type d | xargs chmod g+w && \
-      printf "devuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/devuser && \
-      chmod 0440 /etc/sudoers.d/devuser
+      find /usr/local -type d | xargs chmod g+w
+
+# Password-backed sudo is intentionally unconfigured for now.
 
 RUN printf "[user]\nname = Chris I\nemail = isl.chr@proton.me" > ~/.gitconfig
 
