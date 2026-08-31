@@ -6,8 +6,7 @@ Containerized development environment for CLI agent use.
 
 1. [Docker](https://docs.docker.com/install/)
 1. Make
-1. GitHub SSH keys for devbox in `~/.ssh/devbox`
-  - Only necessary for `git` commands.
+1. An authenticated GitHub CLI (`gh auth login`)
 
 ## Run
 
@@ -21,16 +20,17 @@ registered. It refuses to start otherwise. Installing and configuring gVisor is
 kept outside this repository.
 
 gVisor isolates agent syscalls from Colima's Linux kernel. It does not protect
-writable mounts or injected credentials; treat both as exposed to the agent.
+writable volumes, persisted agent state, or injected credentials; treat them as
+exposed to the agent. Repositories use disposable Docker volumes instead of host
+bind mounts. Capabilities are dropped, privilege escalation is disabled, ports
+bind only to localhost, and runs are limited to 12 GB memory and 6 CPUs. Disk use
+is governed by Docker Desktop/Colima because per-container storage limits are not
+portable enough for this macOS setup.
 
 ## Playwright UI feedback
 
-Install the Playwright CLI in the devbox for headless browser feedback from a coding agent:
-
-```sh
-npm install -g @playwright/cli@latest
-playwright-cli install --skills
-```
+The image includes a pinned Playwright CLI and matching Chromium for headless
+browser feedback. Use `playwright-cli` directly.
 
 Start a Vite app with `--host 0.0.0.0`, then inspect it with:
 
