@@ -50,6 +50,7 @@ ENV USER=devuser
 ENV HOME=/home/devuser
 
 RUN git clone https://github.com/okta/okta-cli.git /home/devuser/okta-cli && \
+    git -C /home/devuser/okta-cli checkout --detach 08e945fce540506fc783380606ca1ab7650e2c0e && \
     cd /home/devuser/okta-cli && \
     mvn clean install -DskipTests
 
@@ -57,14 +58,14 @@ FROM chrisisler/devbox-base-sys
 
 RUN curl -sSL https://deb.nodesource.com/setup_24.x | bash - && \
     apt-get install --assume-yes --quiet --no-install-recommends nodejs lsof && \
-    npm install --global typescript && \
+    npm install --global typescript@7.0.2 && \
     node --version
 
-RUN npm install --global @openai/codex @github/copilot
+RUN npm install --global @openai/codex@0.151.0 @github/copilot@1.0.82
 
 # Playwright CLI and Chromium for agent-driven UI inspection.
 ENV PLAYWRIGHT_BROWSERS_PATH=/opt/playwright
-RUN npm install --global @playwright/cli@latest && \
+RUN npm install --global @playwright/cli@0.1.18 && \
     mkdir --parents "${PLAYWRIGHT_BROWSERS_PATH}" && \
     npx --yes playwright install --with-deps chromium && \
     chmod --recursive a+rX "${PLAYWRIGHT_BROWSERS_PATH}" && \

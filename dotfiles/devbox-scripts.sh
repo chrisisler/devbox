@@ -20,8 +20,8 @@ devbox() {
     --cpus=6 \
     --storage-opt size=110G \
     -e GH_TOKEN="$(gh auth token)" \
-    -p 3000:3000 \
-    -p 5173:5173 \
+    -p 127.0.0.1:3000:3000 \
+    -p 127.0.0.1:5173:5173 \
     --volume devbox-workspace:/home/devuser/devbox \
     --volume habitops-workspace:/home/devuser/habitops \
     --volume devbox-codex:/home/devuser/.codex \
