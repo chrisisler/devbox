@@ -87,6 +87,8 @@ RUN set -eux; \
 USER devuser
 ENV USER=devuser
 ENV HOME=/home/devuser
+
+RUN mkdir --parents ~/.codex ~/.fcc ~/.copilot ~/.config/opencode ~/.local/share/opencode
 # App:
 WORKDIR /home/devuser/habitops
 
