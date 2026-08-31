@@ -23,8 +23,11 @@ devbox() {
     --volume "$workdir:/home/devuser/$workdirName" \
     --volume "$HOME/Desktop/devbox:/home/devuser/devbox" \
     --volume "$HOME/.ssh/devbox:/home/devuser/.ssh:ro" \
-    --volume "$HOME/.codex:/home/devuser/.codex" \
-    --volume "$HOME/.copilot:/home/devuser/.copilot" \
+    --volume devbox-codex:/home/devuser/.codex \
+    --volume devbox-fcc:/home/devuser/.fcc \
+    --volume devbox-copilot:/home/devuser/.copilot \
+    --volume devbox-opencode-config:/home/devuser/.config/opencode \
+    --volume devbox-opencode-data:/home/devuser/.local/share/opencode \
     --name "agentbox-$branchName" \
       ${repo:?}
 }
