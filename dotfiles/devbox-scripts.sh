@@ -18,7 +18,6 @@ devbox() {
     --security-opt=no-new-privileges \
     --memory=12g \
     --cpus=6 \
-    --storage-opt size=110G \
     -e GH_TOKEN="$(gh auth token)" \
     -p 127.0.0.1:3000:3000 \
     -p 127.0.0.1:5173:5173 \
