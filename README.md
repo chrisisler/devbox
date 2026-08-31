@@ -14,6 +14,15 @@ Containerized development environment for CLI agent use.
 1. Clone repo
 1. `make && make run  # (re)build + run the image`
 
+## Security / isolation
+
+`make run` requires the Colima Docker daemon to have the gVisor `runsc` runtime
+registered. It refuses to start otherwise. Installing and configuring gVisor is
+kept outside this repository.
+
+gVisor isolates agent syscalls from Colima's Linux kernel. It does not protect
+writable mounts or injected credentials; treat both as exposed to the agent.
+
 ## Playwright UI feedback
 
 Install the Playwright CLI in the devbox for headless browser feedback from a coding agent:
