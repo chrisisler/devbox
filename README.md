@@ -28,16 +28,38 @@ a hostile or compromised agent has direct syscall access to that kernel.
   registered, and can be forced with `DEVOX_RUNTIME=runc make run`.
 - **colima VM (macOS).** Docker Desktop cannot use custom runtimes; the setup
   script instead serves the daemon from a colima (Lima) Linux VM. Containers
-  therefore run inside a guest VM *and* under gVisor. `--ipc=host` was dropped
-  because runsc cannot share the host IPC namespace.
-- **Limits.** gVisor is an application kernel, not a full microVM: the host
-  kernel is still reachable through runsc. GPG-signed builds are installed, but
-  this hardens the runtime boundary, it does not eliminate it. The agent also
-  still holds your credentials (e.g. `GH_TOKEN`, `.codex`, `.copilot`) and a
-  writable mount of this repo inside the container, so treat those as exposed.
+  therefore run inside a guest VM *and* under gVisor. On macOS the container
+  kernel is never the macOS kernel: macOS is already behind Apple hardware
+  virtualization (Virtualization.framework), so even plain `runc` containers do
+  not share the host kernel. `--ipc=host` was dropped because runsc cannot
+  share the guest VM's IPC namespace. See the "What this does and does not
+  buy" section below.
+- **Limits.** gVisor is an application kernel, not a microVM, so the guest VM's
+  Linux kernel is reachable *through* runsc (syscalls are interpreted in
+  userspace, not hardware-isolated). The remaining exposures are the ones
+  containers always have by design: credentials injected into the sandbox
+  (e.g. `GH_TOKEN`, `.codex`, `.copilot`) and writable volume mounts of host
+  directories. Treat those as attacker-visible.
 
 `rtk` (rtk-ai/rtk) is a token-compression CLI proxy, and `ponytail` is a
 code-minimalism prompt skill; neither provides isolation.
+
+### What this does and does not buy
+
+- **It buys:** the macOS host kernel stays unreachable from container code.
+  On Apple Silicon the container never shared it anyway — macOS is behind
+  hardware virtualization — and `runsc` additionally stops agent syscalls from
+  reaching even the colima Linux VM's kernel directly.
+- **It does not buy:** protection from what is mounted or injected by design.
+  The container can read/write whatever you bind into it — the project
+  directory, this repo, `.codex`, `.copilot` — and anything whose secret is
+  exported as an environment variable (e.g. `GH_TOKEN`) is available to the
+  agent. A full microVM wall (Kata/Firecracker) would not change that either;
+  it would only add a per-container kernel, which requires Apple M3+ (nested
+  virtualization).
+- **Where AIs run:** the models themselves execute on the remote provider; the
+  devbox only runs the agent's shelling out (edits, builds, Playwright, CLI
+  tools).
 
 ## Playwright UI feedback
 
