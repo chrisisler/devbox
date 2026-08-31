@@ -8,10 +8,17 @@ devbox() {
   # local workdir="$2"
   local workdirName="$(basename "$workdir")"
   local branchName="$(git rev-parse --abbrev-ref HEAD)"
+  local runtime="${DEVOX_RUNTIME:-runsc}"
 
+  if ! docker info --format '{{json .Runtimes}}' | grep -q "\"${runtime}\""; then
+    echo "WARNING: ${runtime} runtime unavailable (install with 'make runtime'); falling back to runc" >&2
+    runtime=runc
+  fi
+
+  # runsc cannot share the host IPC namespace, so --ipc=host is dropped.
   docker run --interactive --tty --rm \
     --init \
-    --ipc=host \
+    --runtime "${runtime}" \
     -e GH_TOKEN="$(gh auth token)" \
     -p 3000:3000 \
     -p 5173:5173 \

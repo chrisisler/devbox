@@ -14,6 +14,31 @@ Containerized development environment for CLI agent use.
 1. Clone repo
 1. `make && make run  # (re)build + run the image`
 
+## Security / isolation
+
+The LLM itself runs on a remote provider; what runs locally is the code the
+agent executes. By default Docker containers share a kernel with the host/VM, so
+a hostile or compromised agent has direct syscall access to that kernel.
+
+- **Runtime (gVisor runsc).** `make runtime` installs the gVisor `runsc` OCI
+  runtime into the Docker daemon that the devbox uses. `make run` then launches
+  the devbox with `--runtime=runsc`, so agent syscalls are handled by gVisor's
+  userspace application kernel instead of the underlying Linux kernel. It falls
+  back to the default `runc` runtime (with a warning) if runsc is not
+  registered, and can be forced with `DEVOX_RUNTIME=runc make run`.
+- **colima VM (macOS).** Docker Desktop cannot use custom runtimes; the setup
+  script instead serves the daemon from a colima (Lima) Linux VM. Containers
+  therefore run inside a guest VM *and* under gVisor. `--ipc=host` was dropped
+  because runsc cannot share the host IPC namespace.
+- **Limits.** gVisor is an application kernel, not a full microVM: the host
+  kernel is still reachable through runsc. GPG-signed builds are installed, but
+  this hardens the runtime boundary, it does not eliminate it. The agent also
+  still holds your credentials (e.g. `GH_TOKEN`, `.codex`, `.copilot`) and a
+  writable mount of this repo inside the container, so treat those as exposed.
+
+`rtk` (rtk-ai/rtk) is a token-compression CLI proxy, and `ponytail` is a
+code-minimalism prompt skill; neither provides isolation.
+
 ## Playwright UI feedback
 
 Install the Playwright CLI in the devbox for headless browser feedback from a coding agent:

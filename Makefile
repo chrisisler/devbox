@@ -7,6 +7,9 @@ all: dotfiles
 run:
 	@source ./dotfiles/devbox-scripts.sh && devbox $(REPOSITORY)
 
+runtime:
+	@./scripts/setup-gvisor.sh
+
 clean-base:
 	@docker rmi --force $(BASE_REPOSITORY) $(BASE_SYS_REPOSITORY)
 
@@ -26,4 +29,4 @@ cached: base
 update:
 	@./dotfiles/update-dotfiles.sh
 
-.PHONY: all base dotfiles clean cached
+.PHONY: all base dotfiles clean cached runtime
