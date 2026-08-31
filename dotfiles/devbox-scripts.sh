@@ -15,6 +15,8 @@ devbox() {
     -e GH_TOKEN="$(gh auth token)" \
     -p 3000:3000 \
     -p 5173:5173 \
+    --volume habitops-go-mod:/home/devuser/go/pkg/mod \
+    --volume habitops-go-build:/home/devuser/.cache/go-build \
     --volume "$workdir:/home/devuser/$workdirName" \
     --volume "$HOME/Desktop/devbox:/home/devuser/devbox" \
     --volume "$HOME/.ssh/devbox:/home/devuser/.ssh:ro" \
