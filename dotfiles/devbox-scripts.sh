@@ -14,6 +14,11 @@ devbox() {
   docker run --interactive --tty --rm \
     --init \
     --runtime runsc \
+    --cap-drop=ALL \
+    --security-opt=no-new-privileges \
+    --memory=12g \
+    --cpus=6 \
+    --storage-opt size=110G \
     -e GH_TOKEN="$(gh auth token)" \
     -p 3000:3000 \
     -p 5173:5173 \
