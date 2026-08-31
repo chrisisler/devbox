@@ -1,0 +1,4 @@
+*
+!Dockerfile
+!dotfiles/
+!dotfiles/devbox-init.sh

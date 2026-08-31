@@ -3,7 +3,8 @@ LABEL maintainer="Chris Isler <christopherisler1@gmail.com>"
 
 COPY --chmod=755 dotfiles/devbox-init.sh /usr/local/bin/devbox-init
 
-RUN git clone --single-branch --branch master https://github.com/chrisisler/devbox ~/devbox && \
+RUN git clone https://github.com/chrisisler/devbox ~/devbox && \
+      git -C ~/devbox checkout --detach 5b7f0acaa545617007adda089f9e0f543d5aa976 && \
       ln --symbolic ~/devbox/dotfiles/.inputrc ~/.inputrc && \
 #       ln --symbolic --force ~/devbox/dotfiles/.bashrc-debian ~/.bashrc && \
       ln --symbolic ~/devbox/dotfiles/tmux/.tmux.conf ~/.tmux.conf
