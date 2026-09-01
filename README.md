@@ -7,13 +7,14 @@ Containerized development environment for CLI agent use.
 1. [Docker](https://docs.docker.com/install/)
 1. Make
 1. An authenticated GitHub CLI (`gh auth login`)
+1. Codex / Copilot / Opencode / etc.
 
 See [security-checklist.md](security-checklist.md) for the agent-container threat model and remaining work.
 
 ## Run
 
 1. Clone repo
-1. `make && make run  # (re)build + run the image`
+1. `make && make run  # build + run the image`
 
 ## Security / isolation
 

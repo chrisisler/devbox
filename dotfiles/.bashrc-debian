@@ -63,19 +63,19 @@ tre() {
 	tree -aC -I '.git' -I 'node_modules' --dirsfirst "$@" | less -FRNX
 }
 
-reset="\[\e[0m\]"
-yellow="\[\e[0;33m\]"
-magenta="\[\e[0;35m\]"
-cyan="\[\e[0;36m\]"
-# blue="\[\e[0;34m\]"
-# red="\[\e[0;31m\]"
-# green="\[\e[0;32m\]"
-dir="\w"
-time24h="\A"
+# reset="\[\e[0m\]"
+# yellow="\[\e[0;33m\]"
+# magenta="\[\e[0;35m\]"
+# cyan="\[\e[0;36m\]"
+# # blue="\[\e[0;34m\]"
+# # red="\[\e[0;31m\]"
+# # green="\[\e[0;32m\]"
+# dir="\w"
+# time24h="\A"
 
-# export PS1="\n${cyan}${dir}${reset} "
-# export PS1="\n${time24h} ${yellow}${dir}${reset} "
-export PS1="\n <${magenta}devbox$reset> ${yellow}${dir}${reset} $cyan|$reset "
+# # export PS1="\n${cyan}${dir}${reset} "
+# # export PS1="\n${time24h} ${yellow}${dir}${reset} "
+# export PS1="\n <${magenta}devbox$reset> ${yellow}${dir}${reset} $cyan|$reset "
 
 # if [ -n "$GH_TOKEN" ]; then
 #   local tknfile="$(mktemp)"
@@ -87,5 +87,5 @@ export PS1="\n <${magenta}devbox$reset> ${yellow}${dir}${reset} $cyan|$reset "
 # fi
 
 if [ -z "$TMUX" ]; then
-  tmux
+  tmux -u
 fi

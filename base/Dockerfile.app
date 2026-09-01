@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 # Trixie is current stable; this stage keeps the Java toolchain out of the app image.
 FROM chrisisler/devbox-base-sys AS okta-builder
 
@@ -45,12 +47,15 @@ RUN java --version && \
     native-image --version && \
     mvn --version
 
-USER devuser
-ENV USER=devuser
-ENV HOME=/home/devuser
+# USER devuser
+# ENV USER=devuser
+# ENV HOME=/home/devuser
 
-RUN git clone https://github.com/okta/okta-cli.git /home/devuser/okta-cli && \
-    git -C /home/devuser/okta-cli checkout --detach 08e945fce540506fc783380606ca1ab7650e2c0e && \
+RUN --mount=type=cache,target=/home/devuser/.m2,uid=1000,gid=1000 \
+    git init --quiet /home/devuser/okta-cli && \
+    git -C /home/devuser/okta-cli remote add origin https://github.com/okta/okta-cli.git && \
+    git -C /home/devuser/okta-cli fetch --quiet --depth 1 origin "08e945fce540506fc783380606ca1ab7650e2c0e" && \
+    git -C /home/devuser/okta-cli checkout --quiet --detach FETCH_HEAD && \
     cd /home/devuser/okta-cli && \
     mvn clean install -DskipTests
 
@@ -61,7 +66,10 @@ RUN curl -sSL https://deb.nodesource.com/setup_24.x | bash - && \
     npm install --global typescript@7.0.2 && \
     node --version
 
-RUN npm install --global @openai/codex@0.151.0 @github/copilot@1.0.82
+RUN npm install --global @openai/codex@0.151.0 @github/copilot@1.0.82 vercel opencode-ai
+RUN apt-get install --assume-yes --quiet --no-install-recommends podman-docker nnn chromium autojump
+
+RUN npm install --global --allow-scripts=agent-browser agent-browser@0.35.2
 
 RUN curl --fail --silent --show-error \
     --location https://raw.githubusercontent.com/rtk-ai/rtk/v0.46.0/install.sh \
@@ -70,16 +78,6 @@ RUN curl --fail --silent --show-error \
     sh /tmp/rtk-install.sh && \
     rm --force /tmp/rtk-install.sh && \
     rtk init -g --codex --copilot --opencode
-
-# ENV PLAYWRIGHT_BROWSERS_PATH=/opt/playwright
-# RUN npm install --global @playwright/cli@0.1.18 && \
-#     mkdir --parents "${PLAYWRIGHT_BROWSERS_PATH}" && \
-#     npx --yes playwright install --with-deps chromium && \
-#     chmod --recursive a+rX "${PLAYWRIGHT_BROWSERS_PATH}" && \
-#     playwright-cli --version
-#
-# RUN mkdir --parents /opt/google/chrome
-# RUN ln --symbolic "$(find "${PLAYWRIGHT_BROWSERS_PATH}" -path '*/chrome-linux/chrome' -type f -print -quit)" /opt/google/chrome/chrome
 
 RUN set -eux; \
     curl --fail --silent --show-error --location https://apt.releases.hashicorp.com/gpg | \
@@ -90,10 +88,9 @@ RUN set -eux; \
     apt-get install --assume-yes --quiet --no-install-recommends terraform; \
     terraform version
 
-RUN npm install --global vercel
-RUN apt-get install --assume-yes --quiet --no-install-recommends podman-docker nnn chromium
-# Debian Chromium covers Linux ARM64, where Chrome for Testing has no release.
-RUN npm install --global --allow-scripts=agent-browser agent-browser@0.35.2
+RUN install --directory --owner=devuser --group=devuser \
+    /home/devuser/.local/share/opencode \
+    /home/devuser/.local/state
 
 # Sys: Be non-root user - Warning: affects remaining docker commands.
 USER devuser
@@ -122,16 +119,24 @@ ENV VERCEL_TELEMETRY_DEBUG=0
 #       /tmp/free-claude-code-install.sh && \
 #     sh /tmp/free-claude-code-install.sh --rtk && \
 #     rm --force /tmp/free-claude-code-install.sh
-# App:
+
 WORKDIR /home/devuser/habitops
 
 RUN mkdir /home/devuser/.ssh && ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
-# RUN playwright-cli install --skills --global
-
 COPY --from=okta-builder /home/devuser/okta-cli/cli/target/okta /usr/local/bin/okta
 
-RUN go install "github.com/pressly/goose/v3/cmd/goose@v3.27.3"
-RUN go install "github.com/sqlc-dev/sqlc/cmd/sqlc@v1.31.1"
+RUN --mount=type=cache,target=/home/devuser/go/pkg/mod,uid=1000,gid=1000 \
+    --mount=type=cache,target=/home/devuser/go/pkg/sumdb,uid=1000,gid=1000 \
+    --mount=type=cache,target=/home/devuser/.cache/go-build,uid=1000,gid=1000 \
+    set -eux; \
+    mkdir --parents /home/devuser/go/pkg/sumdb/sum.golang.org; \
+    GOBIN=/usr/local/bin go install "github.com/pressly/goose/v3/cmd/goose@v3.27.3" & goose_pid=$!; \
+    GOBIN=/usr/local/bin go install "github.com/sqlc-dev/sqlc/cmd/sqlc@v1.31.1" & sqlc_pid=$!; \
+    goose_status=0; sqlc_status=0; \
+    wait "$goose_pid" || goose_status=$?; \
+    wait "$sqlc_pid" || sqlc_status=$?; \
+    test "$goose_status" -eq 0; \
+    test "$sqlc_status" -eq 0
 
 CMD ["/bin/bash"]

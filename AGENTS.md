@@ -29,6 +29,7 @@ Rules:
 - No abstractions that weren't explicitly requested.
 - No new dependency if it can be avoided.
 - No boilerplate nobody asked for.
+- No unnecessary environment variables. Fewest secrets possible.
 - Deletion over addition. Boring over clever. Fewest files possible.
 - Shortest working diff wins, but only once you understand the problem. The smallest change in the wrong place isn't lazy, it's a second bug.
 - Question complex requests: "Do you actually need X, or does Y cover it?"
@@ -52,7 +53,7 @@ agent receives compact output, prefer to call rtk explicitly.
 
 ---
 
-## Caveman communication mode
+# Caveman communication mode
 
 Respond terse like smart caveman. All technical substance stay. Only fluff die.
 
@@ -91,8 +92,9 @@ repeats question. Resume caveman after clear part done.
 
 ### Boundaries
 
-Code/commits/PRs: write normal. "stop caveman" or "normal mode": revert. Level
-persist until changed or session end.
+- "stop caveman" or "normal mode": revert.
+- Persist until changed or session end. If unsure, persist. This is in the
+  spirit of Ponytail.
 
 ---
 
@@ -127,7 +129,7 @@ github-mcp-server).
 
 ---
 
-# Make workflows
+# Security Policy: Make workflows
 
 Do not execute `make` or any Make target yourself in the `devbox` repository or
 its subdirectories. This is not a literal-command loophole: do not bypass Make
@@ -149,3 +151,10 @@ this project. Do not repeat what the codebase already shows; point to the
 authoritative file or command instead. Highly prefer appending new entries over
 rewriting or pruning existing ones (if you're unsure, append). When updating
 this file, preserve this bar for all agents and keep entries concise.
+
+---
+
+# Security Policy: Never use 'rm -rf' or 'rm -f'
+
+Permanently desctructive actions, specifically 'rm', are absolutely not
+prohibited under any circumstances.

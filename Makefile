@@ -2,7 +2,7 @@ REPOSITORY := chrisisler/devbox
 BASE_SYS_REPOSITORY := $(REPOSITORY)-base-sys
 BASE_REPOSITORY := $(REPOSITORY)-base
 
-all: dotfiles
+all: cached
 
 run:
 	@source ./dotfiles/devbox-scripts.sh && devbox $(REPOSITORY)
