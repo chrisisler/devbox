@@ -80,10 +80,10 @@ export PS1="\n <${magenta}devbox$reset> ${yellow}${dir}${reset} $cyan|$reset "
 if [ -n "$GH_TOKEN" ]; then
   local tknfile="$(mktemp)"
   echo "$GH_TOKEN" > "$tknfile"
-  unset GH_TOKEN
   gh auth login --with-token < "$tknfile"
   gh auth setup-git
   gh auth status
+  unset GH_TOKEN
 fi
 
 # if [ -z "$TMUX" ]; then
