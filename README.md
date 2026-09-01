@@ -8,6 +8,8 @@ Containerized development environment for CLI agent use.
 1. Make
 1. An authenticated GitHub CLI (`gh auth login`)
 
+See [security-checklist.md](security-checklist.md) for the agent-container threat model and remaining work.
+
 ## Run
 
 1. Clone repo
