@@ -78,12 +78,14 @@ time24h="\A"
 export PS1="\n <${magenta}devbox$reset> ${yellow}${dir}${reset} $cyan|$reset "
 
 if [ -n "$GH_TOKEN" ]; then
-  gh auth login --with-token <<< $GH_TOKEN
+  local tknfile="$(mktemp)"
+  echo "$GH_TOKEN" > "$tknfile"
+  unset GH_TOKEN
+  gh auth login --with-token < "$tknfile"
   gh auth setup-git
   gh auth status
-  unset GH_TOKEN
 fi
 
-if [ -z "$TMUX" ]; then
-  tmux
-fi
+# if [ -z "$TMUX" ]; then
+#   tmux
+# fi

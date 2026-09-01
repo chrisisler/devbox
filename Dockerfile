@@ -4,7 +4,8 @@ LABEL maintainer="Chris Isler <christopherisler1@gmail.com>"
 RUN git clone --single-branch --branch master https://github.com/chrisisler/devbox ~/devbox && \
       ln --symbolic ~/devbox/dotfiles/.inputrc ~/.inputrc && \
       ln --symbolic --force ~/devbox/dotfiles/.bashrc-debian ~/.bashrc && \
-      ln --symbolic ~/devbox/dotfiles/tmux/.tmux.conf ~/.tmux.conf
+      ln --symbolic ~/devbox/dotfiles/tmux/.tmux.conf ~/.tmux.conf && \
+      echo "002"
 #       mkdir ~/.vim && \
 #       ln --symbolic ~/devbox/dotfiles/.vim/rc ~/.vim/rc && \
 #       mkdir ~/.config && \
