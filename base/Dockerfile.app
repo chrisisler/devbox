@@ -57,7 +57,7 @@ RUN git clone https://github.com/okta/okta-cli.git /home/devuser/okta-cli && \
 FROM chrisisler/devbox-base-sys
 
 RUN curl -sSL https://deb.nodesource.com/setup_24.x | bash - && \
-    apt-get install --assume-yes --quiet --no-install-recommends nodejs lsof && \
+    apt-get install --assume-yes --quiet --no-install-recommends nodejs lsof postgresql && \
     npm install --global typescript@7.0.2 && \
     node --version
 
