@@ -102,6 +102,7 @@ ENV HOME=/home/devuser
 
 ENV PATH="${HOME}/.local/bin:${PATH}"
 ENV EDITOR=/usr/bin/vi
+ENV VERCEL_TELEMETRY_DEBUG=0
 
 # Free Claude Code and its provider-backed coding-agent wrappers.
 # RUN curl --fail --silent --show-error --location \
