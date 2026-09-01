@@ -29,6 +29,57 @@ bind only to localhost, and runs are limited to 12 GB memory and 6 CPUs. Disk us
 is governed by Docker Desktop/Colima because per-container storage limits are not
 portable enough for this macOS setup.
 
+## Agent workflow
+
+Staff-level goal: improve the workflow graph, not the tool count.
+
+```text
+Ponytail -> minimal implementation decisions
+RTK -> compact shell output
+AXI tools -> fewer retries and tool calls
+specops -> persistent desired state and work DAG
+gh/reactive/supabase adapters -> domain-specific execution
+```
+
+Use Ponytail's full ladder for implementation work: reuse first, then the
+standard library or native platform features, then the smallest correct diff.
+Do not simplify away tenant isolation, Okta validation, migration safety, error
+handling, accessibility, or required tests.
+
+The AXI catalog is community-maintained. Trial tools on demand first; if one
+becomes part of the workflow, install it project-locally, pin its version, and
+review its hooks and credential access before adding it to the image.
+
+| Priority | Tool | Fit | Recommendation |
+| --- | --- | --- | --- |
+| Now | [gh-axi](https://github.com/kunchenguid/gh-axi) | HabitOps already prefers it for GitHub, PRs, CI, and version-control work. | Make it the default GitHub interface. |
+| Now | [specops](https://github.com/JarvusInnovations/specops) | Adds persistent specs, plans, drift checks, and a work DAG for HabitOps. | Install only in HabitOps; let it own the spec and plan state. |
+| Now | [reactive-axi](https://github.com/adeeshsharma/reactive-axi) | HabitOps is Vue/Vite; clicks in the live app can become source-oriented feedback. | Use alongside Playwright: Reactive Editor for locating UI issues, Playwright for behavior and screenshots. |
+| Now | [supabase-axi](https://github.com/laizhenyoong/supabase-axi) | Matches HabitOps's Supabase PostgreSQL, RLS, migrations, and tenant authorization. | Start with non-production schema, RLS, index, and log audits. Keep writes explicit. |
+| Soon | [quota-axi](https://github.com/kunchenguid/quota-axi) | The image carries Codex, Copilot, OpenCode, and other agent state. | Use as a preflight before expensive work; report quota, do not silently route providers. |
+| Later | [cyber-mux](https://github.com/cyberuni/cyber-mux) | Controls tmux panes and worktrees for parallel agents. | Defer until parallel agent execution is an explicit workflow. |
+| Later | [lavish-axi](https://github.com/kunchenguid/lavish-axi) | Supports interactive review of generated HTML plans, diagrams, and reports. | Add on demand for visual planning and human feedback. |
+| Defer | [superbee](https://github.com/Holaxis-ai/superbee) | Durable shared agent knowledge, but explicitly early and pre-1.0. | Do not combine with `specops` until shared knowledge is a demonstrated bottleneck. |
+| Defer | [jj-axi](https://github.com/aivv73/jj-axi) | Deterministic Jujutsu history editing, while these repositories use Git. | Do not add a second VCS model without a concrete need. |
+| Conditional | `npm-axi`, `pg-axi`, [axi-axi](https://github.com/CodyEngel/axi-axi) | Package inspection, raw PostgreSQL operations, and authoring our own AXIs. | Use only when the matching workflow justifies them. |
+
+Do not use `docker-axi` inside this devbox. The environment deliberately uses
+gVisor `runsc`, dropped capabilities, localhost-only ports, no Docker socket,
+and rootless Podman for HabitOps deployment. Docker-oriented tooling must not
+become a reason to add `--privileged`, a socket mount, or a `runc` fallback.
+
+Two useful local AXIs are not currently in the community catalog:
+
+- `podman-axi`: a small, read-only-first wrapper for the rootless Podman
+  workflows on the Tierhive VPS. It could expose discovery, health, logs, and
+  dry-run plans without adding a Docker compatibility layer.
+- `okta-axi`: a small wrapper for the bundled `okta-cli`, focused on
+  non-interactive discovery, validation, and safe configuration workflows.
+
+Use `axi-axi` to scaffold and validate either wrapper. Keep mutations behind
+explicit execution flags, redact credentials, and do not add either tool to
+the image until its interface proves useful.
+
 ## Playwright UI feedback
 
 The image includes a pinned Playwright CLI and matching Chromium for headless
