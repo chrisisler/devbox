@@ -90,11 +90,16 @@ RUN set -eux; \
     apt-get install --assume-yes --quiet --no-install-recommends terraform; \
     terraform version
 
+RUN npm install --global vercel
+RUN apt-get install --assume-yes --quiet --no-install-recommends podman-docker
+
 # Sys: Be non-root user - Warning: affects remaining docker commands.
 USER devuser
 ENV USER=devuser
 ENV HOME=/home/devuser
+
 ENV PATH="${HOME}/.local/bin:${PATH}"
+ENV EDITOR=/usr/bin/vi
 
 RUN mkdir --parents ~/.codex ~/.fcc ~/.copilot ~/.config/opencode ~/.local/share/opencode
 
@@ -104,13 +109,14 @@ RUN curl --fail --silent --show-error --location \
     --output /tmp/free-claude-code-install.sh && \
     sed --in-place \
       -e 's/install_claude=1/install_claude=0/g' \
-      -e 's/install_pi=1/install_pi=0/g' \
-      -e 's/install_opencode=1/install_opencode=0/g' \
       -e 's/install_cline=1/install_cline=0/g' \
-      -e 's/install_hermes=1/install_hermes=0/g' \
+      -e 's/install_codex=1/install_codex=1/g' \
       -e 's/install_dsh=1/install_dsh=0/g' \
       -e 's/install_grok=1/install_grok=0/g' \
+      -e 's/install_hermes=1/install_hermes=0/g' \
       -e 's/install_muse=1/install_muse=0/g' \
+      -e 's/install_opencode=1/install_opencode=1/g' \
+      -e 's/install_pi=1/install_pi=0/g' \
       /tmp/free-claude-code-install.sh && \
     sh /tmp/free-claude-code-install.sh --rtk && \
     rm --force /tmp/free-claude-code-install.sh
@@ -123,7 +129,7 @@ RUN playwright-cli install --skills --global
 
 COPY --from=okta-builder /home/devuser/okta-cli/cli/target/okta /usr/local/bin/okta
 
-RUN go install "github.com/pressly/goose/v3/cmd/goose@v3.27.3"
+# RUN go install "github.com/pressly/goose/v3/cmd/goose@v3.27.3"
 RUN go install "github.com/sqlc-dev/sqlc/cmd/sqlc@v1.31.1"
 
 CMD ["/bin/bash"]
