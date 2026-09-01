@@ -69,17 +69,17 @@ RUN curl --fail --silent --show-error \
     RTK_INSTALL_DIR=/usr/local/bin RTK_VERSION=v0.46.0 \
     sh /tmp/rtk-install.sh && \
     rm --force /tmp/rtk-install.sh && \
-    rtk init -g --codex --copilot
+    rtk init -g --codex --copilot --opencode
 
-ENV PLAYWRIGHT_BROWSERS_PATH=/opt/playwright
-RUN npm install --global @playwright/cli@0.1.18 && \
-    mkdir --parents "${PLAYWRIGHT_BROWSERS_PATH}" && \
-    npx --yes playwright install --with-deps chromium && \
-    chmod --recursive a+rX "${PLAYWRIGHT_BROWSERS_PATH}" && \
-    playwright-cli --version
-
-RUN mkdir --parents /opt/google/chrome
-RUN ln --symbolic "$(find "${PLAYWRIGHT_BROWSERS_PATH}" -path '*/chrome-linux/chrome' -type f -print -quit)" /opt/google/chrome/chrome
+# ENV PLAYWRIGHT_BROWSERS_PATH=/opt/playwright
+# RUN npm install --global @playwright/cli@0.1.18 && \
+#     mkdir --parents "${PLAYWRIGHT_BROWSERS_PATH}" && \
+#     npx --yes playwright install --with-deps chromium && \
+#     chmod --recursive a+rX "${PLAYWRIGHT_BROWSERS_PATH}" && \
+#     playwright-cli --version
+#
+# RUN mkdir --parents /opt/google/chrome
+# RUN ln --symbolic "$(find "${PLAYWRIGHT_BROWSERS_PATH}" -path '*/chrome-linux/chrome' -type f -print -quit)" /opt/google/chrome/chrome
 
 RUN set -eux; \
     curl --fail --silent --show-error --location https://apt.releases.hashicorp.com/gpg | \
@@ -91,7 +91,9 @@ RUN set -eux; \
     terraform version
 
 RUN npm install --global vercel
-RUN apt-get install --assume-yes --quiet --no-install-recommends podman-docker
+RUN apt-get install --assume-yes --quiet --no-install-recommends podman-docker nnn chromium
+# Debian Chromium covers Linux ARM64, where Chrome for Testing has no release.
+RUN npm install --global --allow-scripts=agent-browser agent-browser@0.35.2
 
 # Sys: Be non-root user - Warning: affects remaining docker commands.
 USER devuser
@@ -100,8 +102,6 @@ ENV HOME=/home/devuser
 
 ENV PATH="${HOME}/.local/bin:${PATH}"
 ENV EDITOR=/usr/bin/vi
-
-RUN mkdir --parents ~/.codex ~/.fcc ~/.copilot ~/.config/opencode ~/.local/share/opencode
 
 # Free Claude Code and its provider-backed coding-agent wrappers.
 RUN curl --fail --silent --show-error --location \
@@ -112,6 +112,7 @@ RUN curl --fail --silent --show-error --location \
       -e 's/install_cline=1/install_cline=0/g' \
       -e 's/install_codex=1/install_codex=1/g' \
       -e 's/install_dsh=1/install_dsh=0/g' \
+      -e 's/install_aider=1/install_aider=0/g' \
       -e 's/install_grok=1/install_grok=0/g' \
       -e 's/install_hermes=1/install_hermes=0/g' \
       -e 's/install_muse=1/install_muse=0/g' \
@@ -125,7 +126,7 @@ WORKDIR /home/devuser/habitops
 
 RUN mkdir /home/devuser/.ssh && ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
-RUN playwright-cli install --skills --global
+# RUN playwright-cli install --skills --global
 
 COPY --from=okta-builder /home/devuser/okta-cli/cli/target/okta /usr/local/bin/okta
 

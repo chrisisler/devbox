@@ -5,15 +5,9 @@ set -eu
 devbox() {
   local repo="$1"
   local branchName="$(git rev-parse --abbrev-ref HEAD)"
-  if ! docker info --format '{{json .Runtimes}}' | grep -q '"runsc"'; then
-    echo "ERROR: gVisor runsc unavailable; refusing to start" >&2
-    return 1
-  fi
 
-  # runsc cannot share the host IPC namespace, so --ipc=host is dropped.
   docker run --interactive --tty --rm \
     --init \
-    --runtime runsc \
     --cap-drop=ALL \
     --security-opt=no-new-privileges \
     --memory=12g \
@@ -23,14 +17,13 @@ devbox() {
     -p 127.0.0.1:3000:3000 \
     -p 127.0.0.1:5173:5173 \
     -p 127.0.0.1:8082:8082 \
-    --volume devbox-workspace:/home/devuser/devbox \
-    --volume habitops-workspace:/home/devuser/habitops \
-    --volume devbox-codex:/home/devuser/.codex \
-    --volume devbox-fcc:/home/devuser/.fcc \
-    --volume devbox-copilot:/home/devuser/.copilot \
-    --volume devbox-opencode-config:/home/devuser/.config/opencode \
-    --volume devbox-opencode-data:/home/devuser/.local/share/opencode \
-    --entrypoint /usr/local/bin/devbox-init \
+    --volume "$HOME/Desktop/devbox:/home/devuser/devbox" \
+    --volume "$HOME/Desktop/projects/habitops:/home/devuser/habitops" \
+    --volume "$HOME/.ssh/devbox:/home/devuser/.ssh:ro" \
+    --volume "$HOME/.codex:/home/devuser/.codex" \
+    --volume "$HOME/.fcc:/home/devuser/.fcc" \
+    --volume "$HOME/.copilot:/home/devuser/.copilot" \
+    --volume "$HOME/.local/share/opencode:/home/devuser/.local/share/opencode" \
     --name "agentbox-$branchName" \
-      ${repo:?}
+      ${repo:?} /bin/bash
 }

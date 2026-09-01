@@ -43,11 +43,12 @@ Can I use it with [caveman](https://github.com/JuliusBrussee/caveman)? Yes, and 
 
 # RTK
 
-- Use `rtk`
+- Always prefer to use `rtk`
+- See [https://github.com/rtk-ai/rtk](RTK usage examples) for how to benefit
+  from it
 
-Hook-based agents rewrite Bash commands (e.g., git status -> rtk git status) before execution. Plugin-based agents, including Hermes, use their plugin API to rewrite commands before execution. The agent receives compact output without needing to call rtk explicitly.
-
-Important: the hook only runs on Bash tool calls. Claude Code built-in tools like Read, Grep, and Glob do not pass through the Bash hook, so they are not auto-rewritten. To get RTK's compact output for those workflows, use shell commands (cat/head/tail, rg/grep, find) or call rtk read, rtk grep, or rtk find directly.
+Rewrite commands (e.g., git status -> rtk git status) before execution. The
+agent receives compact output, prefer to call rtk explicitly.
 
 ---
 
@@ -126,11 +127,18 @@ github-mcp-server).
 
 ---
 
-# make | make run
+# Make workflows
 
-Do not run `make` or `make run` yourself in the `devbox` repository or any of
-its subdirectories. Always instruct the user to run them manually. If unsure,
-do not run make or make run yourself, just leave it and give a note/instruction.
+Do not execute `make` or any Make target yourself in the `devbox` repository or
+its subdirectories. This is not a literal-command loophole: do not bypass Make
+by running the underlying `docker build`, `docker run`, image, or container
+commands that perform the same build or run workflow. Always instruct the user
+to run the documented Make target manually.
+
+Read-only inspection, shell syntax checks, and other static checks are allowed
+when they do not build images, start containers, or otherwise perform the
+prohibited Make workflow. If validation requires a Make workflow, stop before
+that step and leave it for the user.
 
 ---
 

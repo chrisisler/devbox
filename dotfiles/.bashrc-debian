@@ -1,7 +1,3 @@
-################################################################################
-# Misc #########################################################################
-################################################################################
-
 # If not running interactively, don't do anything
 # [[ "$-" != *i* ]] && return
 case $- in
@@ -11,111 +7,38 @@ esac
 
 # Use case-insensitive filename globbing
 shopt -s nocaseglob
-
 # Make bash append rather than overwrite the history on disk
 shopt -s histappend
-
 # When changing directory small typos can be ignored by bash
 # for example, cd /vr/lgo/apaache would find /var/log/apache
 shopt -s cdspell
-
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
-
 # history length
 HISTSIZE=1000
 HISTFILESIZE=2000
-
 # # https://unix.stackexchange.com/questions/55203
 bind "TAB:menu-complete"
 bind "set show-all-if-ambiguous on"
 # bind "set menu-complete-display-prefix on"
 
-################################################################################
-# Exports ######################################################################
-################################################################################
-
 # Prepend datetime of command to command itself in ~/.bash_history file
 export HISTTIMEFORMAT="%y-%m-%d %T "
-
 # Don't put duplicate lines in the history.
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
-
 # Ignore some controlling instructions
 # HISTIGNORE is a colon-delimited list of patterns which should be excluded.
 # The '&' is a special pattern which suppresses duplicate entries.
 export HISTIGNORE=$'[ \t]*:&:[fb]g:exit:ls' # Ignore the ls command as well
 
-export EDITOR="vim"
-
-export PATH="$HOME/.cargo/bin:$PATH"
-
-################################################################################
-# Sources ######################################################################
-################################################################################
-
 [ -f /usr/share/bash-completion/bash_completion ] && source /usr/share/bash-completion/bash_completion
-# if [ -f /usr/share/bash-completion/bash_completion ]; then
-#   source /usr/share/bash-completion/bash_completion
-# if
 
 # source ~/.bash_profile
 # source ~/.bash_aliases
 
-# if [ -f ~/.bash_private_stuff ]; then
-#   source ~/.bash_private_stuff
-# fi
-
-################################################################################
-# Variables ####################################################################
-################################################################################
-
-# lslaVar="ls -la"
-lslaVar="ls --human-readable --almost-all --classify --group-directories-first --no-group --color=always --format=long --sort=extension"
-
-################################################################################
-# Aliases ######################################################################
-################################################################################
-
-alias q="exit"
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
-alias back="cd -"
-alias tkill="tmux kill-pane -t $@"
-alias tm="clear ; ps xc | awk '{ print \$1, \$5 }' | sed 1d | sort -fk 2 | column -t | column"
 alias gs="git status"
-alias v="vim"
-alias cd..="cd .."
-alias ..="cd .. && ${lslaVar}"
-alias ...="cd ../.. && ${lslaVar}"
-alias ....="cd ../../.. && ${lslaVar}"
-alias .....="cd ../../../.. && ${lslaVar}"
-alias ......="cd ../../../../.. && ${lslaVar}"
-alias c="clear"
-alias l="${lslaVar}"
-# alias tree="${lslaVar} --tree"
-# alias lt="${lslaVar} --tree"
-alias cl="clear && ${lslaVar}"
-alias md="mkdir -pv"
-alias rmi="rm -irv"
-alias rmf="rm -frv"
-alias rm="rm -rv"
-alias mv="mv -iv"
-alias brc="vim ~/.bashrc"
-alias sbrc="clear && source ~/.bashrc"
-alias vrc="vim ~/.vimrc"
-alias tmuxconf="vim ~/.tmux.conf"
-alias tmuxline="vim ~/devbox/dotfiles/tmuxline/tmuxline.conf"
-alias tmuxtemp="clear ; tmux attach -t Temp $@ &>/dev/null || tmux new -s Temp $@"
-alias tt="tmuxtemp"
-alias t="clear ; tmux attach -t All $@ &>/dev/null || tmux new -s All $@"
-alias weather="curl wttr.in/boston"
 
-################################################################################
-# Functions ####################################################################
-################################################################################
-
-# md && cd
 mcd() {
   mkdir -pv "$1" && cd "$1"
 }
@@ -123,13 +46,11 @@ mcd() {
 # (Jess Frazelle) Make a temporary directory and enter it
 tempdir() {
   local dir=
-
   if [[ "$#" -eq 0 ]]; then
     dir="$(mktemp -d)"
   else
     dir="$(mktemp -d -t "${1}.XXXXXXXXXX")"
   fi
-
   cd "$dir" || exit
 }
 
@@ -142,29 +63,27 @@ tre() {
 	tree -aC -I '.git' -I 'node_modules' --dirsfirst "$@" | less -FRNX
 }
 
-################################################################################
-# Prompt #######################################################################
-################################################################################
-
-# red="\[\e[0;31m\]"
+reset="\[\e[0m\]"
 yellow="\[\e[0;33m\]"
-# green="\[\e[0;32m\]"
 magenta="\[\e[0;35m\]"
 cyan="\[\e[0;36m\]"
 # blue="\[\e[0;34m\]"
-reset="\[\e[0m\]"
-
+# red="\[\e[0;31m\]"
+# green="\[\e[0;32m\]"
 dir="\w"
 time24h="\A"
 
 # export PS1="\n${cyan}${dir}${reset} "
 # export PS1="\n${time24h} ${yellow}${dir}${reset} "
-
 export PS1="\n <${magenta}devbox$reset> ${yellow}${dir}${reset} $cyan|$reset "
 
-################################################################################
-# Tmux Autostart ###############################################################
-################################################################################
+if [ -z "$GH_TOKEN" ]; then
+  #nothing
+else 
+  gh auth login --with-token <<< $GH_TOKEN
+  gh auth setup-git
+  gh auth status
+fi
 
 if [ -z "${TMUX+foo}" ]; then
   t

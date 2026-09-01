@@ -17,17 +17,18 @@ See [security-checklist.md](security-checklist.md) for the agent-container threa
 
 ## Security / isolation
 
-`make run` requires the Colima Docker daemon to have the gVisor `runsc` runtime
-registered. It refuses to start otherwise. Installing and configuring gVisor is
-kept outside this repository.
+On macOS, Docker Desktop runs Linux containers inside its Linux VM. `make run`
+uses Docker's default OCI runtime (normally `runc`); no Colima or custom runtime
+setup is required. This removes direct macOS-kernel sharing, but it does not add
+a userspace syscall boundary inside the Docker Desktop VM.
 
-gVisor isolates agent syscalls from Colima's Linux kernel. It does not protect
-writable volumes, persisted agent state, or injected credentials; treat them as
-exposed to the agent. Repositories use disposable Docker volumes instead of host
-bind mounts. Capabilities are dropped, privilege escalation is disabled, ports
-bind only to localhost, and runs are limited to 12 GB memory and 6 CPUs. Disk use
-is governed by Docker Desktop/Colima because per-container storage limits are not
-portable enough for this macOS setup.
+The container runtime does not protect writable volumes, persisted agent state,
+or injected credentials; treat them as exposed to the agent. Repositories use
+disposable Docker volumes instead of host bind mounts. Capabilities are dropped,
+privilege escalation is disabled, host IPC is not shared, ports bind only to
+localhost, and runs are limited to 12 GB memory and 6 CPUs. Disk use is governed
+by Docker Desktop because per-container storage limits are not portable enough
+for this macOS setup.
 
 ## Agent workflow
 
@@ -64,9 +65,10 @@ review its hooks and credential access before adding it to the image.
 | Conditional | `npm-axi`, `pg-axi`, [axi-axi](https://github.com/CodyEngel/axi-axi) | Package inspection, raw PostgreSQL operations, and authoring our own AXIs. | Use only when the matching workflow justifies them. |
 
 Do not use `docker-axi` inside this devbox. The environment deliberately uses
-gVisor `runsc`, dropped capabilities, localhost-only ports, no Docker socket,
-and rootless Podman for HabitOps deployment. Docker-oriented tooling must not
-become a reason to add `--privileged`, a socket mount, or a `runc` fallback.
+Docker's default runtime, dropped capabilities, localhost-only ports, no Docker
+socket, and rootless Podman for HabitOps deployment. Docker-oriented tooling
+must not become a reason to add `--privileged`, a socket mount, or expose
+non-local ports.
 
 Two useful local AXIs are not currently in the community catalog:
 
@@ -80,20 +82,22 @@ Use `axi-axi` to scaffold and validate either wrapper. Keep mutations behind
 explicit execution flags, redact credentials, and do not add either tool to
 the image until its interface proves useful.
 
-## Playwright UI feedback
+## Browser UI feedback
 
-The image includes a pinned Playwright CLI and matching Chromium for headless
-browser feedback. Use `playwright-cli` directly.
+The image includes pinned `agent-browser` and Debian Chromium for headless
+browser feedback. Use `agent-browser` directly.
 
 Start a Vite app with `--host 0.0.0.0`, then inspect it with:
 
 ```sh
-playwright-cli -s=devbox open http://127.0.0.1:5173
-playwright-cli -s=devbox snapshot --filename=/tmp/devbox-ui.yml
-playwright-cli -s=devbox screenshot --filename=/tmp/devbox-ui.png
+agent-browser open http://127.0.0.1:5173
+agent-browser snapshot
+agent-browser screenshot /tmp/devbox-ui.png
 ```
 
-Playwright is headless by default. If browser dependencies need to run in a separate container, use the official `mcr.microsoft.com/playwright` image with `--init --ipc=host`. Do not mount `/var/run/docker.sock` or use `--privileged` just to provide browser access.
+`agent-browser` is headless by default and discovers `/usr/bin/chromium`.
+If browser dependencies need to run in a separate container, do not mount
+`/var/run/docker.sock` or use `--privileged` just to provide browser access.
 
 ## Next
 

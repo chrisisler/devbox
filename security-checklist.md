@@ -9,7 +9,7 @@ Scope: lasting damage to the host OS, host files/data, credentials, and remote a
 - [x] No `--privileged`, host PID, host IPC, or host network flags.
 - [x] No host repository, SSH key, API-key, or agent-state bind mounts.
 - [x] Agent repositories and state use Docker volumes.
-- [x] gVisor is required; startup fails closed when `runsc` is unavailable.
+- [x] Docker Desktop's Linux VM keeps containers from sharing the macOS host kernel.
 - [ ] Do not treat container credentials as safe: the agent can read and exfiltrate them.
 
 ## Host files and data
@@ -32,12 +32,12 @@ Scope: lasting damage to the host OS, host files/data, credentials, and remote a
 
 - [ ] Run rootless or with user namespaces.
 - [ ] Remove passwordless `sudo` from the image. ([PR #7](https://github.com/chrisisler/devbox/pull/7))
-- [ ] Drop capabilities and enable `no-new-privileges`. ([PR #7](https://github.com/chrisisler/devbox/pull/7))
+- [x] Drop capabilities and enable `no-new-privileges`.
 - [ ] Use a read-only container filesystem with explicit temporary filesystems.
-- [x] Use gVisor and fail closed instead of silently falling back to `runc`.
-- [ ] Add memory, CPU, and storage limits. ([PR #7](https://github.com/chrisisler/devbox/pull/7))
+- [x] Limit container memory to 12 GB and CPUs to 6.
+- [ ] Add a portable per-container storage limit; Docker Desktop support varies.
 - [ ] Add a PID limit.
-- [ ] Bind published ports to localhost only. ([PR #8](https://github.com/chrisisler/devbox/pull/8))
+- [x] Bind published ports to localhost only.
 - [x] Keep Docker/Podman sockets, host devices, and host namespaces unavailable.
 
 ## Build and supply chain
