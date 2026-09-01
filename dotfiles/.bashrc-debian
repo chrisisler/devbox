@@ -78,8 +78,8 @@ time24h="\A"
 export PS1="\n <${magenta}devbox$reset> ${yellow}${dir}${reset} $cyan|$reset "
 
 if [ -z "$GH_TOKEN" ]; then
-  #nothing
-else 
+  # nothing
+else
   gh auth login --with-token <<< $GH_TOKEN
   gh auth setup-git
   gh auth status
