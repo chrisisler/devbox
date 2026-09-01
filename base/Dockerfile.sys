@@ -23,9 +23,7 @@ RUN group_name="$(getent group 1000 | cut --delimiter=: --fields=1)" && \
       chgrp --recursive 1000 /usr/local && \
       find /usr/local -type d | xargs chmod g+w
 
-# Password-backed sudo is intentionally unconfigured for now.
-
-RUN printf "[user]\nname = Chris I\nemail = isl.chr@proton.me" > ~/.gitconfig
+RUN printf "[user]\nname = Chris I\nemail = christopherisler1@gmail.com" > ~/.gitconfig
 
 RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && \
       locale-gen en_US.UTF-8

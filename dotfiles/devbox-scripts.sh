@@ -24,6 +24,6 @@ devbox() {
     --volume "$HOME/.codex:/home/devuser/.codex" \
     --volume "$HOME/.copilot:/home/devuser/.copilot" \
     --volume "$HOME/.local/share/opencode:/home/devuser/.local/share/opencode" \
-    --name "agentbox-$branchName" \
+    --name "devbox-$branchName" \
       ${repo:?} /bin/bash
 }

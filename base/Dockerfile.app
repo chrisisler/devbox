@@ -131,7 +131,7 @@ RUN mkdir /home/devuser/.ssh && ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
 COPY --from=okta-builder /home/devuser/okta-cli/cli/target/okta /usr/local/bin/okta
 
-# RUN go install "github.com/pressly/goose/v3/cmd/goose@v3.27.3"
-# RUN go install "github.com/sqlc-dev/sqlc/cmd/sqlc@v1.31.1"
+RUN go install "github.com/pressly/goose/v3/cmd/goose@v3.27.3"
+RUN go install "github.com/sqlc-dev/sqlc/cmd/sqlc@v1.31.1"
 
 CMD ["/bin/bash"]
