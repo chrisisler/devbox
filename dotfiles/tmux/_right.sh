@@ -7,12 +7,6 @@ _disk() {
   printf "[$avail]"
 }
 
-_tmuxlineInfo() {
-  local windows="$(tmux list-windows | wc -l | tr -d ' ')W"
-  local sessions="$(tmux list-sessions | wc -l | tr -d ' ')S"
-  printf "[$windows $sessions]"
-}
-
 _containerId() {
   local result="ID: "$(uname -n)""
   printf "[$result]"
@@ -55,6 +49,8 @@ _windows() {
       [[ -n "$paneBranch" ]] && paneLabel+=":$paneBranch"
       if [[ "$active" == "1" && "$paneActive" == "1" ]]; then
         paneLabel="#[fg=colour11]$paneLabel#[fg=colour7]"
+      else
+        paneLabel="#[fg=colour7]$paneLabel#[fg=colour7]"
       fi
       panes+="$paneLabel "
     done < <(tmux list-panes -t "$windowId" -F "#{pane_index}"$'\t'"#{pane_active}"$'\t'"#{pane_pid}"$'\t'"#{pane_current_path}")
@@ -67,7 +63,6 @@ tmuxlineRight() {
   _windows
   # _disk
   # _containerId
-  _tmuxlineInfo
 }
 
 tmuxlineRight

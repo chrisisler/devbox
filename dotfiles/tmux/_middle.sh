@@ -3,6 +3,6 @@
 set -eu
 
 tmuxlineMiddle() {
-  continue
+  ~/devbox/dotfiles/tmux/_right.sh
 }
 tmuxlineMiddle
