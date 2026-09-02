@@ -112,6 +112,50 @@ If browser dependencies need to run in a separate container, do not mount
 - `tailscale up` still needs interactive login/auth (browser or `tailscale login`).
 - Not yet built/tested: run `make && make run` to verify.
 
+## tmux handoff (agentless-agent guidance)
+
+tmux is the operator's remote shell surface. Sessions, window indices, window
+names, and pane content are **not fixed** — they change each run. Do not hardcode
+`0:1`, `session 0`, or specific window titles. Discover the live layout first,
+then work generically.
+
+### Orientation
+
+- This interactive chat runs inside a tmux session on the local machine. Other
+  windows in that session may live-SSH into a remote Linux box, run
+  dashboards, tail logs, or do anything else. Which window is which varies.
+- An SSH window can itself host a **nested tmux server** on the remote side,
+  shown as a tab bar in the captured pane's bottom status line
+  (e.g. `[0] 0:btop 1:podman ...`). The local tmux cannot query that remote
+  server directly.
+
+### Discover the live layout
+
+```sh
+tmux ls                              # sessions; ids not guaranteed (often '0')
+tmux list-windows -t <session> -F '#{window_index} #{window_name} #{pane_current_path}'
+tmux list-panes  -t <session>        # pane ids + current command
+tmux capture-pane -t <session>:<win> -p   # read a window's visible content
+```
+
+### Drive a nested tmux (e.g. the remote SSH window)
+
+A remote tmux is only reachable by **injecting keystrokes into the local pane**
+and **reading back its captured output** — there is no direct server access.
+
+```sh
+# find the SSH pane: list windows, look for the ssh one, note its <win>
+tmux send-keys -t <session>:<win> C-b n     # next window in nested tmux
+sleep 1                                     # let it render
+tmux capture-pane -t <session>:<win> -p     # read result; tab bar shows which nested win
+```
+
+- Cycle with `C-b n` (next), `C-b p` (prev), `C-b <digit>` (jump by index).
+- Treat every injected keystroke as **live input visible on the operator's
+  screen**. Space commands out with `sleep` so screens render before capture.
+- When done, navigate back to the window you started on and leave the pane as
+  you found it.
+
 ## Next
 
 - Virtualize host filesystem
