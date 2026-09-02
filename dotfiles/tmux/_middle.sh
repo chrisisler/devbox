@@ -3,6 +3,6 @@
 set -eu
 
 tmuxlineMiddle() {
-  ~/devbox/dotfiles/tmux/_right.sh
+  ~/devbox/dotfiles/tmux/_right.sh "${1:-}"
 }
-tmuxlineMiddle
+tmuxlineMiddle "$@"
