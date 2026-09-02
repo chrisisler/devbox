@@ -95,6 +95,7 @@ RUN install --directory --owner=devuser --group=devuser \
 RUN apt-get install --assume-yes --quiet --no-install-recommends ripgrep
 RUN install --directory --owner=devuser --group=devuser /home/devuser/.local/share
 RUN curl -fsSL https://tailscale.com/install.sh | sh
+RUN mkdir -p /var/run/tailscale && chown devuser:devuser /var/run/tailscale
 
 # Sys: Be non-root user - Warning: affects remaining docker commands.
 USER devuser
