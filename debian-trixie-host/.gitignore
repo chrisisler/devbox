@@ -1,0 +1,9 @@
+# Never commit secrets / inventory (inventory contains host addresses)
+inventory.ini
+*.retry
+vault-password
+.env
+*.env
+
+# scratch from exploratory discovery (not part of the template)
+_pane_capture.txt

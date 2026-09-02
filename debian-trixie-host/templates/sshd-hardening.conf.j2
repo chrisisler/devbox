@@ -1,0 +1,11 @@
+# Managed by ansible - Debian host template
+PermitRootLogin {{ ssh_permit_root_login }}
+PasswordAuthentication {{ ssh_password_authentication }}
+MaxAuthTries {{ ssh_max_auth_tries }}
+AllowUsers {{ ssh_allow_users }}
+PubkeyAuthentication yes
+KbdInteractiveAuthentication no
+UsePAM yes
+X11Forwarding {{ ssh_x11_forwarding }}
+PrintMotd no
+AcceptEnv {{ ssh_accept_env }}

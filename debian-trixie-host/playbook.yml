@@ -1,0 +1,223 @@
+---
+# Debian Trixie Slim host template.
+# Rebuild a wipeable Debian 13 VPS host from a minimal install.
+# Idempotent. Safe to re-run. No secrets in this repo.
+- name: Debian Trixie host template
+  hosts: debian_host
+  become: true
+  gather_facts: true
+  pre_tasks:
+    - name: Fail on unsupported OS (template targets Debian 13 trixie)
+      ansible.builtin.fail:
+        msg: "This template targets Debian Trixie (12/13). Got {{ ansible_facts.distribution }} {{ ansible_facts.distribution_major_version }}"
+      when:
+        - ansible_facts.distribution != 'Debian'
+        - ansible_facts.distribution_release != 'trixie'
+
+  tasks:
+    - name: Assemble apt sources from deb822 (.sources)
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/debian.sources
+        content: |
+          Types: deb
+          URIs: http://deb.debian.org/debian
+          Suites: trixie trixie-updates
+          Components: main contrib non-free-firmware
+          Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+          Types: deb
+          URIs: http://security.debian.org/debian-security
+          Suites: trixie-security
+          Components: main contrib non-free-firmware
+          Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+      notify: apt update
+
+    - name: Install Tailscale apt keyring
+      ansible.builtin.get_url:
+        url: https://pkgs.tailscale.com/stable/debian/trixie.noarmor.gpg
+        dest: /usr/share/keyrings/tailscale-archive-keyring.gpg
+        mode: "0644"
+      notify: apt update
+
+    - name: Add Tailscale apt repository
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/tailscale.list
+        content: |
+          deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/debian trixie main
+      notify: apt update
+
+    - name: Set hostname
+      ansible.builtin.hostname:
+        name: "{{ host_hostname }}"
+
+    - name: Set timezone
+      community.general.timezone:
+        name: "{{ timezone }}"
+
+    - name: Ensure locales present
+      ansible.builtin.lineinfile:
+        path: /etc/locale.gen
+        regexp: '^#?\s*en_US\.UTF-8'
+        line: 'en_US.UTF-8 UTF-8'
+      notify: locale-gen
+
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Install base + tooling packages
+      ansible.builtin.apt:
+        name: "{{ apt_packages }}"
+        state: present
+
+    - name: Create primary user
+      ansible.builtin.user:
+        name: "{{ host_username }}"
+        uid: "{{ host_uid }}"
+        shell: /bin/bash
+        groups: "{{ host_groups | join(',') }}"
+        append: false
+        create_home: true
+        state: present
+
+    - name: Create .ssh dir for primary user
+      ansible.builtin.file:
+        path: "/home/{{ host_username }}/.ssh"
+        state: directory
+        owner: "{{ host_username }}"
+        group: "{{ host_username }}"
+        mode: "0700"
+
+    - name: Deploy authorized_keys
+      ansible.posix.authorized_key:
+        user: "{{ host_username }}"
+        key: "{{ ssh_public_keys | join('\n') }}"
+        state: present
+        exclusive: true
+
+    - name: Harden sshd (drop-in)
+      ansible.builtin.template:
+        src: sshd-hardening.conf.j2
+        dest: /etc/ssh/sshd_config.d/60-hardening.conf
+        owner: root
+        group: root
+        mode: "0600"
+        validate: /usr/sbin/sshd -t -f %s
+      notify: restart ssh
+
+    - name: Enable and start SSH
+      ansible.builtin.systemd_service:
+        name: ssh
+        enabled: true
+        state: started
+
+    # --- Firewall (ufw) ---
+    - name: Default deny incoming
+      community.general.ufw:
+        direction: incoming
+        policy: deny
+      when: ufw_default_deny_incoming
+
+    - name: Default allow outgoing
+      community.general.ufw:
+        direction: outgoing
+        policy: allow
+      when: ufw_default_allow_outgoing
+
+    - name: Allow configured ports (explicitly SSH)
+      community.general.ufw:
+        rule: allow
+        port: "{{ item.split('/')[0] }}"
+        proto: "{{ item.split('/')[1] if '/' in item else 'tcp' }}"
+      loop: "{{ ufw_allow_ports }}"
+
+    - name: Enable ufw
+      community.general.ufw:
+        state: enabled
+        logging: low
+
+    # --- Security ---
+    - name: Configure fail2ban (ssh jail)
+      ansible.builtin.copy:
+        dest: /etc/fail2ban/jail.local
+        content: |
+          [sshd]
+          enabled = true
+          backend = systemd
+      notify: restart fail2ban
+
+    - name: Enable fail2ban
+      ansible.builtin.systemd_service:
+        name: fail2ban
+        enabled: true
+        state: started
+
+    # --- Container platform (podman, rootless, docker-compatible) ---
+    - name: Enable lingering for user (keeps rootless user units running)
+      ansible.builtin.command:
+        cmd: "loginctl enable-linger {{ host_username }}"
+        creates: "/var/lib/systemd/linger/{{ host_username }}"
+
+    - name: Enable rootless podman user units (Docker-compatible socket)
+      ansible.builtin.systemd_service:
+        name: "{{ item }}"
+        enabled: true
+        scope: user
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{ host_uid }}"
+      become_user: "{{ host_username }}"
+      become: true
+      loop:
+        - podman.service
+        - podman.socket
+      # scope:user uses the user's dbus; linger (above) keeps user units alive.
+
+    # --- Tailscale (optional, needs runtime authkey secret) ---
+    - name: Enable tailscaled
+      ansible.builtin.systemd_service:
+        name: tailscaled
+        enabled: true
+        state: started
+      when: tailscale_enable
+
+    - name: Join tailnet (requires secret authkey from caller)
+      ansible.builtin.command:
+        cmd: "tailscale up --hostname={{ tailscale_hostname }} --authkey={{ tailscale_authkey }}"
+        creates: /var/lib/tailscale/tailscaled.state
+      when:
+        - tailscale_enable
+        - tailscale_authkey is defined and tailscale_authkey != ''
+
+    - name: Deploy primary user shell config (.tmux.conf)
+      ansible.builtin.copy:
+        dest: "/home/{{ host_username }}/.tmux.conf"
+        owner: "{{ host_username }}"
+        group: "{{ host_username }}"
+        mode: "0600"
+        content: |
+          set -g default-terminal "xterm-256color"
+          set -g base-index 0
+          setw -g pane-base-index 0
+          set -g mouse on
+          set -g history-limit 20000
+          setw -g mode-keys vi
+
+  handlers:
+    - name: apt update
+      ansible.builtin.command: apt-get update
+      changed_when: false
+
+    - name: locale-gen
+      ansible.builtin.command: locale-gen
+      changed_when: false
+
+    - name: restart ssh
+      ansible.builtin.systemd_service:
+        name: ssh
+        state: restarted
+
+    - name: restart fail2ban
+      ansible.builtin.systemd_service:
+        name: fail2ban
+        state: restarted
