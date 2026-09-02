@@ -19,15 +19,20 @@ _containerId() {
 }
 
 _windows() {
-  local out="$(tmux list-windows)"
-  local windows="$(printf "$out\n" | wc -l | xargs)"
+  local windows="$(tmux list-windows | wc -l | xargs)"
+  local format="#{window_index}"$'\t'"#{window_name}"$'\t'"#{window_active}"
   local result=""
-  if [[ $windows -le 1  ]]; then
-    local result="$(printf "$out" | awk '{ print $2 }' | tr '\n' ' ' | xargs)"
-  else
-    local result="$(printf "$out" | awk '{ print $1, $2 }' | tr '\n' ' ' | sed -e "s/: /:/g" | xargs)"
-  fi
-  printf "[$result]"
+  while IFS=$'\t' read -r index name active; do
+    local label="$name"
+    if [[ $windows -gt 1 ]]; then
+      label="$index:$name"
+    fi
+    if [[ "$active" == "1" ]]; then
+      label="#[fg=colour11]$label#[fg=colour7]"
+    fi
+    result+="$label "
+  done < <(tmux list-windows -F "$format")
+  printf "[%s]" "${result% }"
 }
 
 tmuxlineRight() {
