@@ -35,6 +35,11 @@ _paneProcess() {
   fi
 }
 
+_paneBranch() {
+  local branch="$(git -C "$1" branch --show-current 2>/dev/null || true)"
+  printf "%s" "$branch"
+}
+
 _windows() {
   local format="#{window_id}"$'\t'"#{window_index}"$'\t'"#{window_name}"$'\t'"#{window_active}"
   local result=""
@@ -42,10 +47,12 @@ _windows() {
     local panes=""
     while IFS=$'\t' read -r paneIndex paneActive panePid panePath; do
       local paneProcess="$(_paneProcess "$panePid")"
+      local paneBranch="$(_paneBranch "$panePath")"
       panePath="${panePath/#$HOME\//~\/}"
       panePath="${panePath/#\/home\/devuser\//~\/}"
       [[ -z "$paneProcess" ]] && paneProcess="$name"
       local paneLabel="$index:$paneProcess:$panePath"
+      [[ -n "$paneBranch" ]] && paneLabel+=":$paneBranch"
       if [[ "$active" == "1" && "$paneActive" == "1" ]]; then
         paneLabel="#[fg=colour11]$paneLabel#[fg=colour7]"
       fi
