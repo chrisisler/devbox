@@ -4,10 +4,10 @@ Containerized development environment for CLI agent use.
 
 ## Pre-reqs
 
-1. [Docker](https://docs.docker.com/install/)
-1. Make
-1. An authenticated GitHub CLI (`gh auth login`)
-1. Codex / Copilot / Opencode / etc.
+1. [Docker](https://docs.docker.com/install/) or [Podman](https://podman.io/)
+1. Make (`automake` / `cmake`)
+1. An authenticated GitHub CLI session (`gh auth login`)
+  - Treat this token as exposed to the agent, ensure it is scoped properly
 
 See [security-checklist.md](security-checklist.md) for the agent-container threat model and remaining work.
 
@@ -23,11 +23,6 @@ process suffix. The first live devbox owns host ports `3000`, `5173`, and
 share the configured host worktrees, so agents must coordinate file changes.
 
 ## Security / isolation
-
-On macOS, Docker Desktop runs Linux containers inside its Linux VM. `make run`
-uses Docker's default OCI runtime (normally `runc`); no Colima or custom runtime
-setup is required. This removes direct macOS-kernel sharing, but it does not add
-a userspace syscall boundary inside the Docker Desktop VM.
 
 The container runtime does not protect writable volumes, persisted agent state,
 or injected credentials; treat them as exposed to the agent. Repositories use
@@ -106,14 +101,22 @@ agent-browser screenshot /tmp/devbox-ui.png
 If browser dependencies need to run in a separate container, do not mount
 `/var/run/docker.sock` or use `--privileged` just to provide browser access.
 
+## Working state (agent handoff)
+
+- Tailscale is installed in the image but `tailscaled` was not running, so
+  `tailscale up` failed with "failed to connect to local tailscaled".
+- Fix: added `entrypoint.sh` that starts `tailscaled --tun=userspace-networking`
+  (no TUN device / no systemd needed in a container) and waits for the control
+  socket. The Dockerfile now uses it as `ENTRYPOINT`, so `CMD`/interactive bash
+  still runs after the daemon is up.
+- `tailscale up` still needs interactive login/auth (browser or `tailscale login`).
+- Not yet built/tested: run `make && make run` to verify.
+
 ## Next
 
-- Virtualize host filesystem (investigate Tailscale)
-- Fish shell (not needed)
-- Mail CLI (configuring CLI email is... not yet attempted)
-- Utilize `df -kHl` on devbox tmuxline
-- `sbx` (can't get it running)
-- smaller base image (alpine has musl/glibc compat issue, will try debian-slim next)
+- Virtualize host filesystem
+- Bash Line Editor
+- Containerized persisted, backed-up email client TUI setup
 
 ## Reading
 

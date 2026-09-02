@@ -77,10 +77,9 @@ _paneActiveRecently() {
   [[ "$last" =~ ^[0-9]+$ ]] && (( now - last <= 2 ))
 }
 
-_paneResources() {
+_paneMemory() {
   local pid="$1"
   local child=""
-  local cpu=0
   local rss=0
   local values=""
   local -a pending=("$pid")
@@ -88,16 +87,15 @@ _paneResources() {
   while [[ ${#pending[@]} -gt 0 ]]; do
     pid="${pending[0]}"
     pending=("${pending[@]:1}")
-    values="$(ps -o pcpu=,rss= -p "$pid" || true)"
+    values="$(ps -o rss= -p "$pid" || true)"
     if [[ -n "$values" ]]; then
-      cpu="$(awk -v total="$cpu" '{ print total + $1 }' <<< "$values")"
-      rss="$(awk -v total="$rss" '{ print total + $2 }' <<< "$values")"
+      rss="$(awk -v total="$rss" '{ print total + $1 }' <<< "$values")"
     fi
     while read -r child; do
       [[ -n "$child" ]] && pending+=("$child")
     done < <(pgrep -P "$pid" || true)
   done
-  printf "%.0f%% %.0fM" "$cpu" "$((rss / 1024))"
+  printf "%.0fM" "$((rss / 1024))"
 }
 
 _renderWindow() {
@@ -111,15 +109,13 @@ _renderWindow() {
     local paneGitState="$(_paneGitState "$panePath")"
     local paneBranch="${paneGitState%%|*}"
     local paneChanges="${paneGitState#*|}"
-    local paneResources="$(_paneResources "$panePid")"
-    local paneCpu="${paneResources%% *}"
-    local paneMemory="${paneResources#* }"
+    local paneMemory="$(_paneMemory "$panePid")"
     panePath="${panePath/#$HOME\//~\/}"
     panePath="${panePath/#\/home\/devuser\//~\/}"
     [[ -z "$paneProcess" ]] && paneProcess="$name"
     local paneLabel="$index:$paneProcess:$panePath"
     [[ -n "$paneBranch" ]] && paneLabel+=":$paneBranch"
-    paneLabel+=":$paneCpu:$paneMemory"
+    paneLabel+=":$paneMemory"
     if _paneActiveRecently "$panePid"; then
       anyBusy=1
       paneLabel="$(_spinner)$paneLabel"

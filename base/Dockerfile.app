@@ -92,6 +92,10 @@ RUN install --directory --owner=devuser --group=devuser \
     /home/devuser/.local/share/opencode \
     /home/devuser/.local/state
 
+RUN apt-get install --assume-yes --quiet --no-install-recommends ripgrep
+RUN install --directory --owner=devuser --group=devuser /home/devuser/.local/share
+RUN curl -fsSL https://tailscale.com/install.sh | sh
+
 # Sys: Be non-root user - Warning: affects remaining docker commands.
 USER devuser
 ENV USER=devuser
