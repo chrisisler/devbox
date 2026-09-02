@@ -16,6 +16,12 @@ See [security-checklist.md](security-checklist.md) for the agent-container threa
 1. Clone repo
 1. `make && make run  # build + run the image`
 
+Multiple `make run` processes can run at once, including multiple windows on
+the same branch. Each container gets a sanitized branch-based name with a
+process suffix. The first live devbox owns host ports `3000`, `5173`, and
+`8082`; later devboxes automatically skip those bindings. All containers still
+share the configured host worktrees, so agents must coordinate file changes.
+
 ## Security / isolation
 
 On macOS, Docker Desktop runs Linux containers inside its Linux VM. `make run`
