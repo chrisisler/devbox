@@ -73,8 +73,9 @@ Override any `group_vars/all.yml` value per target via
   sole primary admin user in sudo group, authorized_keys
 - ufw default deny-incoming / allow-outgoing with **explicit SSH allow**
 - fail2ban sshd jail, unattended-upgrades (default), timezone America/Chicago
-- podman rootless platform + user lingering
-- Optional Tailscale + tmux shell config
+- podman rootless platform: `podman.socket` (Docker-compatible, socket-activated)
+  + user lingering; app deploys wire their own user units
+- Optional Tailscale (daemon present, join needs authkey) + tmux shell config
 
 ## Deliberately NOT in the host template
 
@@ -97,3 +98,12 @@ Override any `group_vars/all.yml` value per target via
 - Source sshd edits live in the main `sshd_config`; this template applies the
   same directives via a `sshd_config.d` drop-in (`60-hardening.conf`), which is
   cleaner, idempotent, and package-upgrade-safe.
+
+## Design: boring by default (ponytail)
+
+Only the deltas a fresh Trixie Slim image does not already provide are touched:
+repos, packages, the admin user, sshd hardening, firewall, security tooling,
+container socket, optional tailscale. Not reproduced: the hand-assembled
+`debian.sources` (image ships `main contrib non-free-firmware`), locale, an
+OS-version gate, and any dbus/user-scope wiring (podman uses plain socket
+activation). Keep the smallest thing that works; easy to run, debug, replace.
