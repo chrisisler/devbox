@@ -77,27 +77,6 @@ _paneActiveRecently() {
   [[ "$last" =~ ^[0-9]+$ ]] && (( now - last <= 2 ))
 }
 
-_paneMemory() {
-  local pid="$1"
-  local child=""
-  local rss=0
-  local values=""
-  local -a pending=("$pid")
-
-  while [[ ${#pending[@]} -gt 0 ]]; do
-    pid="${pending[0]}"
-    pending=("${pending[@]:1}")
-    values="$(ps -o rss= -p "$pid" || true)"
-    if [[ -n "$values" ]]; then
-      rss="$(awk -v total="$rss" '{ print total + $1 }' <<< "$values")"
-    fi
-    while read -r child; do
-      [[ -n "$child" ]] && pending+=("$child")
-    done < <(pgrep -P "$pid" || true)
-  done
-  printf "%.0fM" "$((rss / 1024))"
-}
-
 _renderWindow() {
   local windowId="$1"
   local index="$2"
@@ -109,13 +88,9 @@ _renderWindow() {
     local paneGitState="$(_paneGitState "$panePath")"
     local paneBranch="${paneGitState%%|*}"
     local paneChanges="${paneGitState#*|}"
-    local paneMemory="$(_paneMemory "$panePid")"
-    panePath="${panePath/#$HOME\//~\/}"
-    panePath="${panePath/#\/home\/devuser\//~\/}"
     [[ -z "$paneProcess" ]] && paneProcess="$name"
-    local paneLabel="$index:$paneProcess:$panePath"
+    local paneLabel="$index:$paneProcess"
     [[ -n "$paneBranch" ]] && paneLabel+=":$paneBranch"
-    paneLabel+=":$paneMemory"
     if _paneActiveRecently "$panePid"; then
       anyBusy=1
       paneLabel="$(_spinner)$paneLabel"
