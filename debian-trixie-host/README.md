@@ -6,7 +6,8 @@ source host (Debian 13.6, hostname `debiani7`) — not a snapshot of transient
 runtime state. Nothing here is executed against the live source host.
 
 Validated statically: playbook syntax-check passes, every var resolves
-(only `tailscale_authkey` is external-by-design, gated by `is defined`),
+(only `tailscale_authkey` is external-by-design, read from the
+`TAILSCALE_AUTHKEY` env var and skipped when empty),
 sshd drop-in template renders sshd-valid output, tasks idempotent. Not
 destructively tested on any real host.
 
@@ -36,10 +37,10 @@ To target a remote VPS instead, edit `inventory.ini`:
 initial install must already allow key auth for your bootstrap user — see
 Secrets below.
 
-Optional Tailscale (needs secret auth key, never stored in repo):
+Optional Tailscale (authkey from `TAILSCALE_AUTHKEY` env var — CI secret or
+local `export`; never in repo):
 ```
-ansible-playbook playbook.yml -e tailscale_enable=true \
-    -e tailscale_authkey=tskey-auth-...
+TAILSCALE_AUTHKEY=tskey-auth-... ansible-playbook playbook.yml -e tailscale_enable=true
 ```
 
 Override any `group_vars/all.yml` value per target via
@@ -49,8 +50,8 @@ Override any `group_vars/all.yml` value per target via
 
 - Authorized SSH keys committed here are PUBLIC keys only.
 - Tailscale auth key, any passwords, ngrok/app tokens are supplied at run
-  time (`--extra-vars` or Ansible Vault). `.gitignore` blocks `.env`, vault
-  password, and `inventory.ini`.
+  time (`TAILSCALE_AUTHKEY` env var, `--extra-vars`, or Ansible Vault).
+  `.gitignore` blocks `.env` and vault password.
 - The source host's **private** key (`/home/inspiron/.ssh/id_ed25519`),
   host SSH keys, `.bash_history`, and Tailscale node state are runtime/machine
   data and are intentionally NOT reproduced. A fresh install regenerates host

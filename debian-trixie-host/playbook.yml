@@ -9,6 +9,10 @@
   hosts: debian_host
   become: true
   gather_facts: true
+  vars:
+    # Tailscale authkey from env (CI secret / local export). Never in repo.
+    # Override with -e tailscale_authkey=... if preferred.
+    tailscale_authkey: "{{ lookup('env', 'TAILSCALE_AUTHKEY') | default('', true) }}"
 
   tasks:
     # --- Repositories (only the deltas; the image ships debian.sources) ---
