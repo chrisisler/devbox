@@ -16,6 +16,10 @@ See [security-checklist.md](security-checklist.md) for the agent-container threa
 1. Clone repo
 1. `make && make run  # build + run the image`
 
+On first `make run`, enter one or more host directories to mount. Choices are
+cached in the repo-local, gitignored `.devbox-mounts` file and mounted at
+`/home/devuser/<directory-name>`. Delete `.devbox-mounts` to choose again.
+
 Multiple `make run` processes can run at once, including multiple windows on
 the same branch. Each container gets a sanitized branch-based name with a
 process suffix. The first live devbox owns host ports `3000`, `5173`, and
