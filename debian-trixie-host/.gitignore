@@ -1,5 +1,5 @@
-# Never commit secrets / inventory (inventory contains host addresses)
-inventory.ini
+# Never commit secrets / SSHD host addresses (inventory here is local/loopback only,
+# so inventory.ini itself is committed; override host in it if targeting remote)
 *.retry
 vault-password
 .env

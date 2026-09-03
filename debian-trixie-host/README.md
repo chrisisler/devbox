@@ -14,7 +14,7 @@ destructively tested on any real host.
 
 ```
 ansible.cfg                  ansible defaults
-inventory.ini.example        inventory template (copy to inventory.ini)
+inventory.ini                inventory (local/loopback by default; edit to target remote)
 group_vars/all.yml           all machine-specific + policy values (no secrets)
 playbook.yml                 idempotent host bootstrap, ordered
 requirements.yml             collections used
@@ -24,30 +24,23 @@ README.md                    this file
 
 ## Usage
 
-1. Copy inventory (local/root, replace target host):
-   ```
-   cp inventory.ini.example inventory.ini
-   ```
-   For a remote VPS: `ansible_connection=ssh`, set `ansible_host` to the new
-   machine (initial install must already allow key auth for your bootstrap
-   user — see Secrets below).
+Run against the local machine (default, no SSH, no copy step):
 
-2. Install collections:
-   ```
-   ansible-galaxy collection install -r requirements.yml
-   ```
+```
+ansible-playbook playbook.yml --check --diff
+ansible-playbook playbook.yml
+```
 
-3. Run (dry-run first):
-   ```
-   ansible-playbook playbook.yml --check --diff
-   ansible-playbook playbook.yml
-   ```
+To target a remote VPS instead, edit `inventory.ini`:
+`ansible_connection=ssh`, set `ansible_host` to the new machine, and the
+initial install must already allow key auth for your bootstrap user — see
+Secrets below.
 
-4. Optional Tailscale (needs secret auth key, never stored in repo):
-   ```
-   ansible-playbook playbook.yml -e tailscale_enable=true \
-       -e tailscale_authkey=tskey-auth-...
-   ```
+Optional Tailscale (needs secret auth key, never stored in repo):
+```
+ansible-playbook playbook.yml -e tailscale_enable=true \
+    -e tailscale_authkey=tskey-auth-...
+```
 
 Override any `group_vars/all.yml` value per target via
 `host_vars/<host>.yml`, `--extra-vars`, or group/host inventory entries.
