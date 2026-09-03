@@ -5,6 +5,7 @@ set -eu
 devbox_mounts() {
   local cache="$(git rev-parse --show-toplevel)/.devbox-mounts"
   local hostPath target existingTarget
+  local mountCount=0
   local -a hostPaths=()
   local -a targets=()
 
@@ -21,18 +22,27 @@ devbox_mounts() {
   else
     printf 'Choose directories to mount (blank entry ends selection)\n'
     while :; do
-      read -r -e -p "Directory $(( ${#hostPaths[@]} + 1 )): " hostPath
+      if ! read -r -e -p "Directory $((mountCount + 1)): " hostPath; then
+        hostPath=""
+      fi
       [[ -n "$hostPath" ]] || break
       [[ -d "$hostPath" ]] || {
         printf 'Not a directory: %s\n' "$hostPath" >&2
         continue
       }
       hostPaths+=("$(realpath -- "$hostPath")")
+      ((mountCount += 1))
     done
-    ((${#hostPaths[@]} > 0)) || {
-      printf 'Choose at least one directory\n' >&2
-      return 1
-    }
+    if ((${#hostPaths[@]} == 0)) && [[ -s "$cache" ]]; then
+      while IFS= read -r hostPath; do
+        [[ -n "$hostPath" ]] || continue
+        [[ -d "$hostPath" ]] || {
+          printf 'Cached mount directory does not exist: %s\nDelete %s to choose again\n' "$hostPath" "$cache" >&2
+          return 1
+        }
+        hostPaths+=("$(realpath -- "$hostPath")")
+      done < "$cache"
+    fi
   fi
 
   for hostPath in "${hostPaths[@]}"; do
@@ -46,10 +56,10 @@ devbox_mounts() {
     targets+=("$target")
     mountArgs+=(--volume "$hostPath:$target")
   done
-  [[ -s "$cache" ]] || {
+  if ((${#hostPaths[@]} > 0)) && [[ ! -s "$cache" ]]; then
     printf '%s\n' "${hostPaths[@]}" > "$cache"
     chmod 600 "$cache"
-  }
+  fi
 }
 
 devbox() {
