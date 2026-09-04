@@ -96,7 +96,7 @@ _renderWindow() {
       paneLabel="$(_spinner)$paneLabel"
     fi
     if [[ "$active" == "1" && "$paneActive" == "1" ]]; then
-      paneLabel="#[fg=colour11]$paneLabel#[fg=colour7]"
+      paneLabel="#[fg=colour14]$paneLabel#[fg=colour7]"
     else
       paneLabel="#[fg=colour7]$paneLabel#[fg=colour7]"
     fi
@@ -128,10 +128,35 @@ _windows() {
   printf "%s" "${result% }"
 }
 
+_sessions() {
+  local sessionNames=""
+  local sessionName=""
+  local sessionCount=0
+  local activeSession="$(tmux display-message -p '#{session_name}' 2>/dev/null || true)"
+  local sessionLabel=""
+
+  while IFS= read -r sessionName; do
+    [[ -n "$sessionName" ]] || continue
+    ((sessionCount += 1))
+    sessionLabel="S$sessionName"
+    if [[ "$sessionName" == "$activeSession" ]]; then
+      sessionLabel="#[fg=colour14]$sessionLabel#[fg=colour7]"
+    fi
+    sessionNames+="${sessionNames:+ }$sessionLabel"
+  done < <(tmux list-sessions -F "#{session_name}" 2>/dev/null || true)
+  if ((sessionCount > 1)); then
+    printf "[%s]" "$sessionNames"
+  fi
+}
+
 tmuxlineRight() {
   _windows "${1:-}"
   # _disk
   # _containerId
 }
 
-tmuxlineRight "${1:-}"
+if [[ "${1:-}" == "sessions" ]]; then
+  _sessions
+else
+  tmuxlineRight "${1:-}"
+fi
