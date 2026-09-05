@@ -32,7 +32,8 @@ Additional standalone images build with `make cimagemagick`, `make clilypond`,
 and `make csyncthing`, tagged `chrisisler/imagemagick`, `chrisisler/lilypond`,
 and `chrisisler/syncthing`.
 
-`make cmpv` builds `chrisisler/mpv`, used by `mpv <media file>`.
+`make mpv` checks macOS display/audio prerequisites, then builds
+`chrisisler/mpv`, used by `cmpv <media file>`. `make cmpv` remains an alias.
 
 `make cpulseaudio` builds `chrisisler/pulseaudio`, which the containerized MPV
 flow starts automatically. On macOS, this provides a Linux PulseAudio server

@@ -101,9 +101,8 @@ cmpv() {
   if [[ -n "$(type -P mpv)" ]]; then
     command mpv "$@"
   else
-    relies_on pulseaudio
     _container_file chrisisler/mpv cmpv "$file" \
-      --env PULSE_SERVER=tcp:pulseaudio:4713 \
-      --link pulseaudio:pulseaudio
+      --env DISPLAY=host.docker.internal:0 \
+      --env PULSE_SERVER=tcp:host.docker.internal:4713
   fi
 }

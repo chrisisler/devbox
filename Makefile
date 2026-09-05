@@ -13,7 +13,7 @@ all: cached
 run:
 	@source ./dotfiles/devbox-scripts.sh && devbox $(REPOSITORY)
 
-everything: base tdf termpdf cimagemagick clilypond csyncthing cpulseaudio cmpv
+everything: base tdf termpdf cimagemagick clilypond csyncthing cpulseaudio mpv
 
 tdf:
 	@docker build --tag $(TDF_REPOSITORY) --file base/tdf base
@@ -30,8 +30,17 @@ clilypond:
 csyncthing:
 	@docker build --tag $(SYNCTHING_REPOSITORY) --file base/syncthing base
 
-cmpv:
+mpv-host:
+	@command -v brew >/dev/null || { echo "mpv: install Homebrew first" >&2; exit 1; }
+	@test -d /Applications/XQuartz.app || { echo "mpv: install XQuartz first" >&2; exit 1; }
+	@command -v pulseaudio >/dev/null || { echo "mpv: install PulseAudio first" >&2; exit 1; }
+	@command -v pactl >/dev/null || { echo "mpv: install PulseAudio tools first" >&2; exit 1; }
+	@echo "mpv host prerequisites found; start XQuartz and PulseAudio before playback"
+
+mpv: mpv-host
 	@docker build --tag $(MPV_REPOSITORY) --file base/mpv base
+
+cmpv: mpv
 
 cpulseaudio:
 	@docker build --tag $(PULSEAUDIO_REPOSITORY) --file base/pulseaudio base
@@ -55,4 +64,4 @@ update:
 	@./dotfiles/update-dotfiles.sh
 
 .PHONY: all base dotfiles everything clean cached tdf termpdf \
-	cimagemagick clilypond csyncthing cpulseaudio cmpv
+	cimagemagick clilypond csyncthing cpulseaudio mpv-host mpv cmpv
