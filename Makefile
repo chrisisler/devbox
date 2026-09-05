@@ -35,8 +35,9 @@ mpv-host:
 	@test "$$(uname -s)" = Darwin || { echo "mpv: host setup requires macOS" >&2; exit 1; }
 	@command -v brew >/dev/null || { echo "mpv: install Homebrew first" >&2; exit 1; }
 	@test -d /Applications/XQuartz.app || brew install --cask xquartz
-	@test "$$(defaults read /Applications/XQuartz.app/Contents/Info.plist CFBundleShortVersionString 2>/dev/null)" = "$(XQUARTZ_VERSION)" || \
-		{ echo "mpv: XQuartz $(XQUARTZ_VERSION) required" >&2; exit 1; }
+	@xquartz_version="$$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' /Applications/XQuartz.app/Contents/Info.plist 2>/dev/null)"; \
+		test "$$xquartz_version" = "$(XQUARTZ_VERSION)" || \
+		{ echo "mpv: XQuartz $(XQUARTZ_VERSION) required (found: $${xquartz_version:-unknown})" >&2; exit 1; }
 	@command -v pulseaudio >/dev/null || brew install pulseaudio
 	@command -v pactl >/dev/null || { echo "mpv: PulseAudio tools unavailable" >&2; exit 1; }
 	@defaults write org.xquartz.X11 nolisten_tcp -bool false
