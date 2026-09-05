@@ -36,7 +36,14 @@ mpv-host:
 	@test -d /Applications/XQuartz.app || brew install --cask xquartz
 	@command -v pulseaudio >/dev/null || brew install pulseaudio
 	@command -v pactl >/dev/null || { echo "mpv: PulseAudio tools unavailable" >&2; exit 1; }
-	@echo "mpv host prerequisites found; start XQuartz and PulseAudio before playback"
+	@defaults write org.xquartz.X11 nolisten_tcp -bool false
+	@open -a XQuartz
+	@sleep 2
+	@DISPLAY=:0 xhost +localhost
+	@pulseaudio --check >/dev/null 2>&1 || pulseaudio --exit-idle-time=-1
+	@pactl list modules short | grep -q 'module-native-protocol-tcp' || \
+		pactl load-module module-native-protocol-tcp port=4713 auth-anonymous=1 >/dev/null
+	@echo "mpv host setup complete; restart XQuartz once if it was already running"
 
 mpv: mpv-host
 	@docker build --tag $(MPV_REPOSITORY) --file base/mpv base
