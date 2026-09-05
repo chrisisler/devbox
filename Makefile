@@ -7,6 +7,7 @@ LILYPOND_REPOSITORY := chrisisler/lilypond
 SYNCTHING_REPOSITORY := chrisisler/syncthing
 MPV_REPOSITORY := chrisisler/mpv
 PULSEAUDIO_REPOSITORY := chrisisler/pulseaudio
+TIMG_REPOSITORY := chrisisler/timg
 XQUARTZ_VERSION := 2.8.6
 
 all: cached
@@ -14,7 +15,7 @@ all: cached
 run:
 	@source ./dotfiles/devbox-scripts.sh && devbox $(REPOSITORY)
 
-everything: base tdf termpdf cimagemagick clilypond csyncthing cpulseaudio mpv
+everything: base tdf termpdf cimagemagick clilypond csyncthing cpulseaudio mpv timg
 
 tdf:
 	@docker build --tag $(TDF_REPOSITORY) --file base/tdf base
@@ -58,6 +59,9 @@ mpv: mpv-host
 
 cmpv: mpv
 
+timg:
+	@docker build --tag $(TIMG_REPOSITORY) --file base/timg base
+
 cpulseaudio:
 	@docker build --tag $(PULSEAUDIO_REPOSITORY) --file base/pulseaudio base
 
@@ -80,4 +84,4 @@ update:
 	@./dotfiles/update-dotfiles.sh
 
 .PHONY: all base dotfiles everything clean cached tdf termpdf \
-	cimagemagick clilypond csyncthing cpulseaudio mpv-host mpv cmpv
+	cimagemagick clilypond csyncthing cpulseaudio mpv-host mpv cmpv timg

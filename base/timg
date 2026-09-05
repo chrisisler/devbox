@@ -1,0 +1,31 @@
+# syntax=docker/dockerfile:1
+
+FROM debian:trixie-slim AS build
+RUN apt-get update && \
+    apt-get install --assume-yes --quiet --no-install-recommends \
+    build-essential cmake pkg-config git ca-certificates \
+    libdeflate-dev libavcodec-dev libavdevice-dev libavformat-dev \
+    libavutil-dev libswresample-dev libswscale-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN git init --quiet /tmp/timg && \
+    git -C /tmp/timg remote add origin https://github.com/hzeller/timg.git && \
+    git -C /tmp/timg fetch --quiet --depth 1 origin v1.6.3 && \
+    git -C /tmp/timg checkout --quiet --detach FETCH_HEAD && \
+    cmake -S /tmp/timg -B /tmp/timg-build \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DTIMG_VERSION_FROM_GIT=OFF \
+      -DWITH_LIBSIXEL=OFF \
+      -DWITH_VIDEO_DEVICE=OFF \
+      -DCMAKE_INSTALL_PREFIX=/out && \
+    cmake --build /tmp/timg-build --parallel && \
+    cmake --install /tmp/timg-build
+
+FROM debian:trixie-slim
+RUN apt-get update && \
+    apt-get install --assume-yes --quiet --no-install-recommends \
+    libdeflate0 libavcodec61 libavformat61 libavutil59 \
+    libswresample5 libswscale8 && \
+    rm -rf /var/lib/apt/lists/*
+COPY --from=build /out/bin/timg /usr/local/bin/timg
+ENTRYPOINT ["timg", "-pk"]
