@@ -112,9 +112,13 @@ mpv() {
 
 timg() {
   local file="${1:?usage: timg <image or video>}"
+  local geometry
+  geometry="$(tput cols)x$(tput lines)"
   if [[ -n "$(type -P timg)" ]]; then
-    command timg -pk "$@"
+    command timg -pk -g "$geometry" --clear=every "$@"
   else
-    _container_file chrisisler/timg timg "$file"
+    _container_file chrisisler/timg timg "$file" \
+      -g "$geometry" \
+      --clear=every
   fi
 }
