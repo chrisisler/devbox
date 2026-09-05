@@ -2,64 +2,10 @@
 
 set -eu
 
-devbox_mounts() {
-  local cache="$(git rev-parse --show-toplevel)/.devbox-mounts"
-  local hostPath target existingTarget
-  local mountCount=0
-  local -a hostPaths=()
-  local -a targets=()
-
-  if [[ -s "$cache" ]]; then
-    while IFS= read -r hostPath; do
-      [[ -n "$hostPath" ]] || continue
-      [[ -d "$hostPath" ]] || {
-        printf 'Cached mount directory does not exist: %s\nDelete %s to choose again\n' "$hostPath" "$cache" >&2
-        return 1
-      }
-      hostPath="$(realpath -- "$hostPath")"
-      hostPaths+=("$hostPath")
-      ((mountCount += 1))
-    done < "$cache"
-  else
-    printf 'Choose directories to mount (blank entry ends selection)\n'
-    while :; do
-      if ! read -r -e -p "Directory $((mountCount + 1)): " hostPath; then
-        hostPath=""
-      fi
-      [[ -n "$hostPath" ]] || break
-      [[ -d "$hostPath" ]] || {
-        printf 'Not a directory: %s\n' "$hostPath" >&2
-        continue
-      }
-      hostPaths+=("$(realpath -- "$hostPath")")
-      ((mountCount += 1))
-    done
-  fi
-
-  if ((mountCount > 0)); then
-    for hostPath in "${hostPaths[@]}"; do
-      target="/home/devuser/$(basename -- "$hostPath")"
-      for existingTarget in "${targets[@]}"; do
-        [[ "$existingTarget" != "$target" ]] || {
-          printf 'Mount target collision: %s\nChoose directories with unique names\n' "$target" >&2
-          return 1
-        }
-      done
-      targets+=("$target")
-      mountArgs+=(--volume "$hostPath:$target")
-    done
-    if [[ ! -s "$cache" ]]; then
-      printf '%s\n' "${hostPaths[@]}" > "$cache"
-      chmod 600 "$cache"
-    fi
-  fi
-}
-
 devbox() {
   local repo="$1"
   local branchName="$(git rev-parse --abbrev-ref HEAD)"
   local containerName="devbox-${branchName//[^a-zA-Z0-9_.-]/-}-$$"
-  local -a mountArgs=()
   local dockerArgs=(
     run
     --interactive
@@ -83,15 +29,11 @@ devbox() {
     )
   fi
 
-  devbox_mounts
-
-  if [[ ${mountArgs[0]+set} ]]; then
-    dockerArgs+=("${mountArgs[@]}")
-  fi
-
   # --volume "$HOME/.fcc:/home/devuser/.fcc" \
   # -e MODEL="openai/gpt-5.6-luna" \
   docker "${dockerArgs[@]}" \
+    --volume "$HOME/Desktop/devbox:/home/devuser/devbox" \
+    --volume "$HOME/Desktop/projects/habitops:/home/devuser/habitops" \
     --volume "$HOME/.ssh/devbox:/home/devuser/.ssh" \
     --volume "$HOME/.codex:/home/devuser/.codex" \
     --volume "$HOME/.copilot:/home/devuser/.copilot" \
