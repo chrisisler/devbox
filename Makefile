@@ -8,6 +8,8 @@ all: cached
 run:
 	@source ./dotfiles/devbox-scripts.sh && devbox $(REPOSITORY)
 
+everything: base tdf
+
 tdf:
 	@docker build --tag $(TDF_REPOSITORY) --file base/tdf base
 
@@ -30,4 +32,4 @@ cached: base
 update:
 	@./dotfiles/update-dotfiles.sh
 
-.PHONY: all base dotfiles clean cached tdf
+.PHONY: all base dotfiles everything clean cached tdf
