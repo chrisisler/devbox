@@ -1,7 +1,7 @@
 REPOSITORY := chrisisler/devbox
 BASE_SYS_REPOSITORY := $(REPOSITORY)-base-sys
 BASE_REPOSITORY := $(REPOSITORY)-base
-TDF_REPOSITORY := $(REPOSITORY)-tdf
+TDF_REPOSITORY := $(or $(DOCKER_REPO_PREFIX),chrisisler)/tdf
 
 all: cached
 

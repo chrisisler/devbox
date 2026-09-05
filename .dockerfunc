@@ -3,18 +3,33 @@
 # Runs toolbox containers instead of installing on the host.
 
 DOCKER_REPO_PREFIX=${DOCKER_REPO_PREFIX:-chrisisler}
-PDF_IMAGE=${PDF_IMAGE:-${DOCKER_REPO_PREFIX}/devbox-tdf}
+
+del_stopped() {
+  local name="$1"
+  local state
+  state="$(docker inspect --format '{{.State.Running}}' "$name" 2>/dev/null)" || return 0
+  if [[ "$state" == "false" ]]; then
+    docker rm "$name"
+  fi
+}
 
 pdf() {
   local file="${1:?usage: pdf <file in shared/ or absolute host path>}"
   if [[ -n "$(command -v tdf)" ]]; then
     tdf "$@"
   else
+    local target
+    if [[ "$file" == shared/* ]]; then
+      target="/home/devuser/shared/${file#shared/}"
+    else
+      target="/home/devuser/shared/${file#"$HOME"/Desktop/devbox/shared/}"
+    fi
+    del_stopped tdf
     docker run -it --rm --init \
       --log-driver none \
       --name tdf \
       --volume "$HOME/Desktop/devbox/shared:/home/devuser/shared:ro" \
-      "$PDF_IMAGE" \
-      tdf "/home/devuser/shared/${file#"$HOME"/Desktop/devbox/shared/}"
+      "${DOCKER_REPO_PREFIX}/tdf" \
+      tdf "$target"
   fi
 }
