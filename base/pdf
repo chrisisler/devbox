@@ -1,34 +1,33 @@
 # syntax=docker/dockerfile:1
 
-# Minimal tdf (terminal PDF viewer) image.
-FROM debian:trixie-slim AS build
+# TermPDF-rs PDF viewer image. The upstream PDFium bundle is x86_64-only.
+FROM --platform=linux/amd64 debian:trixie-slim AS build
 RUN apt-get update && \
     apt-get install --assume-yes --quiet --no-install-recommends \
-    build-essential clang libclang-dev pkg-config libfontconfig1-dev \
-    curl ca-certificates git && \
+    build-essential pkg-config libfontconfig1-dev curl ca-certificates git && \
     rm -rf /var/lib/apt/lists/*
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/rustup.sh && \
     sh /tmp/rustup.sh -y --profile minimal --no-modify-path && \
     rm --force /tmp/rustup.sh
 
-COPY tdf-kitty-tmux.patch /tmp/tdf-kitty-tmux.patch
+RUN git init --quiet /tmp/termpdf-rs && \
+    git -C /tmp/termpdf-rs remote add origin https://github.com/amanagr/termpdf-rs.git && \
+    git -C /tmp/termpdf-rs fetch --quiet --depth 1 origin 6421295741bb8ccb76c7ebb0a9c3bad690a3bdc8 && \
+    git -C /tmp/termpdf-rs checkout --quiet --detach FETCH_HEAD && \
+    cd /tmp/termpdf-rs && \
+    ./setup.sh && \
+    /root/.cargo/bin/cargo build --release --locked && \
+    install --directory /out/bin && \
+    install target/release/termpdf /out/bin/termpdf && \
+    install vendor/libpdfium.so /out/bin/libpdfium.so
 
-RUN git init --quiet /tmp/tdf && \
-    git -C /tmp/tdf remote add origin https://github.com/itsjunetime/tdf.git && \
-    git -C /tmp/tdf fetch --quiet --depth 1 origin de0050499e96f2f9d69b3e380fa3dd8de7119b90 && \
-    git -C /tmp/tdf checkout --quiet --detach FETCH_HEAD && \
-    git -C /tmp/tdf apply /tmp/tdf-kitty-tmux.patch && \
-    sed --in-place \
-        's/Picker::from_query_stdio()/Picker::from_query_stdio().map(|mut picker| { picker.set_protocol_type(ProtocolType::Kitty); picker })/' \
-        /tmp/tdf/src/main.rs && \
-    /root/.cargo/bin/cargo install --root /out --path /tmp/tdf --locked && \
-    test -x /out/bin/tdf
-
-FROM debian:trixie-slim
+FROM --platform=linux/amd64 debian:trixie-slim
 RUN apt-get update && \
     apt-get install --assume-yes --quiet --no-install-recommends \
-    fontconfig && \
+    fontconfig libstdc++6 && \
     rm -rf /var/lib/apt/lists/*
-COPY --from=build /out/bin/tdf /usr/local/bin/tdf
-ENTRYPOINT ["tdf"]
+COPY --from=build /out/bin/termpdf /usr/local/bin/termpdf
+COPY --from=build /out/bin/libpdfium.so /usr/local/lib/libpdfium.so
+ENV TERMPDF_PDFIUM=/usr/local/lib/libpdfium.so
+ENTRYPOINT ["termpdf"]

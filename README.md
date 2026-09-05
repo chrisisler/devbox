@@ -20,6 +20,10 @@ On first `make run`, enter one or more host directories to mount. Choices are
 cached in the repo-local, gitignored `.devbox-mounts` file and mounted at
 `/home/devuser/<directory-name>`. Delete `.devbox-mounts` to choose again.
 
+`make pdf` builds the TermPDF-rs PDF viewer image used by `pdf <filename>`.
+The image keeps the existing TDF tag and wrapper interface while testing
+TermPDF-rs rendering and caching.
+
 Multiple `make run` processes can run at once, including multiple windows on
 the same branch. Each container gets a sanitized branch-based name with a
 process suffix. The first live devbox owns host ports `3000`, `5173`, and
