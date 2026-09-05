@@ -39,7 +39,9 @@ mpv-host:
 	@defaults write org.xquartz.X11 nolisten_tcp -bool false
 	@open -a XQuartz
 	@sleep 2
-	@DISPLAY=:0 xhost +localhost
+	@xhost="$$(command -v xhost || printf '%s' /opt/X11/bin/xhost)"; \
+		test -x "$$xhost" || { echo "mpv: XQuartz xhost unavailable" >&2; exit 1; }; \
+		DISPLAY=:0 "$$xhost" +localhost
 	@pulseaudio --check >/dev/null 2>&1 || pulseaudio --exit-idle-time=-1
 	@pactl list modules short | grep -q 'module-native-protocol-tcp' || \
 		pactl load-module module-native-protocol-tcp port=4713 auth-anonymous=1 >/dev/null
