@@ -102,7 +102,7 @@ termpdf() {
 cmpv() {
   local file="${1:?usage: mpv <media file>}"
   if [[ -n "$(type -P mpv)" ]]; then
-    command mpv "$@"
+    command mpv --shuffle --loop-file=inf "$@"
   else
     _container_file chrisisler/mpv cmpv "$file" \
       --env DISPLAY=host.docker.internal:0 \
