@@ -34,8 +34,10 @@ csyncthing:
 mpv-host:
 	@test "$$(uname -s)" = Darwin || { echo "mpv: host setup requires macOS" >&2; exit 1; }
 	@command -v brew >/dev/null || { echo "mpv: install Homebrew first" >&2; exit 1; }
-	@test -d /Applications/XQuartz.app || brew install --cask xquartz
-	@xquartz_version="$$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' /Applications/XQuartz.app/Contents/Info.plist 2>/dev/null)"; \
+	@test -d /Applications/XQuartz.app || test -d /Applications/Utilities/XQuartz.app || brew install --cask xquartz
+	@xquartz_app="$$(mdfind 'kMDItemCFBundleIdentifier == "org.xquartz.X11"' | head -n1)"; \
+		xquartz_app="$${xquartz_app:-/Applications/Utilities/XQuartz.app}"; \
+		xquartz_version="$$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$$xquartz_app/Contents/Info.plist" 2>/dev/null)"; \
 		test "$$xquartz_version" = "$(XQUARTZ_VERSION)" || \
 		{ echo "mpv: XQuartz $(XQUARTZ_VERSION) required (found: $${xquartz_version:-unknown})" >&2; exit 1; }
 	@command -v pulseaudio >/dev/null || brew install pulseaudio
