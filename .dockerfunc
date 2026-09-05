@@ -41,6 +41,17 @@ _container_file() {
   shift 3
   local host_file host_dir filename
   local tmux_env=()
+  local docker_args=()
+  local command_args=()
+  while (($#)); do
+    if [[ "$1" == "--" ]]; then
+      shift
+      command_args=("$@")
+      break
+    fi
+    docker_args+=("$1")
+    shift
+  done
   if [[ "$file" == shared/* ]]; then
     host_file="$HOME/Desktop/devbox/shared/${file#shared/}"
   else
@@ -65,9 +76,10 @@ _container_file() {
     --env TERM="${TERM:-xterm-256color}" \
     --env TERM_PROGRAM="${TERM_PROGRAM:-ghostty}" \
     "${tmux_env[@]}" \
-    "$@" \
+    "${docker_args[@]}" \
     --volume "$host_dir:/home/pdf:ro" \
     "$image" \
+    "${command_args[@]}" \
     "/home/pdf/$filename"
 }
 
@@ -118,6 +130,7 @@ timg() {
     command timg -pk -g "$geometry" --clear=every "$@"
   else
     _container_file chrisisler/timg timg "$file" \
+      -- \
       -g "$geometry" \
       --clear=every
   fi
