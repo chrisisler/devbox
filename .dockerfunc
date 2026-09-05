@@ -50,25 +50,25 @@ _container_pdf() {
     --env TERM="${TERM:-xterm-256color}" \
     --env TERM_PROGRAM="${TERM_PROGRAM:-ghostty}" \
     "${tmux_env[@]}" \
-    --volume "$host_dir:/home/devuser/pdf:ro" \
+    --volume "$host_dir:/pdf:ro" \
     "$image" \
-    "/home/devuser/pdf/$filename"
+    "/pdf/$filename"
 }
 
-ctdf() {
-  local file="${1:?usage: ctdf <file in shared/ or absolute host path>}"
+tdf() {
+  local file="${1:?usage: tdf <docker-shared file in shared/ or absolute host path>}"
   if [[ -n "$(command -v tdf)" ]]; then
     tdf "$@"
   else
-    _container_pdf chrisisler/tdf ctdf "$file"
+    _container_pdf chrisisler/tdf tdf "$file"
   fi
 }
 
-ctermpdf() {
-  local file="${1:?usage: ctermpdf <file in shared/ or absolute host path>}"
+termpdf() {
+  local file="${1:?usage: termpdf <docker-shared file in shared/ or absolute host path>}"
   if [[ -n "$(command -v termpdf)" ]]; then
     termpdf "$@"
   else
-    _container_pdf chrisisler/termpdf ctermpdf "$file"
+    _container_pdf chrisisler/termpdf termpdf "$file"
   fi
 }
