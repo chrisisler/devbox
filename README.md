@@ -26,7 +26,8 @@ cached in the repo-local, gitignored `.devbox-mounts` file and mounted at
 
 `make tdf` builds `chrisisler/tdf`, used by `tdf <filename>`. `make termpdf`
 builds `chrisisler/termpdf`, used by `termpdf <filename>`. They are separate
-fallback flows.
+fallback flows. Multiple `tdf`, `termpdf`, or `mpv` commands can run at once;
+Docker assigns each viewer a unique container name.
 
 Additional standalone images build with `make cimagemagick`, `make clilypond`,
 and `make csyncthing`, tagged `chrisisler/imagemagick`, `chrisisler/lilypond`,

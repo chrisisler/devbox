@@ -58,10 +58,8 @@ _container_file() {
   if [[ -n "${TMUX:-}" ]]; then
     tmux_env=(--env "TMUX=$TMUX")
   fi
-  del_stopped "$container"
   docker run -it --rm --init \
     --log-driver none \
-    --name "$container" \
     --env TERM="${TERM:-xterm-256color}" \
     --env TERM_PROGRAM="${TERM_PROGRAM:-ghostty}" \
     "${tmux_env[@]}" \
