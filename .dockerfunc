@@ -46,9 +46,12 @@ _container_file() {
   else
     host_file="$file"
   fi
+  if [[ "$host_file" == *[\*\?\[]* ]]; then
+    host_file="${host_file%/*}"
+  fi
   host_dir="${host_file%/*}"
   filename="${host_file##*/}"
-  if [[ ! -f "$host_file" ]]; then
+  if [[ ! -e "$host_file" ]]; then
     printf '%s: file not found: %s\n' "$container" "$host_file" >&2
     return 1
   fi
