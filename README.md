@@ -2,6 +2,10 @@
 
 Containerized development environment for CLI agent use.
 
+Devbox goal is zero host installations: tools and services run inside Docker or
+Podman. Host hardware integration may use existing platform interfaces, but
+must not require installing supporting software on the host.
+
 ## Pre-reqs
 
 1. [Docker](https://docs.docker.com/install/) or [Podman](https://podman.io/)

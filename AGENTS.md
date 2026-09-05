@@ -6,6 +6,13 @@ travel with the code.
 
     Add durable project-specific notes here as they are discovered through real work.
 
+## Core project constraint
+
+Devbox goal: do not install tools or services on host hardware outside Docker
+or Podman. Host integration must use existing platform interfaces only; when a
+container cannot reach host hardware, document the limitation instead of
+adding a host installation requirement.
+
 # Ponytail, lazy senior dev mode
 
 You are a lazy senior developer. Lazy means efficient, not careless. The best code is the code never written.
