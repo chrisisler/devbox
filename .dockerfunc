@@ -109,3 +109,16 @@ mpv() {
       --env PULSE_SERVER=tcp:host.docker.internal:4713
   fi
 }
+
+timg() {
+  local file="${1:?usage: timg <image or video>}"
+  local geometry
+  geometry="$(tput cols)x$(tput lines)"
+  if [[ -n "$(type -P timg)" ]]; then
+    command timg -pk -g "$geometry" --clear=every "$@"
+  else
+    _container_file chrisisler/timg timg "$file" \
+      -g "$geometry" \
+      --clear=every
+  fi
+}

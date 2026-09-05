@@ -35,6 +35,9 @@ and `chrisisler/syncthing`.
 `make mpv` checks macOS display/audio prerequisites, then builds
 `chrisisler/mpv`, used by `cmpv <media file>`. `make cmpv` remains an alias.
 
+`make timg` builds `chrisisler/timg`, used by `timg <image or video>` for
+Kitty-native terminal rendering.
+
 `make cpulseaudio` builds `chrisisler/pulseaudio`, which the containerized MPV
 flow starts automatically. On macOS, this provides a Linux PulseAudio server
 but cannot reach CoreAudio speakers by itself; a host PulseAudio TCP server or
