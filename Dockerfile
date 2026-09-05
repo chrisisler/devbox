@@ -55,12 +55,14 @@ RUN --mount=type=cache,target=/home/devuser/.m2,uid=1000,gid=1000 \
     cd /home/devuser/okta-cli && \
     mvn clean install -DskipTests
 
-FROM chrisisler/devbox-base
+FROM chrisisler/devbox-base-sys
 LABEL maintainer="Chris Isler <christopherisler1@gmail.com>"
 
 USER root
 RUN apt-get update && apt-get install --assume-yes --quiet --no-install-recommends \
-    golang podman-docker postgresql gh && \
+    golang podman-docker postgresql gh \
+    libavcodec-dev libavformat-dev libavutil-dev libavfilter-dev \
+    libavdevice-dev libswscale-dev libswresample-dev && \
     rm -rf /var/lib/apt/lists
 RUN curl -sSL https://deb.nodesource.com/setup_24.x | bash - && \
     apt-get install --assume-yes --quiet --no-install-recommends nodejs && \
@@ -94,6 +96,33 @@ RUN install --directory --owner=devuser --group=devuser \
     /home/devuser/.local/state
 ENV VERCEL_TELEMETRY_DEBUG=0
 USER devuser
+ENV USER=devuser
+ENV HOME=/home/devuser
+ENV PATH="${HOME}/.local/bin:${PATH}"
+ENV EDITOR=/usr/bin/vi
+
+WORKDIR /home/devuser/habitops
+
+RUN mkdir /home/devuser/.ssh && ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+
+# Free Claude Code and its provider-backed coding-agent wrappers.
+# RUN curl --fail --silent --show-error --location \
+#     https://raw.githubusercontent.com/Alishahryar1/free-claude-code/main/scripts/install.sh \
+#     --output /tmp/free-claude-code-install.sh && \
+#     sed --in-place \
+#       -e 's/install_claude=1/install_claude=0/g' \
+#       -e 's/install_cline=1/install_cline=0/g' \
+#       -e 's/install_codex=1/install_codex=1/g' \
+#       -e 's/install_dsh=1/install_dsh=0/g' \
+#       -e 's/install_aider=1/install_aider=0/g' \
+#       -e 's/install_grok=1/install_grok=0/g' \
+#       -e 's/install_hermes=1/install_hermes=0/g' \
+#       -e 's/install_muse=1/install_muse=0/g' \
+#       -e 's/install_opencode=1/install_opencode=1/g' \
+#       -e 's/install_pi=1/install_pi=0/g' \
+#       /tmp/free-claude-code-install.sh && \
+#     sh /tmp/free-claude-code-install.sh --rtk && \
+#     rm --force /tmp/free-claude-code-install.sh
 
 RUN --mount=type=cache,target=/home/devuser/go/pkg/mod,uid=1000,gid=1000 \
     --mount=type=cache,target=/home/devuser/go/pkg/sumdb,uid=1000,gid=1000 \
