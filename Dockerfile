@@ -60,16 +60,16 @@ LABEL maintainer="Chris Isler <christopherisler1@gmail.com>"
 
 USER root
 RUN apt-get update && apt-get install --assume-yes --quiet --no-install-recommends \
-    golang podman-docker postgresql gh \
-    libavcodec-dev libavformat-dev libavutil-dev libavfilter-dev \
-    libavdevice-dev libswscale-dev libswresample-dev && \
+    podman-docker postgresql gh && \
     rm -rf /var/lib/apt/lists
-RUN curl -sSL https://deb.nodesource.com/setup_24.x | bash - && \
+RUN --mount=type=cache,target=/root/.npm \
+    curl -sSL https://deb.nodesource.com/setup_24.x | bash - && \
     apt-get install --assume-yes --quiet --no-install-recommends nodejs && \
     rm -rf /var/lib/apt/lists && \
     npm install --global typescript@7.0.2 && \
     node --version
-RUN npm install --global vercel
+RUN --mount=type=cache,target=/root/.npm \
+    npm install --global vercel
 RUN set -eux; \
     curl --fail --silent --show-error --location https://apt.releases.hashicorp.com/gpg | \
       gpg --dearmor --yes --output /usr/share/keyrings/hashicorp-archive-keyring.gpg; \
@@ -81,8 +81,10 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists
 RUN curl -fsSL https://tailscale.com/install.sh | sh
 RUN mkdir -p /var/run/tailscale && chown devuser:devuser /var/run/tailscale
-RUN npm install --global @openai/codex@0.151.0 @github/copilot@1.0.82 opencode-ai
-RUN npm install --global --allow-scripts=agent-browser agent-browser@0.35.2
+RUN --mount=type=cache,target=/root/.npm \
+    npm install --global @openai/codex@0.151.0 @github/copilot@1.0.82 opencode-ai
+RUN --mount=type=cache,target=/root/.npm \
+    npm install --global --allow-scripts=agent-browser agent-browser@0.35.2
 RUN curl --fail --silent --show-error \
     --location https://raw.githubusercontent.com/rtk-ai/rtk/v0.46.0/install.sh \
     --output /tmp/rtk-install.sh && \
@@ -105,52 +107,12 @@ WORKDIR /home/devuser/habitops
 
 RUN mkdir /home/devuser/.ssh && ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
-# Free Claude Code and its provider-backed coding-agent wrappers.
-# RUN curl --fail --silent --show-error --location \
-#     https://raw.githubusercontent.com/Alishahryar1/free-claude-code/main/scripts/install.sh \
-#     --output /tmp/free-claude-code-install.sh && \
-#     sed --in-place \
-#       -e 's/install_claude=1/install_claude=0/g' \
-#       -e 's/install_cline=1/install_cline=0/g' \
-#       -e 's/install_codex=1/install_codex=1/g' \
-#       -e 's/install_dsh=1/install_dsh=0/g' \
-#       -e 's/install_aider=1/install_aider=0/g' \
-#       -e 's/install_grok=1/install_grok=0/g' \
-#       -e 's/install_hermes=1/install_hermes=0/g' \
-#       -e 's/install_muse=1/install_muse=0/g' \
-#       -e 's/install_opencode=1/install_opencode=1/g' \
-#       -e 's/install_pi=1/install_pi=0/g' \
-#       /tmp/free-claude-code-install.sh && \
-#     sh /tmp/free-claude-code-install.sh --rtk && \
-#     rm --force /tmp/free-claude-code-install.sh
+COPY --chown=devuser:devuser dotfiles /home/devuser/devbox/dotfiles
 
-RUN --mount=type=cache,target=/home/devuser/go/pkg/mod,uid=1000,gid=1000 \
-    --mount=type=cache,target=/home/devuser/go/pkg/sumdb,uid=1000,gid=1000 \
-    --mount=type=cache,target=/home/devuser/.cache/go-build,uid=1000,gid=1000 \
-    set -eux; \
-    mkdir --parents /home/devuser/go/pkg/sumdb/sum.golang.org; \
-    GOBIN=/usr/local/bin go install "github.com/pressly/goose/v3/cmd/goose@v3.27.3" & goose_pid=$!; \
-    GOBIN=/usr/local/bin go install "github.com/sqlc-dev/sqlc/cmd/sqlc@v1.31.1" & sqlc_pid=$!; \
-    goose_status=0; sqlc_status=0; \
-    wait "$goose_pid" || goose_status=$?; \
-    wait "$sqlc_pid" || sqlc_status=$?; \
-    test "$goose_status" -eq 0; \
-    test "$sqlc_status" -eq 0
-
-RUN git clone --single-branch --branch master https://github.com/chrisisler/devbox ~/devbox && \
+RUN mkdir --parents ~/devbox && \
       ln --symbolic ~/devbox/dotfiles/.inputrc ~/.inputrc && \
       ln --symbolic --force ~/devbox/dotfiles/.bashrc-debian ~/.bashrc && \
-      ln --symbolic ~/devbox/dotfiles/tmux/.tmux.conf ~/.tmux.conf && \
-      echo "004"
-#       mkdir ~/.vim && \
-#       ln --symbolic ~/devbox/dotfiles/.vim/rc ~/.vim/rc && \
-#       mkdir ~/.config && \
-#       ln --symbolic ~/devbox/dotfiles/.vim ~/.config/nvim && \
-#       ln --symbolic ~/devbox/dotfiles/.vimrc ~/.config/nvim/init.vim && \
-#       ln --symbolic ~/.config/nvim/init.vim ~/.vimrc
-#
-# RUN vim -V1 -Es -N -i NONE -U NONE -u ~/.config/nvim/init.vim +'PlugInstall --sync' +qa 2>&1
-# RUN vim -V1 -Es -N -i NONE -U NONE -u ~/.config/nvim/init.vim +UpdateRemotePlugins +qa 2>&1
+      ln --symbolic ~/devbox/dotfiles/tmux/.tmux.conf ~/.tmux.conf
 
 COPY --from=okta-builder /home/devuser/okta-cli/cli/target/okta /usr/local/bin/okta
 

@@ -6,7 +6,8 @@ RUN apt-get update && \
       apt-get install --assume-yes --quiet --no-install-recommends git tmux \
       wget curl man ca-certificates sudo build-essential tree locales less \
       gpg gpg-agent ssh file bash-completion xclip python3-pip python3-setuptools tig \
-      pkg-config lsof nnn ripgrep eza vim-tiny
+      pkg-config lsof nnn ripgrep eza vim-tiny && \
+      rm -rf /var/lib/apt/lists/*
 
 RUN group_name="$(getent group 1000 | cut --delimiter=: --fields=1)" && \
       if [ -z "${group_name}" ]; then \
