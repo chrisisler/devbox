@@ -5,4 +5,4 @@ RUN apt-get update && \
     apt-get install --assume-yes --quiet --no-install-recommends \
     mpv pulseaudio-utils libasound2-plugins && \
     rm -rf /var/lib/apt/lists/*
-ENTRYPOINT ["mpv", "--vo=gpu", "--gpu-context=x11egl", "--gpu-api=opengl", "--ao=pulse", "--shuffle", "--loop-file=inf"]
+ENTRYPOINT ["mpv", "--vo=x11", "--ao=pulse", "--shuffle", "--loop-file=inf"]
