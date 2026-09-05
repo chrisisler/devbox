@@ -96,16 +96,11 @@ RUN apt-get update && apt-get install --assume-yes --quiet --no-install-recommen
     nnn podman-docker ripgrep eza
     
 RUN apt-get update && apt-get install --assume-yes --quiet --no-install-recommends \
-    build-essential pkg-config clang unzip \
+    build-essential pkg-config \
     libavcodec-dev libavformat-dev libavutil-dev libavfilter-dev \
-    libavdevice-dev libswscale-dev libswresample-dev libfontconfig1-dev libclang-dev && \
+    libavdevice-dev libswscale-dev libswresample-dev && \
     rm -rf /var/lib/apt/lists
 
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/rustup.sh && \
-    sh /tmp/rustup.sh -y --profile minimal --no-modify-path && \
-    rm -f /tmp/rustup.sh && \
-    /root/.cargo/bin/cargo install --root /usr/local --git https://github.com/itsjunetime/tdf.git --locked && \
-    test -x /usr/local/bin/tdf
 RUN install --directory --owner=devuser --group=devuser \
     /home/devuser/.local/share
 RUN curl -fsSL https://tailscale.com/install.sh | sh

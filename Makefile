@@ -1,11 +1,15 @@
 REPOSITORY := chrisisler/devbox
 BASE_SYS_REPOSITORY := $(REPOSITORY)-base-sys
 BASE_REPOSITORY := $(REPOSITORY)-base
+TDF_REPOSITORY := $(REPOSITORY)-tdf
 
 all: cached
 
 run:
 	@source ./dotfiles/devbox-scripts.sh && devbox $(REPOSITORY)
+
+tdf:
+	@docker build --tag $(TDF_REPOSITORY) --file base/tdf base
 
 clean-base:
 	@docker rmi --force $(BASE_REPOSITORY) $(BASE_SYS_REPOSITORY)
@@ -26,4 +30,4 @@ cached: base
 update:
 	@./dotfiles/update-dotfiles.sh
 
-.PHONY: all base dotfiles clean cached
+.PHONY: all base dotfiles clean cached tdf
