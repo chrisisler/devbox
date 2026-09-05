@@ -2,7 +2,7 @@
 
 # Minimal tdf (terminal PDF viewer) image: alpine build + run.
 FROM alpine:3.21 AS build
-RUN apk add --no-cache build-base pkgconfig fontconfig-dev curl && \
+RUN apk add --no-cache build-base clang python3 pkgconfig fontconfig-dev curl && \
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/rustup.sh && \
     sh /tmp/rustup.sh -y --profile minimal --no-modify-path && \
     rm -f /tmp/rustup.sh && \
