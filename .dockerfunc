@@ -11,30 +11,50 @@ del_stopped() {
   fi
 }
 
-pdf() {
-  local file="${1:?usage: pdf <file in shared/ or absolute host path>}"
+_container_pdf() {
+  local viewer="$1" image="$2" container="$3" file="$4"
+  local host_file host_dir filename
+  local tmux_env=()
+  if [[ "$file" == shared/* ]]; then
+    host_file="$HOME/Desktop/devbox/shared/${file#shared/}"
+  else
+    host_file="$file"
+  fi
+  host_dir="${host_file%/*}"
+  filename="${host_file##*/}"
+  if [[ ! -f "$host_file" ]]; then
+    printf '%s: file not found: %s\n' "$viewer" "$host_file" >&2
+    return 1
+  fi
+  if [[ -n "${TMUX:-}" ]]; then
+    tmux_env=(--env "TMUX=$TMUX")
+  fi
+  del_stopped "$container"
+  docker run -it --rm --init \
+    --log-driver none \
+    --name "$container" \
+    --env TERM="${TERM:-xterm-256color}" \
+    --env TERM_PROGRAM="${TERM_PROGRAM:-ghostty}" \
+    "${tmux_env[@]}" \
+    --volume "$host_dir:/home/devuser/pdf:ro" \
+    "$image" \
+    "/home/devuser/pdf/$filename"
+}
+
+ctdf() {
+  local file="${1:?usage: ctdf <file in shared/ or absolute host path>}"
   if [[ -n "$(command -v tdf)" ]]; then
     tdf "$@"
   else
-    local target
-    local tmux_env=()
-    if [[ "$file" == shared/* ]]; then
-      target="/home/devuser/shared/${file#shared/}"
-    else
-      target="/home/devuser/shared/${file#"$HOME"/Desktop/devbox/shared/}"
-    fi
-    if [[ -n "${TMUX:-}" ]]; then
-      tmux_env=(--env "TMUX=$TMUX")
-    fi
-    del_stopped tdf
-    docker run -it --rm --init \
-      --log-driver none \
-      --name tdf \
-      --env TERM="${TERM:-xterm-256color}" \
-      --env TERM_PROGRAM="${TERM_PROGRAM:-ghostty}" \
-      "${tmux_env[@]}" \
-      --volume "$HOME/Desktop/devbox/shared:/home/devuser/shared:ro" \
-      "${DOCKER_REPO_PREFIX}/tdf" \
-      "$target"
+    _container_pdf ctdf chrisisler/tdf ctdf "$file"
+  fi
+}
+
+ctermpdf() {
+  local file="${1:?usage: ctermpdf <file in shared/ or absolute host path>}"
+  if [[ -n "$(command -v termpdf)" ]]; then
+    termpdf "$@"
+  else
+    _container_pdf ctermpdf chrisisler/termpdf ctermpdf "$file"
   fi
 }

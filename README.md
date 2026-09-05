@@ -20,9 +20,9 @@ On first `make run`, enter one or more host directories to mount. Choices are
 cached in the repo-local, gitignored `.devbox-mounts` file and mounted at
 `/home/devuser/<directory-name>`. Delete `.devbox-mounts` to choose again.
 
-`make pdf` builds the TermPDF-rs PDF viewer image used by `pdf <filename>`.
-The image keeps the existing TDF tag and wrapper interface while testing
-TermPDF-rs rendering and caching.
+`make ctdf` builds `chrisisler/tdf`, used by `ctdf <filename>`. `make ctermpdf`
+builds `chrisisler/termpdf`, used by `ctermpdf <filename>`. They are separate
+fallback flows.
 
 Multiple `make run` processes can run at once, including multiple windows on
 the same branch. Each container gets a sanitized branch-based name with a
