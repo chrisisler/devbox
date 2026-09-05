@@ -4,7 +4,7 @@ FROM debian:trixie-slim AS build
 RUN apt-get update && \
     apt-get install --assume-yes --quiet --no-install-recommends \
     build-essential cmake pkg-config git ca-certificates \
-    libdeflate-dev libturbojpeg0-dev libavcodec-dev libavdevice-dev libavformat-dev \
+    libdeflate-dev libturbojpeg0-dev libexif-dev libavcodec-dev libavdevice-dev libavformat-dev \
     libavutil-dev libswresample-dev libswscale-dev && \
     rm -rf /var/lib/apt/lists/*
 
@@ -24,7 +24,7 @@ RUN git init --quiet /tmp/timg && \
 FROM debian:trixie-slim
 RUN apt-get update && \
     apt-get install --assume-yes --quiet --no-install-recommends \
-    libdeflate0 libturbojpeg0 libavcodec61 libavformat61 libavutil59 \
+    libdeflate0 libturbojpeg0 libexif12 libavcodec61 libavformat61 libavutil59 \
     libswresample5 libswscale8 && \
     rm -rf /var/lib/apt/lists/*
 COPY --from=build /out/bin/timg /usr/local/bin/timg
