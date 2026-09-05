@@ -5,13 +5,14 @@ TERMPDF_REPOSITORY := chrisisler/termpdf
 IMAGEMAGICK_REPOSITORY := chrisisler/imagemagick
 LILYPOND_REPOSITORY := chrisisler/lilypond
 SYNCTHING_REPOSITORY := chrisisler/syncthing
+MPV_REPOSITORY := chrisisler/mpv
 
 all: cached
 
 run:
 	@source ./dotfiles/devbox-scripts.sh && devbox $(REPOSITORY)
 
-everything: base tdf termpdf cimagemagick clilypond csyncthing
+everything: base tdf termpdf cimagemagick clilypond csyncthing cmpv
 
 tdf:
 	@docker build --tag $(TDF_REPOSITORY) --file base/tdf base
@@ -27,6 +28,9 @@ clilypond:
 
 csyncthing:
 	@docker build --tag $(SYNCTHING_REPOSITORY) --file base/syncthing base
+
+cmpv:
+	@docker build --tag $(MPV_REPOSITORY) --file base/mpv base
 
 clean-base:
 	@docker rmi --force $(BASE_SYS_REPOSITORY)
@@ -47,4 +51,4 @@ update:
 	@./dotfiles/update-dotfiles.sh
 
 .PHONY: all base dotfiles everything clean cached tdf termpdf \
-	cimagemagick clilypond csyncthing
+	cimagemagick clilypond csyncthing cmpv

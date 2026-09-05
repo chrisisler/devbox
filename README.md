@@ -28,6 +28,8 @@ Additional standalone images build with `make cimagemagick`, `make clilypond`,
 and `make csyncthing`, tagged `chrisisler/imagemagick`, `chrisisler/lilypond`,
 and `chrisisler/syncthing`.
 
+`make cmpv` builds `chrisisler/mpv`, used by `mpv <media file>`.
+
 Multiple `make run` processes can run at once, including multiple windows on
 the same branch. Each container gets a sanitized branch-based name with a
 process suffix. The first live devbox owns host ports `3000`, `5173`, and

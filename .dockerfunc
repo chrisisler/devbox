@@ -25,7 +25,7 @@ del_stopped() {
   fi
 }
 
-_container_pdf() {
+_container_file() {
   local image="$1" container="$2" file="$3"
   local host_file host_dir filename
   local tmux_env=()
@@ -60,7 +60,7 @@ tdf() {
   if [[ -n "$(type -P tdf)" ]]; then
     tdf "$@"
   else
-    _container_pdf chrisisler/tdf tdf "$file"
+    _container_file chrisisler/tdf tdf "$file"
   fi
 }
 
@@ -69,6 +69,15 @@ termpdf() {
   if [[ -n "$(type -P termpdf)" ]]; then
     termpdf "$@"
   else
-    _container_pdf chrisisler/termpdf termpdf "$file"
+    _container_file chrisisler/termpdf termpdf "$file"
+  fi
+}
+
+mpv() {
+  local file="${1:?usage: mpv <media file>}"
+  if [[ -n "$(type -P mpv)" ]]; then
+    command mpv "$@"
+  else
+    _container_file chrisisler/mpv mpv "$file"
   fi
 }
