@@ -57,7 +57,7 @@ _container_pdf() {
 
 tdf() {
   local file="${1:?usage: tdf <docker-shared file in shared/ or absolute host path>}"
-  if [[ -n "$(command -v tdf)" ]]; then
+  if [[ -n "$(type -P tdf)" ]]; then
     tdf "$@"
   else
     _container_pdf chrisisler/tdf tdf "$file"
@@ -66,7 +66,7 @@ tdf() {
 
 termpdf() {
   local file="${1:?usage: termpdf <docker-shared file in shared/ or absolute host path>}"
-  if [[ -n "$(command -v termpdf)" ]]; then
+  if [[ -n "$(type -P termpdf)" ]]; then
     termpdf "$@"
   else
     _container_pdf chrisisler/termpdf termpdf "$file"
