@@ -34,6 +34,7 @@ devbox() {
   docker "${dockerArgs[@]}" \
     --volume "$HOME/Desktop/devbox:/home/devuser/devbox" \
     --volume "$HOME/Desktop/projects/habitops:/home/devuser/habitops" \
+    --volume "$HOME/Desktop/devbox/shared:/home/devuser/shared" \
     --volume "$HOME/.ssh/devbox:/home/devuser/.ssh" \
     --volume "$HOME/.codex:/home/devuser/.codex" \
     --volume "$HOME/.copilot:/home/devuser/.copilot" \
