@@ -31,10 +31,11 @@ csyncthing:
 	@docker build --tag $(SYNCTHING_REPOSITORY) --file base/syncthing base
 
 mpv-host:
+	@test "$$(uname -s)" = Darwin || { echo "mpv: host setup requires macOS" >&2; exit 1; }
 	@command -v brew >/dev/null || { echo "mpv: install Homebrew first" >&2; exit 1; }
-	@test -d /Applications/XQuartz.app || { echo "mpv: install XQuartz first" >&2; exit 1; }
-	@command -v pulseaudio >/dev/null || { echo "mpv: install PulseAudio first" >&2; exit 1; }
-	@command -v pactl >/dev/null || { echo "mpv: install PulseAudio tools first" >&2; exit 1; }
+	@test -d /Applications/XQuartz.app || brew install --cask xquartz
+	@command -v pulseaudio >/dev/null || brew install pulseaudio
+	@command -v pactl >/dev/null || { echo "mpv: PulseAudio tools unavailable" >&2; exit 1; }
 	@echo "mpv host prerequisites found; start XQuartz and PulseAudio before playback"
 
 mpv: mpv-host
