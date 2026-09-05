@@ -42,7 +42,7 @@ mpv-host:
 	@xhost="$$(command -v xhost || printf '%s' /opt/X11/bin/xhost)"; \
 		test -x "$$xhost" || { echo "mpv: XQuartz xhost unavailable" >&2; exit 1; }; \
 		DISPLAY=:0 "$$xhost" +localhost
-	@pulseaudio --check >/dev/null 2>&1 || pulseaudio --exit-idle-time=-1
+	@pactl info >/dev/null 2>&1 || pulseaudio --exit-idle-time=-1
 	@pactl list modules short | grep -q 'module-native-protocol-tcp' || \
 		pactl load-module module-native-protocol-tcp port=4713 auth-anonymous=1 >/dev/null
 	@echo "mpv host setup complete; restart XQuartz once if it was already running"
