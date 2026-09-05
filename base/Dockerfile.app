@@ -63,12 +63,11 @@ FROM chrisisler/devbox-base-sys
 
 RUN curl -sSL https://deb.nodesource.com/setup_24.x | bash - && \
     apt-get install --assume-yes --quiet --no-install-recommends nodejs lsof postgresql && \
+    rm -rf /var/lib/apt/lists && \
     npm install --global typescript@7.0.2 && \
     node --version
 
 RUN npm install --global @openai/codex@0.151.0 @github/copilot@1.0.82 vercel opencode-ai
-RUN apt-get install --assume-yes --quiet --no-install-recommends podman-docker nnn chromium autojump
-
 RUN npm install --global --allow-scripts=agent-browser agent-browser@0.35.2
 
 RUN curl --fail --silent --show-error \
@@ -86,14 +85,23 @@ RUN set -eux; \
       > /etc/apt/sources.list.d/hashicorp.list; \
     apt-get update; \
     apt-get install --assume-yes --quiet --no-install-recommends terraform; \
-    terraform version
+    terraform version && \
+    rm -rf /var/lib/apt/lists
 
 RUN install --directory --owner=devuser --group=devuser \
     /home/devuser/.local/share/opencode \
     /home/devuser/.local/state
 
-RUN apt-get install --assume-yes --quiet --no-install-recommends ripgrep
-RUN install --directory --owner=devuser --group=devuser /home/devuser/.local/share
+RUN apt-get update && apt-get install --assume-yes --quiet --no-install-recommends \
+    nnn podman-docker ripgrep eza rustc cargo poppler-utils chafa
+    
+RUN apt-get update && apt-get install --assume-yes --quiet --no-install-recommends \
+    build-essential pkg-config \
+    libavcodec-dev libavformat-dev libavutil-dev libavfilter-dev \
+    libavdevice-dev libswscale-dev libswresample-dev libfontconfig1-dev libclang-dev && \
+    rm -rf /var/lib/apt/lists
+RUN install --directory --owner=devuser --group=devuser \
+    /home/devuser/.local/share
 RUN curl -fsSL https://tailscale.com/install.sh | sh
 RUN mkdir -p /var/run/tailscale && chown devuser:devuser /var/run/tailscale
 
@@ -105,6 +113,8 @@ ENV HOME=/home/devuser
 ENV PATH="${HOME}/.local/bin:${PATH}"
 ENV EDITOR=/usr/bin/vi
 ENV VERCEL_TELEMETRY_DEBUG=0
+
+WORKDIR /home/devuser/habitops
 
 # Free Claude Code and its provider-backed coding-agent wrappers.
 # RUN curl --fail --silent --show-error --location \
@@ -124,8 +134,6 @@ ENV VERCEL_TELEMETRY_DEBUG=0
 #       /tmp/free-claude-code-install.sh && \
 #     sh /tmp/free-claude-code-install.sh --rtk && \
 #     rm --force /tmp/free-claude-code-install.sh
-
-WORKDIR /home/devuser/habitops
 
 RUN mkdir /home/devuser/.ssh && ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
