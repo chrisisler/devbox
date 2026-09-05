@@ -1,7 +1,5 @@
-# dockerized host tools: source this from ~/.bashrc
-#   echo 'source ~/devbox/.dockerfunc' >> ~/.bashrc
-# Runs toolbox containers instead of installing on the host.
-
+# echo 'source ~/devbox/.dockerfunc' >> ~/.bashrc
+#
 DOCKER_REPO_PREFIX=${DOCKER_REPO_PREFIX:-chrisisler}
 
 del_stopped() {
