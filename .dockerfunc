@@ -50,9 +50,9 @@ _container_pdf() {
     --env TERM="${TERM:-xterm-256color}" \
     --env TERM_PROGRAM="${TERM_PROGRAM:-ghostty}" \
     "${tmux_env[@]}" \
-    --volume "$host_dir:/pdf:ro" \
+    --volume "$host_dir:/home/pdf:ro" \
     "$image" \
-    "/pdf/$filename"
+    "/home/pdf/$filename"
 }
 
 tdf() {
