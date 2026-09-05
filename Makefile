@@ -11,12 +11,12 @@ all: cached
 run:
 	@source ./dotfiles/devbox-scripts.sh && devbox $(REPOSITORY)
 
-everything: base ctdf ctermpdf cimagemagick clilypond csyncthing
+everything: base tdf termpdf cimagemagick clilypond csyncthing
 
-ctdf:
+tdf:
 	@docker build --tag $(TDF_REPOSITORY) --file base/tdf base
 
-ctermpdf:
+termpdf:
 	@docker build --tag $(TERMPDF_REPOSITORY) --file base/termpdf base
 
 cimagemagick:
@@ -46,5 +46,5 @@ cached: base
 update:
 	@./dotfiles/update-dotfiles.sh
 
-.PHONY: all base dotfiles everything clean cached ctdf ctermpdf \
+.PHONY: all base dotfiles everything clean cached tdf termpdf \
 	cimagemagick clilypond csyncthing
