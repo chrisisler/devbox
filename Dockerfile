@@ -60,7 +60,9 @@ LABEL maintainer="Chris Isler <christopherisler1@gmail.com>"
 
 USER root
 RUN apt-get update && apt-get install --assume-yes --quiet --no-install-recommends \
-    podman-docker postgresql gh && \
+    podman-docker uidmap slirp4netns fuse-overlayfs postgresql gh && \
+    printf 'devuser:100000:65536\n' >> /etc/subuid && \
+    printf 'devuser:100000:65536\n' >> /etc/subgid && \
     rm -rf /var/lib/apt/lists
 RUN --mount=type=cache,target=/root/.npm \
     curl -sSL https://deb.nodesource.com/setup_24.x | bash - && \
