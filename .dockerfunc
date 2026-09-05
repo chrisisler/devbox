@@ -25,8 +25,20 @@ del_stopped() {
   fi
 }
 
-_container_pdf() {
+relies_on() {
+  local container state
+  for container in "$@"; do
+    state="$(docker inspect --format '{{.State.Running}}' "$container" 2>/dev/null)"
+    if [[ "$state" != "true" ]]; then
+      printf '%s is not running, starting it for you.\n' "$container"
+      "$container"
+    fi
+  done
+}
+
+_container_file() {
   local image="$1" container="$2" file="$3"
+  shift 3
   local host_file host_dir filename
   local tmux_env=()
   if [[ "$file" == shared/* ]]; then
@@ -34,9 +46,12 @@ _container_pdf() {
   else
     host_file="$file"
   fi
+  if [[ "$host_file" == *[\*\?\[]* ]]; then
+    host_file="${host_file%/*}"
+  fi
   host_dir="${host_file%/*}"
   filename="${host_file##*/}"
-  if [[ ! -f "$host_file" ]]; then
+  if [[ ! -e "$host_file" ]]; then
     printf '%s: file not found: %s\n' "$container" "$host_file" >&2
     return 1
   fi
@@ -50,9 +65,20 @@ _container_pdf() {
     --env TERM="${TERM:-xterm-256color}" \
     --env TERM_PROGRAM="${TERM_PROGRAM:-ghostty}" \
     "${tmux_env[@]}" \
+    "$@" \
     --volume "$host_dir:/home/pdf:ro" \
     "$image" \
     "/home/pdf/$filename"
+}
+
+pulseaudio() {
+  del_stopped pulseaudio
+  if [[ "$(docker inspect --format '{{.State.Running}}' pulseaudio 2>/dev/null)" != "true" ]]; then
+    docker run --detach \
+      --name pulseaudio \
+      --publish 4713:4713 \
+      chrisisler/pulseaudio
+  fi
 }
 
 tdf() {
@@ -60,7 +86,7 @@ tdf() {
   if [[ -n "$(type -P tdf)" ]]; then
     tdf "$@"
   else
-    _container_pdf chrisisler/tdf tdf "$file"
+    _container_file chrisisler/tdf tdf "$file"
   fi
 }
 
@@ -69,6 +95,17 @@ termpdf() {
   if [[ -n "$(type -P termpdf)" ]]; then
     termpdf "$@"
   else
-    _container_pdf chrisisler/termpdf termpdf "$file"
+    _container_file chrisisler/termpdf termpdf "$file"
+  fi
+}
+
+mpv() {
+  local file="${1:?usage: mpv <media file>}"
+  if [[ -n "$(type -P mpv)" ]]; then
+    command mpv --shuffle --loop-file=inf "$@"
+  else
+    _container_file chrisisler/mpv mpv "$file" \
+      --env DISPLAY=host.docker.internal:0 \
+      --env PULSE_SERVER=tcp:host.docker.internal:4713
   fi
 }

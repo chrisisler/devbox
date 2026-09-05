@@ -2,6 +2,10 @@
 
 Containerized development environment for CLI agent use.
 
+Devbox goal is zero host installations: tools and services run inside Docker or
+Podman. Host hardware integration may use existing platform interfaces, but
+must not require installing supporting software on the host.
+
 ## Pre-reqs
 
 1. [Docker](https://docs.docker.com/install/) or [Podman](https://podman.io/)
@@ -27,6 +31,14 @@ fallback flows.
 Additional standalone images build with `make cimagemagick`, `make clilypond`,
 and `make csyncthing`, tagged `chrisisler/imagemagick`, `chrisisler/lilypond`,
 and `chrisisler/syncthing`.
+
+`make mpv` checks macOS display/audio prerequisites, then builds
+`chrisisler/mpv`, used by `cmpv <media file>`. `make cmpv` remains an alias.
+
+`make cpulseaudio` builds `chrisisler/pulseaudio`, which the containerized MPV
+flow starts automatically. On macOS, this provides a Linux PulseAudio server
+but cannot reach CoreAudio speakers by itself; a host PulseAudio TCP server or
+separate macOS audio bridge is still required for audible playback.
 
 Multiple `make run` processes can run at once, including multiple windows on
 the same branch. Each container gets a sanitized branch-based name with a
