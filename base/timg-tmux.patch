@@ -1,0 +1,6 @@
+diff --git a/src/kitty-canvas.cc b/src/kitty-canvas.cc
+--- a/src/kitty-canvas.cc
++++ b/src/kitty-canvas.cc
+@@ -88,1 +88,1 @@ static void EnableTmuxPassthrough() {
+-    const int ret = system("tmux set -p allow-passthrough on > /dev/null 2>&1");
++    const int ret = 0;
