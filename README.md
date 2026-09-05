@@ -20,9 +20,13 @@ On first `make run`, enter one or more host directories to mount. Choices are
 cached in the repo-local, gitignored `.devbox-mounts` file and mounted at
 `/home/devuser/<directory-name>`. Delete `.devbox-mounts` to choose again.
 
-`make ctdf` builds `chrisisler/tdf`, used by `ctdf <filename>`. `make ctermpdf`
-builds `chrisisler/termpdf`, used by `ctermpdf <filename>`. They are separate
+`make tdf` builds `chrisisler/tdf`, used by `tdf <filename>`. `make termpdf`
+builds `chrisisler/termpdf`, used by `termpdf <filename>`. They are separate
 fallback flows.
+
+Additional standalone images build with `make cimagemagick`, `make clilypond`,
+and `make csyncthing`, tagged `chrisisler/imagemagick`, `chrisisler/lilypond`,
+and `chrisisler/syncthing`.
 
 Multiple `make run` processes can run at once, including multiple windows on
 the same branch. Each container gets a sanitized branch-based name with a

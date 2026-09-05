@@ -2,6 +2,20 @@
 #
 DOCKER_REPO_PREFIX=${DOCKER_REPO_PREFIX:-chrisisler}
 
+dcleanup(){
+	local containers
+	mapfile -t containers < <(docker ps -aq 2>/dev/null)
+	docker rm "${containers[@]}" 2>/dev/null
+	local volumes
+	mapfile -t volumes < <(docker ps --filter status=exited -q 2>/dev/null)
+	docker rm -v "${volumes[@]}" 2>/dev/null
+	local images
+	mapfile -t images < <(docker images --filter dangling=true -q 2>/dev/null)
+	docker rmi "${images[@]}" 2>/dev/null
+	mapfile -t images < <(docker images -q 2>/dev/null)
+	docker rmi "${images[@]}" 2>/dev/null
+	docker system prune -f
+}
 del_stopped() {
   local name="$1"
   local state
@@ -12,7 +26,7 @@ del_stopped() {
 }
 
 _container_pdf() {
-  local viewer="$1" image="$2" container="$3" file="$4"
+  local image="$1" container="$2" file="$3"
   local host_file host_dir filename
   local tmux_env=()
   if [[ "$file" == shared/* ]]; then
@@ -23,7 +37,7 @@ _container_pdf() {
   host_dir="${host_file%/*}"
   filename="${host_file##*/}"
   if [[ ! -f "$host_file" ]]; then
-    printf '%s: file not found: %s\n' "$viewer" "$host_file" >&2
+    printf '%s: file not found: %s\n' "$container" "$host_file" >&2
     return 1
   fi
   if [[ -n "${TMUX:-}" ]]; then
@@ -36,25 +50,25 @@ _container_pdf() {
     --env TERM="${TERM:-xterm-256color}" \
     --env TERM_PROGRAM="${TERM_PROGRAM:-ghostty}" \
     "${tmux_env[@]}" \
-    --volume "$host_dir:/home/devuser/pdf:ro" \
+    --volume "$host_dir:/home/pdf:ro" \
     "$image" \
-    "/home/devuser/pdf/$filename"
+    "/home/pdf/$filename"
 }
 
-ctdf() {
-  local file="${1:?usage: ctdf <file in shared/ or absolute host path>}"
-  if [[ -n "$(command -v tdf)" ]]; then
+tdf() {
+  local file="${1:?usage: tdf <docker-shared file in shared/ or absolute host path>}"
+  if [[ -n "$(type -P tdf)" ]]; then
     tdf "$@"
   else
-    _container_pdf ctdf chrisisler/tdf ctdf "$file"
+    _container_pdf chrisisler/tdf tdf "$file"
   fi
 }
 
-ctermpdf() {
-  local file="${1:?usage: ctermpdf <file in shared/ or absolute host path>}"
-  if [[ -n "$(command -v termpdf)" ]]; then
+termpdf() {
+  local file="${1:?usage: termpdf <docker-shared file in shared/ or absolute host path>}"
+  if [[ -n "$(type -P termpdf)" ]]; then
     termpdf "$@"
   else
-    _container_pdf ctermpdf chrisisler/termpdf ctermpdf "$file"
+    _container_pdf chrisisler/termpdf termpdf "$file"
   fi
 }

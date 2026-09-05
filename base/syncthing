@@ -1,0 +1,9 @@
+# syntax=docker/dockerfile:1
+
+FROM debian:trixie-slim
+RUN apt-get update && \
+    apt-get install --assume-yes --quiet --no-install-recommends \
+    syncthing && \
+    rm -rf /var/lib/apt/lists/*
+EXPOSE 21027/udp 22000/tcp 22000/udp 8384/tcp
+ENTRYPOINT ["syncthing"]
