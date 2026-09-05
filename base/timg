@@ -15,6 +15,9 @@ RUN git init --quiet /tmp/timg && \
     cmake -S /tmp/timg -B /tmp/timg-build \
       -DCMAKE_BUILD_TYPE=Release \
       -DTIMG_VERSION_FROM_GIT=OFF \
+      -DWITH_GRAPHICSMAGICK=OFF \
+      -DWITH_RSVG=OFF \
+      -DWITH_POPPLER=OFF \
       -DWITH_LIBSIXEL=OFF \
       -DWITH_VIDEO_DEVICE=OFF \
       -DCMAKE_INSTALL_PREFIX=/out && \
