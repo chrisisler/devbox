@@ -1,0 +1,27 @@
+diff --git a/src/kitty.rs b/src/kitty.rs
+index 7f1f7b4..0000000 100644
+--- a/src/kitty.rs
++++ b/src/kitty.rs
+@@ -15,5 +15,6 @@ use kittage::{
+ 	image::Image,
+ 	medium::Medium
+ };
++use kittage::tmux::TmuxWriter;
+ use ratatui::layout::Position;
+ use smallvec::SmallVec;
+@@ -66,8 +66,14 @@ pub async fn run_action<'es>(
+ 	action: Action<'_, '_>,
+ 	ev_stream: &'es mut EventStream
+ ) -> Result<Option<ImageId>, TransmitError<<&'es mut EventStream as AsyncInputReader>::Error>> {
++	let stdout = std::io::stdout().lock();
++	let output: Box<dyn Write> = if std::env::var_os("TMUX").is_some() {
++		Box::new(TmuxWriter::new(stdout))
++	} else {
++		Box::new(stdout)
++	};
+ 	let writer = DbgWriter {
+-		w: std::io::stdout().lock(),
++		w: output,
+ 		#[cfg(debug_assertions)]
+ 		buf: String::new()
+ 	};

@@ -1,0 +1,40 @@
+# echo 'source ~/devbox/.dockerfunc' >> ~/.bashrc
+#
+DOCKER_REPO_PREFIX=${DOCKER_REPO_PREFIX:-chrisisler}
+
+del_stopped() {
+  local name="$1"
+  local state
+  state="$(docker inspect --format '{{.State.Running}}' "$name" 2>/dev/null)" || return 0
+  if [[ "$state" == "false" ]]; then
+    docker rm "$name"
+  fi
+}
+
+pdf() {
+  local file="${1:?usage: pdf <file in shared/ or absolute host path>}"
+  if [[ -n "$(command -v tdf)" ]]; then
+    tdf "$@"
+  else
+    local target
+    local tmux_env=()
+    if [[ "$file" == shared/* ]]; then
+      target="/home/devuser/shared/${file#shared/}"
+    else
+      target="/home/devuser/shared/${file#"$HOME"/Desktop/devbox/shared/}"
+    fi
+    if [[ -n "${TMUX:-}" ]]; then
+      tmux_env=(--env "TMUX=$TMUX")
+    fi
+    del_stopped tdf
+    docker run -it --rm --init \
+      --log-driver none \
+      --name tdf \
+      --env TERM="${TERM:-xterm-256color}" \
+      --env TERM_PROGRAM="${TERM_PROGRAM:-ghostty}" \
+      "${tmux_env[@]}" \
+      --volume "$HOME/Desktop/devbox/shared:/home/devuser/shared:ro" \
+      "${DOCKER_REPO_PREFIX}/tdf" \
+      "$target"
+  fi
+}
