@@ -3,7 +3,7 @@
 FROM debian:trixie-slim AS build
 RUN apt-get update && \
     apt-get install --assume-yes --quiet --no-install-recommends \
-    build-essential cmake pkg-config git ca-certificates \
+    build-essential cmake pkg-config git patch ca-certificates \
     libdeflate-dev libturbojpeg0-dev libexif-dev libavcodec-dev libavdevice-dev libavformat-dev \
     libavutil-dev libswresample-dev libswscale-dev && \
     rm -rf /var/lib/apt/lists/*
@@ -14,7 +14,7 @@ RUN git init --quiet /tmp/timg && \
     git -C /tmp/timg remote add origin https://github.com/hzeller/timg.git && \
     git -C /tmp/timg fetch --quiet --depth 1 origin v1.6.3 && \
     git -C /tmp/timg checkout --quiet --detach FETCH_HEAD && \
-    git -C /tmp/timg apply /tmp/timg-tmux.patch && \
+    patch --directory=/tmp/timg --strip=1 --batch < /tmp/timg-tmux.patch && \
     cmake -S /tmp/timg -B /tmp/timg-build \
       -DCMAKE_BUILD_TYPE=Release \
       -DTIMG_VERSION_FROM_GIT=OFF \
