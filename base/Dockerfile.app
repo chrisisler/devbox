@@ -96,10 +96,13 @@ RUN apt-get update && apt-get install --assume-yes --quiet --no-install-recommen
     nnn podman-docker ripgrep eza rustc cargo poppler-utils chafa
     
 RUN apt-get update && apt-get install --assume-yes --quiet --no-install-recommends \
-    build-essential pkg-config \
+    build-essential pkg-config clang \
     libavcodec-dev libavformat-dev libavutil-dev libavfilter-dev \
     libavdevice-dev libswscale-dev libswresample-dev libfontconfig1-dev libclang-dev && \
     rm -rf /var/lib/apt/lists
+
+RUN cargo install --root /usr/local --git https://github.com/itsjunetime/tdf.git --locked && \
+    test -x /usr/local/bin/tdf
 RUN install --directory --owner=devuser --group=devuser \
     /home/devuser/.local/share
 RUN curl -fsSL https://tailscale.com/install.sh | sh
