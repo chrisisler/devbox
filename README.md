@@ -30,6 +30,11 @@ and `chrisisler/syncthing`.
 
 `make cmpv` builds `chrisisler/mpv`, used by `mpv <media file>`.
 
+`make cpulseaudio` builds `chrisisler/pulseaudio`, which the containerized MPV
+flow starts automatically. On macOS, this provides a Linux PulseAudio server
+but cannot reach CoreAudio speakers by itself; a host PulseAudio TCP server or
+separate macOS audio bridge is still required for audible playback.
+
 Multiple `make run` processes can run at once, including multiple windows on
 the same branch. Each container gets a sanitized branch-based name with a
 process suffix. The first live devbox owns host ports `3000`, `5173`, and

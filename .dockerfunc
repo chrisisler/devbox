@@ -25,8 +25,20 @@ del_stopped() {
   fi
 }
 
+relies_on() {
+  local container state
+  for container in "$@"; do
+    state="$(docker inspect --format '{{.State.Running}}' "$container" 2>/dev/null)"
+    if [[ "$state" != "true" ]]; then
+      printf '%s is not running, starting it for you.\n' "$container"
+      "$container"
+    fi
+  done
+}
+
 _container_file() {
   local image="$1" container="$2" file="$3"
+  shift 3
   local host_file host_dir filename
   local tmux_env=()
   if [[ "$file" == shared/* ]]; then
@@ -50,9 +62,20 @@ _container_file() {
     --env TERM="${TERM:-xterm-256color}" \
     --env TERM_PROGRAM="${TERM_PROGRAM:-ghostty}" \
     "${tmux_env[@]}" \
+    "$@" \
     --volume "$host_dir:/home/pdf:ro" \
     "$image" \
     "/home/pdf/$filename"
+}
+
+pulseaudio() {
+  del_stopped pulseaudio
+  if [[ "$(docker inspect --format '{{.State.Running}}' pulseaudio 2>/dev/null)" != "true" ]]; then
+    docker run --detach \
+      --name pulseaudio \
+      --publish 4713:4713 \
+      chrisisler/pulseaudio
+  fi
 }
 
 tdf() {
@@ -73,11 +96,14 @@ termpdf() {
   fi
 }
 
-mpv() {
+cmpv() {
   local file="${1:?usage: mpv <media file>}"
   if [[ -n "$(type -P mpv)" ]]; then
     command mpv "$@"
   else
-    _container_file chrisisler/mpv mpv "$file"
+    relies_on pulseaudio
+    _container_file chrisisler/mpv cmpv "$file" \
+      --env PULSE_SERVER=tcp:pulseaudio:4713 \
+      --link pulseaudio:pulseaudio
   fi
 }
