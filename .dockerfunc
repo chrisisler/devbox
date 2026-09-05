@@ -28,6 +28,6 @@ pdf() {
       --name tdf \
       --volume "$HOME/Desktop/devbox/shared:/home/devuser/shared:ro" \
       "${DOCKER_REPO_PREFIX}/tdf" \
-      tdf "$target"
+      "$target"
   fi
 }

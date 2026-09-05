@@ -1,16 +1,23 @@
 # syntax=docker/dockerfile:1
 
-# Minimal tdf (terminal PDF viewer) image: alpine build + run.
-FROM alpine:3.21 AS build
-RUN apk add --no-cache build-base clang python3 pkgconfig fontconfig-dev curl && \
+# Minimal tdf (terminal PDF viewer) image.
+FROM debian:trixie-slim AS build
+RUN apt-get update && \
+    apt-get install --assume-yes --quiet --no-install-recommends \
+    build-essential clang libclang-dev pkg-config libfontconfig1-dev \
+    curl ca-certificates && \
+    rm -rf /var/lib/apt/lists/* && \
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/rustup.sh && \
     sh /tmp/rustup.sh -y --profile minimal --no-modify-path && \
-    rm -f /tmp/rustup.sh && \
+    rm --force /tmp/rustup.sh && \
     /root/.cargo/bin/cargo install --root /out \
         --git https://github.com/itsjunetime/tdf.git --locked && \
     test -x /out/bin/tdf
 
-FROM alpine:3.21
-RUN apk add --no-cache fontconfig
+FROM debian:trixie-slim
+RUN apt-get update && \
+    apt-get install --assume-yes --quiet --no-install-recommends \
+    fontconfig && \
+    rm -rf /var/lib/apt/lists/*
 COPY --from=build /out/bin/tdf /usr/local/bin/tdf
 ENTRYPOINT ["tdf"]
