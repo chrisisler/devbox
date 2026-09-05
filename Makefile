@@ -43,7 +43,7 @@ mpv-host:
 	@command -v pulseaudio >/dev/null || brew install pulseaudio
 	@command -v pactl >/dev/null || { echo "mpv: PulseAudio tools unavailable" >&2; exit 1; }
 	@defaults write org.xquartz.X11 nolisten_tcp -bool false
-	@open -a XQuartz
+	@open -gj -a XQuartz
 	@sleep 2
 	@xhost="$$(command -v xhost || printf '%s' /opt/X11/bin/xhost)"; \
 		test -x "$$xhost" || { echo "mpv: XQuartz xhost unavailable" >&2; exit 1; }; \
