@@ -24,6 +24,10 @@ cached in the repo-local, gitignored `.devbox-mounts` file and mounted at
 builds `chrisisler/termpdf`, used by `ctermpdf <filename>`. They are separate
 fallback flows.
 
+Additional standalone images build with `make cimagemagick`, `make clilypond`,
+and `make csyncthing`, tagged `chrisisler/imagemagick`, `chrisisler/lilypond`,
+and `chrisisler/syncthing`.
+
 Multiple `make run` processes can run at once, including multiple windows on
 the same branch. Each container gets a sanitized branch-based name with a
 process suffix. The first live devbox owns host ports `3000`, `5173`, and

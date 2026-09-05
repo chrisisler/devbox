@@ -2,19 +2,31 @@ REPOSITORY := chrisisler/devbox
 BASE_SYS_REPOSITORY := $(REPOSITORY)-base-sys
 TDF_REPOSITORY := chrisisler/tdf
 TERMPDF_REPOSITORY := chrisisler/termpdf
+IMAGEMAGICK_REPOSITORY := chrisisler/imagemagick
+LILYPOND_REPOSITORY := chrisisler/lilypond
+SYNCTHING_REPOSITORY := chrisisler/syncthing
 
 all: cached
 
 run:
 	@source ./dotfiles/devbox-scripts.sh && devbox $(REPOSITORY)
 
-everything: base ctdf ctermpdf
+everything: base ctdf ctermpdf cimagemagick clilypond csyncthing
 
 ctdf:
 	@docker build --tag $(TDF_REPOSITORY) --file base/tdf base
 
 ctermpdf:
 	@docker build --tag $(TERMPDF_REPOSITORY) --file base/termpdf base
+
+cimagemagick:
+	@docker build --tag $(IMAGEMAGICK_REPOSITORY) --file base/imagemagick base
+
+clilypond:
+	@docker build --tag $(LILYPOND_REPOSITORY) --file base/lilypond base
+
+csyncthing:
+	@docker build --tag $(SYNCTHING_REPOSITORY) --file base/syncthing base
 
 clean-base:
 	@docker rmi --force $(BASE_SYS_REPOSITORY)
@@ -34,4 +46,5 @@ cached: base
 update:
 	@./dotfiles/update-dotfiles.sh
 
-.PHONY: all base dotfiles everything clean cached ctdf ctermpdf
+.PHONY: all base dotfiles everything clean cached ctdf ctermpdf \
+	cimagemagick clilypond csyncthing
