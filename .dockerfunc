@@ -17,15 +17,22 @@ pdf() {
     tdf "$@"
   else
     local target
+    local tmux_env=()
     if [[ "$file" == shared/* ]]; then
       target="/home/devuser/shared/${file#shared/}"
     else
       target="/home/devuser/shared/${file#"$HOME"/Desktop/devbox/shared/}"
     fi
+    if [[ -n "${TMUX:-}" ]]; then
+      tmux_env=(--env "TMUX=$TMUX")
+    fi
     del_stopped tdf
     docker run -it --rm --init \
       --log-driver none \
       --name tdf \
+      --env TERM="${TERM:-xterm-256color}" \
+      --env TERM_PROGRAM="${TERM_PROGRAM:-ghostty}" \
+      "${tmux_env[@]}" \
       --volume "$HOME/Desktop/devbox/shared:/home/devuser/shared:ro" \
       "${DOCKER_REPO_PREFIX}/tdf" \
       "$target"
