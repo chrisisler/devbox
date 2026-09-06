@@ -49,9 +49,8 @@ Pandora; no local music mount.
 Use `make pianobar-proxy` to start a local capture proxy on
 `127.0.0.1:8080` with its web UI on `127.0.0.1:8081`. Install the generated
 CA from `http://mitm.it` as `~/repos/devbox/mitmproxy-ca.pem`, then run the container with
-`PANDORA_PROXY=http://host.docker.internal:8080`. Configure host pianobar with
-`control_proxy = http://127.0.0.1:8080`. Never use a public proxy; pianobar
-sends credentials through it.
+`cpianobar`; the helper detects the CA and enables the proxy automatically.
+Never use a public proxy; pianobar sends credentials through it.
 
 #### Credentials
 

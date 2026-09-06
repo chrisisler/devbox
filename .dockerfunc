@@ -124,6 +124,9 @@ cpianobar() {
         "$HOME/repos/devbox/pandora-password" >&2
       return 1
     fi
+    if [[ -z "${PANDORA_PROXY:-}" && -f "$HOME/repos/devbox/mitmproxy-ca.pem" ]]; then
+      PANDORA_PROXY=http://host.docker.internal:8080
+    fi
     local proxy_args=()
     if [[ -n "${PANDORA_PROXY:-}" ]]; then
       if [[ ! -f "$HOME/repos/devbox/mitmproxy-ca.pem" ]]; then
