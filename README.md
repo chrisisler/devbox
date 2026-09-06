@@ -37,7 +37,8 @@ and `chrisisler/syncthing`.
 `chrisisler/mpv`, used by `cmpv <media file>`. `make cmpv` remains an alias.
 
 Containerized player audio routes via a host PulseAudio TCP bridge
-(`PULSE_SERVER=tcp:host.docker.internal:4713`, see `make mpv-host`). On macOS,
+(`PULSE_SERVER=tcp:host.docker.internal:4713`, see `make cmus-host` for audio-only
+or `make mpv-host` for audio plus display). On macOS,
 containers cannot reach CoreAudio speakers by themselves; a host PulseAudio
 TCP server or separate macOS audio bridge is still required for audible playback.
 
