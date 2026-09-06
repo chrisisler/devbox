@@ -75,7 +75,7 @@ time24h="\A"
 
 # export PS1="\n${cyan}${dir}${reset} "
 # export PS1="\n${time24h} ${yellow}${dir}${reset} "
-export PS1="\n <${magenta}devbox$reset> ${yellow}${dir}${reset} $cyan|$reset "
+export PS1="\n <${magenta}devbox$reset> ${yellow}${dir}${reset} \$$reset "
 
 # if [ -n "$GH_TOKEN" ]; then
 #   local tknfile="$(mktemp)"
