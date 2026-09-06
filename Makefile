@@ -72,19 +72,27 @@ mpv: mpv-host
 cmus: pulseaudio-host
 	@docker build --tag chrisisler/cmus --file base/cmus base
 
-pianobar: pulseaudio-host
-	@docker build --tag chrisisler/pianobar --file base/pianobar base
-
 pianobar-proxy:
-	@docker run --rm -it \
-		--mount type=volume,src=devbox-mitmproxy,dst=/home/mitmproxy/.mitmproxy \
-		--publish 127.0.0.1:8080:8080 \
-		--publish 127.0.0.1:8081:8081 \
-		mitmproxy/mitmproxy mitmweb \
-		--listen-host 0.0.0.0 \
-		--listen-port 8080 \
-		--web-host 0.0.0.0 \
-		--web-port 8081
+	@if docker container inspect devbox-pianobar-proxy >/dev/null 2>&1; then \
+		test "$$(docker inspect --format '{{.State.Running}}' devbox-pianobar-proxy)" = true || docker start devbox-pianobar-proxy >/dev/null; \
+	else \
+		docker run --detach --name devbox-pianobar-proxy \
+			--restart unless-stopped \
+			--mount type=volume,src=devbox-mitmproxy,dst=/home/mitmproxy/.mitmproxy \
+			--publish 127.0.0.1:8080:8080 \
+			--publish 127.0.0.1:8081:8081 \
+			mitmproxy/mitmproxy mitmweb \
+			--listen-host 0.0.0.0 \
+			--listen-port 8080 \
+			--web-host 0.0.0.0 \
+			--web-port 8081 >/dev/null; \
+	fi
+	@test -s "$(HOME)/repos/devbox/mitmproxy-ca.pem" || \
+		curl --fail --silent --show-error --proxy http://127.0.0.1:8080 \
+		http://mitm.it/cert/pem --output "$(HOME)/repos/devbox/mitmproxy-ca.pem"
+
+pianobar: pulseaudio-host pianobar-proxy
+	@docker build --tag chrisisler/pianobar --file base/pianobar base
 
 clean-base:
 	@docker rmi --force $(BASE_SYS_REPOSITORY)
