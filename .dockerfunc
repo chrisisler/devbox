@@ -141,11 +141,12 @@ cpianobar() {
       )
     fi
     docker run -it --rm --init \
-      --name devbox-pianobar \
+      --name pianobar \
       --network host \
       --log-driver none \
       --env TERM="${TERM:-xterm-256color}" \
       --env PULSE_SERVER=tcp:host.docker.internal:4713 \
+      --env PULSE_LATENCY_MSEC=1000 \
       --env EMAIL="${PIANOBAR_EMAIL:-4444cisler4444@gmail.com}" \
       --volume "$HOME/repos/devbox/pandora-password:/password:ro" \
       "${proxy_args[@]}" \
