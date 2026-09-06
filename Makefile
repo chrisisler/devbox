@@ -56,8 +56,6 @@ mpv-host:
 mpv: mpv-host
 	@docker build --tag $(MPV_REPOSITORY) --file base/mpv base
 
-cmpv: mpv
-
 cpulseaudio:
 	@docker build --tag $(PULSEAUDIO_REPOSITORY) --file base/pulseaudio base
 

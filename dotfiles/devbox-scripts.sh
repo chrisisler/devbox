@@ -30,10 +30,8 @@ devbox() {
   fi
 
   docker "${dockerArgs[@]}" \
-    --volume "$HOME/repos/devbox:/home/devuser/devbox" \
-    --volume "$HOME/repos/habitops:/home/devuser/habitops" \
-    --volume "$HOME/repos/shared:/home/devuser/shared" \
-    --volume "$HOME/.ssh/devbox:/home/devuser/.ssh" \
+    --volume "$HOME/repos:/home/devuser/repos" \
+    --volume "$HOME/.ssh/devbox:/home/devuser/.ssh:ro" \
     --volume "$HOME/.codex:/home/devuser/.codex" \
     --volume "$HOME/.copilot:/home/devuser/.copilot" \
     --volume "$HOME/.local/share/opencode:/home/devuser/.local/share/opencode" \

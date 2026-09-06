@@ -94,6 +94,9 @@ RUN curl --fail --silent --show-error \
     test -x /usr/local/bin/rtk && \
     /usr/local/bin/rtk --version && \
     /usr/local/bin/rtk init -g --codex --copilot --opencode
+RUN apt-get update && \
+    apt-get install --assume-yes --quiet --no-install-recommends golang-go && \
+    rm -rf /var/lib/apt/lists/*
 RUN install --directory --owner=devuser --group=devuser \
     /home/devuser/.local/share \
     /home/devuser/.local/share/opencode \

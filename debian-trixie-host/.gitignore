@@ -1,9 +1,0 @@
-# Never commit secrets / SSHD host addresses (inventory here is local/loopback only,
-# so inventory.ini itself is committed; override host in it if targeting remote)
-*.retry
-vault-password
-.env
-*.env
-
-# scratch from exploratory discovery (not part of the template)
-_pane_capture.txt
