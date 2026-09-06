@@ -34,11 +34,13 @@ and `make syncthing`, tagged `chrisisler/imagemagick`, `chrisisler/lilypond`,
 and `chrisisler/syncthing`.
 
 `make mpv` checks macOS display/audio prerequisites, then builds
-`chrisisler/mpv`, used by `cmpv <media file>`. `make cmpv` remains an alias.
+`chrisisler/mpv`, used by `mpv <media file>`.
 
 Containerized player audio routes via a host PulseAudio TCP bridge
 (`PULSE_SERVER=tcp:host.docker.internal:4713`, see `make pulseaudio-host`). On macOS,
-containers cannot reach CoreAudio speakers by themselves; a host PulseAudio
+the bridge syncs its PulseAudio default sink with the macOS-selected output, and
+`mpv` follows it while playing. Containers cannot reach CoreAudio speakers by
+themselves; a host PulseAudio
 TCP server or separate macOS audio bridge is still required for audible playback.
 
 ### Pianobar

@@ -25,7 +25,7 @@ syncthing:
 	@docker build --tag chrisisler/syncthing --file base/syncthing base
 
 # Shared macOS audio bridge: host PulseAudio + TCP module + auto-switch to
-# newly connected outputs. Modules persist via ~/.config/pulse/default.pa
+# newly connected outputs and output-port changes. Modules persist via ~/.config/pulse/default.pa
 # (created with .include so system defaults still load) and load live.
 pulseaudio-host:
 	@test "$$(uname -s)" = Darwin || { echo "audio: host setup requires macOS" >&2; exit 1; }
@@ -36,11 +36,21 @@ pulseaudio-host:
 	@test -f ~/.config/pulse/default.pa || printf '.include %s/etc/pulse/default.pa\n' "$$(brew --prefix)" > ~/.config/pulse/default.pa
 	@grep -qs 'module-native-protocol-tcp' ~/.config/pulse/default.pa || echo 'load-module module-native-protocol-tcp port=4713 auth-anonymous=1' >> ~/.config/pulse/default.pa
 	@grep -qs 'module-switch-on-connect' ~/.config/pulse/default.pa || echo 'load-module module-switch-on-connect' >> ~/.config/pulse/default.pa
+	@grep -qs 'module-switch-on-port-available' ~/.config/pulse/default.pa || echo 'load-module module-switch-on-port-available' >> ~/.config/pulse/default.pa
 	@pactl info >/dev/null 2>&1 || pulseaudio --exit-idle-time=-1
 	@pactl list modules short | grep -q 'module-native-protocol-tcp' || \
 		pactl load-module module-native-protocol-tcp port=4713 auth-anonymous=1 >/dev/null
 	@pactl list modules short | grep -q 'module-switch-on-connect' || \
 		pactl load-module module-switch-on-connect >/dev/null
+	@pactl list modules short | grep -q 'module-switch-on-port-available' || \
+		pactl load-module module-switch-on-port-available >/dev/null
+	@pid_file="$(HOME)/.config/pulse/devbox-macos-audio-sync.pid"; \
+		pid="$$(cat "$$pid_file" 2>/dev/null || true)"; \
+		if test -z "$$pid" || ! kill -0 "$$pid" 2>/dev/null || \
+			! ps -p "$$pid" -o command= | grep -q 'pulseaudio-macos-audio-sync.sh'; then \
+			nohup "$(CURDIR)/dotfiles/pulseaudio-macos-audio-sync.sh" >/dev/null 2>&1 </dev/null & \
+			printf '%s\n' "$$!" > "$$pid_file"; \
+		fi
 	@echo "audio host setup complete"
 
 mpv-host: pulseaudio-host
@@ -113,5 +123,5 @@ update:
 	@./dotfiles/update-dotfiles.sh
 
 .PHONY: all base dotfiles everything clean cached tdf termpdf \
-	imagemagick lilypond syncthing pulseaudio-host mpv cmpv cmus pianobar \
+	imagemagick lilypond syncthing pulseaudio-host mpv cmus pianobar \
 	pianobar-proxy
