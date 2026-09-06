@@ -29,17 +29,17 @@ builds `chrisisler/termpdf`, used by `termpdf <filename>`. They are separate
 fallback flows. Multiple `tdf`, `termpdf`, or `mpv` commands can run at once;
 Docker assigns each viewer a unique container name.
 
-Additional standalone images build with `make cimagemagick`, `make clilypond`,
-and `make csyncthing`, tagged `chrisisler/imagemagick`, `chrisisler/lilypond`,
+Additional standalone images build with `make imagemagick`, `make lilypond`,
+and `make syncthing`, tagged `chrisisler/imagemagick`, `chrisisler/lilypond`,
 and `chrisisler/syncthing`.
 
 `make mpv` checks macOS display/audio prerequisites, then builds
 `chrisisler/mpv`, used by `cmpv <media file>`. `make cmpv` remains an alias.
 
-`make cpulseaudio` builds `chrisisler/pulseaudio`, which the containerized MPV
-flow starts automatically. On macOS, this provides a Linux PulseAudio server
-but cannot reach CoreAudio speakers by itself; a host PulseAudio TCP server or
-separate macOS audio bridge is still required for audible playback.
+Containerized player audio routes via a host PulseAudio TCP bridge
+(`PULSE_SERVER=tcp:host.docker.internal:4713`, see `make mpv-host`). On macOS,
+containers cannot reach CoreAudio speakers by themselves; a host PulseAudio
+TCP server or separate macOS audio bridge is still required for audible playback.
 
 Multiple `make run` processes can run at once, including multiple windows on
 the same branch. Each container gets a sanitized branch-based name with a

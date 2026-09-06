@@ -6,7 +6,7 @@ IMAGEMAGICK_REPOSITORY := chrisisler/imagemagick
 LILYPOND_REPOSITORY := chrisisler/lilypond
 SYNCTHING_REPOSITORY := chrisisler/syncthing
 MPV_REPOSITORY := chrisisler/mpv
-PULSEAUDIO_REPOSITORY := chrisisler/pulseaudio
+CMUS_REPOSITORY := chrisisler/cmus
 XQUARTZ_VERSION := 2.8.6
 
 all: cached
@@ -14,7 +14,7 @@ all: cached
 run:
 	@source ./dotfiles/devbox-scripts.sh && devbox $(REPOSITORY)
 
-everything: base tdf termpdf cimagemagick clilypond csyncthing cpulseaudio mpv
+everything: base tdf termpdf imagemagick lilypond syncthing mpv cmus
 
 tdf:
 	@docker build --tag $(TDF_REPOSITORY) --file base/tdf base
@@ -22,13 +22,13 @@ tdf:
 termpdf:
 	@docker build --tag $(TERMPDF_REPOSITORY) --file base/termpdf base
 
-cimagemagick:
+imagemagick:
 	@docker build --tag $(IMAGEMAGICK_REPOSITORY) --file base/imagemagick base
 
-clilypond:
+lilypond:
 	@docker build --tag $(LILYPOND_REPOSITORY) --file base/lilypond base
 
-csyncthing:
+syncthing:
 	@docker build --tag $(SYNCTHING_REPOSITORY) --file base/syncthing base
 
 mpv-host:
@@ -56,8 +56,8 @@ mpv-host:
 mpv: mpv-host
 	@docker build --tag $(MPV_REPOSITORY) --file base/mpv base
 
-cpulseaudio:
-	@docker build --tag $(PULSEAUDIO_REPOSITORY) --file base/pulseaudio base
+cmus:
+	@docker build --tag $(CMUS_REPOSITORY) --file base/cmus base
 
 clean-base:
 	@docker rmi --force $(BASE_SYS_REPOSITORY)
@@ -78,4 +78,4 @@ update:
 	@./dotfiles/update-dotfiles.sh
 
 .PHONY: all base dotfiles everything clean cached tdf termpdf \
-	cimagemagick clilypond csyncthing cpulseaudio mpv-host mpv cmpv
+	imagemagick lilypond syncthing mpv-host mpv cmpv cmus

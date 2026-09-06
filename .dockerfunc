@@ -69,16 +69,6 @@ _container_file() {
     "/home/pdf/$filename"
 }
 
-pulseaudio() {
-  del_stopped pulseaudio
-  if [[ "$(docker inspect --format '{{.State.Running}}' pulseaudio 2>/dev/null)" != "true" ]]; then
-    docker run --detach \
-      --name pulseaudio \
-      --publish 4713:4713 \
-      chrisisler/pulseaudio
-  fi
-}
-
 tdf() {
   local file="${1:?usage: tdf <docker-shared file in shared/ or absolute host path>}"
   if [[ -n "$(type -P tdf)" ]]; then
@@ -105,5 +95,25 @@ mpv() {
     _container_file chrisisler/mpv mpv "$file" \
       --env DISPLAY=host.docker.internal:0 \
       --env PULSE_SERVER=tcp:host.docker.internal:4713
+  fi
+}
+
+cmus() {
+  if [[ -n "$(type -P cmus)" ]]; then
+    command cmus "$@"
+  elif [[ $# -gt 0 ]]; then
+    _container_file chrisisler/cmus cmus "$1" \
+      --env PULSE_SERVER=tcp:host.docker.internal:4713
+  else
+    # ponytail: ephemeral ~/.cmus library, no music mount; upgrade path = named volume + dir mount when persistence needed.
+    # local tmux_env=()
+    # [[ -n "${TMUX:-}" ]] && tmux_env=(--env "TMUX=$TMUX")
+      # "${tmux_env[@]}" \
+    docker run -it --rm --init \
+      --log-driver none \
+      --env TERM="${TERM:-xterm-256color}" \
+      --env PULSE_SERVER=tcp:host.docker.internal:4713 \
+      --volume "$HOME/repos/shared/allmusic:/media:ro" \
+      chrisisler/cmus
   fi
 }
