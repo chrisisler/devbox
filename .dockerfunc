@@ -115,14 +115,27 @@ cmus() {
   fi
 }
 
-pianobar() {
-  if [[ -n "$(type -P pianobar)" ]]; then
-    command pianobar "$@"
-  else
+cpianobar() {
+  # if [[ -n "$(type -P pianobar)" ]]; then
+  #   command pianobar "$@"
+  # else
     if [[ ! -f "$HOME/repos/devbox/pandora-password" ]]; then
       printf 'pianobar: expected password file at %s\n' \
         "$HOME/repos/devbox/pandora-password" >&2
       return 1
+    fi
+    local proxy_args=()
+    if [[ -n "${PANDORA_PROXY:-}" ]]; then
+      if [[ ! -f "$HOME/repos/devbox/mitmproxy-ca.pem" ]]; then
+        printf 'cpianobar: expected proxy CA at %s\n' \
+          "$HOME/repos/devbox/mitmproxy-ca.pem" >&2
+        return 1
+      fi
+      proxy_args=(
+        --env "PANDORA_PROXY=$PANDORA_PROXY"
+        --env PANDORA_CA_BUNDLE=/mitmproxy-ca.pem
+        --volume "$HOME/repos/devbox/mitmproxy-ca.pem:/mitmproxy-ca.pem:ro"
+      )
     fi
     docker run -it --rm --init \
       --network host \
@@ -131,6 +144,7 @@ pianobar() {
       --env PULSE_SERVER=tcp:127.0.0.1:4713 \
       --env EMAIL="${PIANOBAR_EMAIL:-4444cisler4444@gmail.com}" \
       --volume "$HOME/repos/devbox/pandora-password:/password:ro" \
+      "${proxy_args[@]}" \
       chrisisler/pianobar
-  fi
+  # fi
 }

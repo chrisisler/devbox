@@ -2,3 +2,4 @@ shared/
 .gnupg
 *.gpg
 pandora-password
+mitmproxy-ca.pem

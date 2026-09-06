@@ -7,7 +7,8 @@ RUN apt-get update && \
     libao-dev libcurl4-openssl-dev libgcrypt20-dev libjson-c-dev \
     libavcodec-dev libavformat-dev libavutil-dev libavfilter-dev \
     && rm -rf /var/lib/apt/lists/*
-RUN git clone --depth 1 https://github.com/PromyLOPh/pianobar.git /tmp/pianobar && \
+RUN git clone --depth 1 --branch 2024.12.21 \
+    https://github.com/PromyLOPh/pianobar.git /tmp/pianobar && \
     make -C /tmp/pianobar && \
     install --directory /out/bin && \
     install /tmp/pianobar/pianobar /out/bin/pianobar
@@ -20,8 +21,10 @@ RUN apt-get update && \
 COPY --from=build /out/bin/pianobar /usr/local/bin/pianobar
 # ponytail: libao defaults to ALSA; pulse is the only viable output in container.
 ENV EMAIL=""
+ENV PANDORA_PROXY=""
+ENV PANDORA_CA_BUNDLE=""
 ENV LANG=C.UTF-8
 ENV TZ=America/Los_Angeles
-RUN printf '#!/bin/sh\nprintf "default_driver=pulse\\n" > ~/.libao\nmkdir -p ~/.config/pianobar\nprintf "user = %s\\npassword_command = cat /password\\n" "$EMAIL" > ~/.config/pianobar/config\nexec pianobar "$@"\n' > /tmp/entrypoint.sh && \
+RUN printf '#!/bin/sh\nprintf "default_driver=pulse\\n" > ~/.libao\nmkdir -p ~/.config/pianobar\nprintf "user = %%s\\npassword_command = cat /password\\n" "$EMAIL" > ~/.config/pianobar/config\n[ -z "$PANDORA_PROXY" ] || printf "control_proxy = %%s\\n" "$PANDORA_PROXY" >> ~/.config/pianobar/config\n[ -z "$PANDORA_CA_BUNDLE" ] || printf "ca_bundle = %%s\\n" "$PANDORA_CA_BUNDLE" >> ~/.config/pianobar/config\nexec pianobar "$@"\n' > /tmp/entrypoint.sh && \
     install --mode=0755 /tmp/entrypoint.sh /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

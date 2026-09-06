@@ -75,6 +75,17 @@ cmus: pulseaudio-host
 pianobar: pulseaudio-host
 	@docker build --tag chrisisler/pianobar --file base/pianobar base
 
+pianobar-proxy:
+	@docker run --rm -it \
+		--mount type=volume,src=devbox-mitmproxy,dst=/home/mitmproxy/.mitmproxy \
+		--publish 127.0.0.1:8080:8080 \
+		--publish 127.0.0.1:8081:8081 \
+		mitmproxy/mitmproxy mitmweb \
+		--listen-host 0.0.0.0 \
+		--listen-port 8080 \
+		--web-host 0.0.0.0 \
+		--web-port 8081
+
 clean-base:
 	@docker rmi --force $(BASE_SYS_REPOSITORY)
 
@@ -94,4 +105,5 @@ update:
 	@./dotfiles/update-dotfiles.sh
 
 .PHONY: all base dotfiles everything clean cached tdf termpdf \
-	imagemagick lilypond syncthing pulseaudio-host mpv cmpv cmus pianobar
+	imagemagick lilypond syncthing pulseaudio-host mpv cmpv cmus pianobar \
+	pianobar-proxy
