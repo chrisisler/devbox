@@ -91,19 +91,24 @@ RUN curl --fail --silent --show-error \
     RTK_INSTALL_DIR=/usr/local/bin RTK_VERSION=v0.46.0 \
     sh /tmp/rtk-install.sh && \
     rm --force /tmp/rtk-install.sh && \
-    rtk init -g --codex --copilot --opencode
+    test -x /usr/local/bin/rtk && \
+    /usr/local/bin/rtk --version && \
+    /usr/local/bin/rtk init -g --codex --copilot --opencode
 RUN install --directory --owner=devuser --group=devuser \
     /home/devuser/.local/share \
     /home/devuser/.local/share/opencode \
+    /home/devuser/.local/share/tailscale \
     /home/devuser/.local/state
 ENV VERCEL_TELEMETRY_DEBUG=0
 USER devuser
 ENV USER=devuser
 ENV HOME=/home/devuser
-ENV PATH="${HOME}/.local/bin:${PATH}"
+ENV PATH="/usr/local/bin:${HOME}/.local/bin:${PATH}"
 ENV EDITOR=/usr/bin/vi
 
-WORKDIR /home/devuser/habitops
+RUN command -v rtk && rtk --version
+
+WORKDIR /home/devuser/repos
 
 RUN mkdir /home/devuser/.ssh && ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
