@@ -141,6 +141,7 @@ cpianobar() {
       )
     fi
     docker run -it --rm --init \
+      --name devbox-pianobar \
       --network host \
       --log-driver none \
       --env TERM="${TERM:-xterm-256color}" \
