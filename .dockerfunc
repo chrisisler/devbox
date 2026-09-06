@@ -119,6 +119,11 @@ pianobar() {
   if [[ -n "$(type -P pianobar)" ]]; then
     command pianobar "$@"
   else
+    if [[ ! -f "$HOME/repos/devbox/pandora-password" ]]; then
+      printf 'pianobar: expected password file at %s\n' \
+        "$HOME/repos/devbox/pandora-password" >&2
+      return 1
+    fi
     docker run -it --rm --init \
       --network host \
       --log-driver none \

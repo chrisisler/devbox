@@ -48,14 +48,15 @@ Pandora; no local music mount.
 
 #### Credentials
 
-pianobar reads password from a plain text file mounted read-only:
+pianobar authenticates via GPG-encrypted password mounted from host:
 
 ```sh
-echo -n 'yourpassword' > ~/pandora-password
+echo -n 'yourpassword' | gpg --batch --passphrase-fd 0 -o ~/password.gpg -c -
 ```
 
-Mounted at `/password` in the container. Keep it in a Docker Desktop
-file-share-approved path (e.g. `~/` or `~/repos/`) or the mount will silently fail.
+Mounts `~/.gnupg` (secret key) and `~/password.gpg` (encrypted password)
+read-only. Keep both files in a Docker Desktop file-share-approved path
+(e.g. `~/` or `~/repos/`) or the mount will silently fail.
 
 Multiple `make run` processes can run at once, including multiple windows on
 the same branch. Each container gets a sanitized branch-based name with a
