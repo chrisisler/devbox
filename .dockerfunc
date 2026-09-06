@@ -106,14 +106,26 @@ cmus() {
       --env PULSE_SERVER=tcp:host.docker.internal:4713
   else
     # ponytail: ephemeral ~/.cmus library, no music mount; upgrade path = named volume + dir mount when persistence needed.
-    # local tmux_env=()
-    # [[ -n "${TMUX:-}" ]] && tmux_env=(--env "TMUX=$TMUX")
-      # "${tmux_env[@]}" \
     docker run -it --rm --init \
       --log-driver none \
       --env TERM="${TERM:-xterm-256color}" \
       --env PULSE_SERVER=tcp:host.docker.internal:4713 \
       --volume "$HOME/repos/shared/allmusic:/media:ro" \
       chrisisler/cmus
+  fi
+}
+
+pianobar() {
+  if [[ -n "$(type -P pianobar)" ]]; then
+    command pianobar "$@"
+  else
+    docker run -it --rm --init \
+      --network host \
+      --log-driver none \
+      --env TERM="${TERM:-xterm-256color}" \
+      --env PULSE_SERVER=tcp:127.0.0.1:4713 \
+      --env EMAIL="${PIANOBAR_EMAIL:-4444cisler4444@gmail.com}" \
+      --volume "$HOME/repos/devbox/pandora-password:/password:ro" \
+      chrisisler/pianobar
   fi
 }

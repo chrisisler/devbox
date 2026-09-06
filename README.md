@@ -37,10 +37,25 @@ and `chrisisler/syncthing`.
 `chrisisler/mpv`, used by `cmpv <media file>`. `make cmpv` remains an alias.
 
 Containerized player audio routes via a host PulseAudio TCP bridge
-(`PULSE_SERVER=tcp:host.docker.internal:4713`, see `make cmus-host` for audio-only
-or `make mpv-host` for audio plus display). On macOS,
+(`PULSE_SERVER=tcp:host.docker.internal:4713`, see `make pulseaudio-host`). On macOS,
 containers cannot reach CoreAudio speakers by themselves; a host PulseAudio
 TCP server or separate macOS audio bridge is still required for audible playback.
+
+### Pianobar
+
+`make pianobar` builds `chrisisler/pianobar`, used by `pianobar`. Streams from
+Pandora; no local music mount.
+
+#### Credentials
+
+pianobar reads password from a plain text file mounted read-only:
+
+```sh
+echo -n 'yourpassword' > ~/pandora-password
+```
+
+Mounted at `/password` in the container. Keep it in a Docker Desktop
+file-share-approved path (e.g. `~/` or `~/repos/`) or the mount will silently fail.
 
 Multiple `make run` processes can run at once, including multiple windows on
 the same branch. Each container gets a sanitized branch-based name with a

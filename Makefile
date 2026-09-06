@@ -1,12 +1,5 @@
 REPOSITORY := chrisisler/devbox
 BASE_SYS_REPOSITORY := $(REPOSITORY)-base-sys
-TDF_REPOSITORY := chrisisler/tdf
-TERMPDF_REPOSITORY := chrisisler/termpdf
-IMAGEMAGICK_REPOSITORY := chrisisler/imagemagick
-LILYPOND_REPOSITORY := chrisisler/lilypond
-SYNCTHING_REPOSITORY := chrisisler/syncthing
-MPV_REPOSITORY := chrisisler/mpv
-CMUS_REPOSITORY := chrisisler/cmus
 XQUARTZ_VERSION := 2.8.6
 
 all: cached
@@ -14,22 +7,22 @@ all: cached
 run:
 	@source ./dotfiles/devbox-scripts.sh && devbox $(REPOSITORY)
 
-everything: base tdf termpdf imagemagick lilypond syncthing mpv cmus
+everything: base tdf termpdf imagemagick lilypond syncthing mpv cmus pianobar
 
 tdf:
-	@docker build --tag $(TDF_REPOSITORY) --file base/tdf base
+	@docker build --tag chrisisler/tdf --file base/tdf base
 
 termpdf:
-	@docker build --tag $(TERMPDF_REPOSITORY) --file base/termpdf base
+	@docker build --tag chrisisler/termpdf --file base/termpdf base
 
 imagemagick:
-	@docker build --tag $(IMAGEMAGICK_REPOSITORY) --file base/imagemagick base
+	@docker build --tag chrisisler/imagemagick --file base/imagemagick base
 
 lilypond:
-	@docker build --tag $(LILYPOND_REPOSITORY) --file base/lilypond base
+	@docker build --tag chrisisler/lilypond --file base/lilypond base
 
 syncthing:
-	@docker build --tag $(SYNCTHING_REPOSITORY) --file base/syncthing base
+	@docker build --tag chrisisler/syncthing --file base/syncthing base
 
 # Shared macOS audio bridge: host PulseAudio + TCP module + auto-switch to
 # newly connected outputs. Modules persist via ~/.config/pulse/default.pa
@@ -63,12 +56,12 @@ mpv-host: pulseaudio-host
 	@open -gj -a XQuartz
 	@sleep 2
 	@xhost="$$(command -v xhost || printf '%s' /opt/X11/bin/xhost)"; \
-		test -x "$$xhost" || { echo "mpv: XQuartz xhost unavailable" >&2; exit 1; }; \
+		test -x "$$xhost" || { echo "mpv: xhost unavailable" >&2; exit 1; }; \
 		DISPLAY=:0 "$$xhost" +localhost
 	@echo "mpv host setup complete; restart XQuartz once if it was already running"
 
 mpv: mpv-host
-	@docker build --tag $(MPV_REPOSITORY) --file base/mpv base
+	@docker build --tag chrisisler/mpv --file base/mpv base
 
 # Wrong output device? Check placement, flip default (persists), move live stream:
 #   pactl info | grep -i 'default sink'
@@ -76,10 +69,11 @@ mpv: mpv-host
 #   pactl set-default-sink <SINK>
 #   pactl move-sink-input <INPUT#> <SINK>
 # Find <SINK> via `pactl list sinks short`, e.g. Channel_1__Channel_2.3 (WH-1000XM3).
-cmus-host: pulseaudio-host
+cmus: pulseaudio-host
+	@docker build --tag chrisisler/cmus --file base/cmus base
 
-cmus:
-	@docker build --tag $(CMUS_REPOSITORY) --file base/cmus base
+pianobar: pulseaudio-host
+	@docker build --tag chrisisler/pianobar --file base/pianobar base
 
 clean-base:
 	@docker rmi --force $(BASE_SYS_REPOSITORY)
@@ -100,4 +94,4 @@ update:
 	@./dotfiles/update-dotfiles.sh
 
 .PHONY: all base dotfiles everything clean cached tdf termpdf \
-	imagemagick lilypond syncthing pulseaudio-host mpv-host mpv cmpv cmus-host cmus
+	imagemagick lilypond syncthing pulseaudio-host mpv cmpv cmus pianobar

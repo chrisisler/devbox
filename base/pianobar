@@ -1,0 +1,27 @@
+# syntax=docker/dockerfile:1
+
+FROM debian:trixie-slim AS build
+RUN apt-get update && \
+    apt-get install --assume-yes --quiet --no-install-recommends \
+    build-essential git ca-certificates \
+    libao-dev libcurl4-openssl-dev libgcrypt20-dev libjson-c-dev \
+    libavcodec-dev libavformat-dev libavutil-dev libavfilter-dev \
+    && rm -rf /var/lib/apt/lists/*
+RUN git clone --depth 1 https://github.com/PromyLOPh/pianobar.git /tmp/pianobar && \
+    make -C /tmp/pianobar && \
+    install --directory /out/bin && \
+    install /tmp/pianobar/pianobar /out/bin/pianobar
+
+FROM debian:trixie-slim
+RUN apt-get update && \
+    apt-get install --assume-yes --quiet --no-install-recommends \
+    ca-certificates libao4 libcurl4t64 libgcrypt20 libjson-c5 libavcodec61 libavformat61 libavutil59 libavfilter10 pulseaudio-utils libasound2-plugins && \
+    rm -rf /var/lib/apt/lists/*
+COPY --from=build /out/bin/pianobar /usr/local/bin/pianobar
+# ponytail: libao defaults to ALSA; pulse is the only viable output in container.
+ENV EMAIL=""
+ENV LANG=C.UTF-8
+ENV TZ=America/Los_Angeles
+RUN printf '#!/bin/sh\nprintf "default_driver=pulse\\n" > ~/.libao\nmkdir -p ~/.config/pianobar\nprintf "user = %s\\npassword = \\n" "$EMAIL" > ~/.config/pianobar/config\nexec pianobar "$@"\n' > /tmp/entrypoint.sh && \
+    install --mode=0755 /tmp/entrypoint.sh /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
