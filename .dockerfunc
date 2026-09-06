@@ -141,7 +141,7 @@ cpianobar() {
       --network host \
       --log-driver none \
       --env TERM="${TERM:-xterm-256color}" \
-      --env PULSE_SERVER=tcp:127.0.0.1:4713 \
+      --env PULSE_SERVER=tcp:host.docker.internal:4713 \
       --env EMAIL="${PIANOBAR_EMAIL:-4444cisler4444@gmail.com}" \
       --volume "$HOME/repos/devbox/pandora-password:/password:ro" \
       "${proxy_args[@]}" \
