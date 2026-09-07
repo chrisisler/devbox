@@ -73,6 +73,14 @@ mpv-host: pulseaudio-host
 
 mpv: mpv-host
 	@docker build --tag chrisisler/mpv --file base/mpv base
+	@bash -ceu 'if ! bash -ic "declare -F mpv >/dev/null" >/dev/null 2>&1; then \
+		repo_dir="$$(pwd -P)"; \
+		source_line="$$(printf "source %q" "$$repo_dir/.dockerfunc")"; \
+		if ! grep -Fqx "$$source_line" "$$HOME/.bashrc" 2>/dev/null; then \
+			printf "\n%s\n" "$$source_line" >> "$$HOME/.bashrc"; \
+			echo "mpv: added $$source_line to $$HOME/.bashrc"; \
+		fi; \
+	fi'
 
 # Wrong output device? Check placement, flip default (persists), move live stream:
 #   pactl info | grep -i 'default sink'
