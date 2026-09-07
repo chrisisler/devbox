@@ -1,6 +1,5 @@
 REPOSITORY := chrisisler/devbox
 BASE_SYS_REPOSITORY := $(REPOSITORY)-base-sys
-XQUARTZ_VERSION := 2.8.6
 
 all: cached
 
@@ -33,17 +32,24 @@ pulseaudio-host:
 	@command -v pulseaudio >/dev/null || brew install pulseaudio
 	@command -v pactl >/dev/null || { echo "audio: PulseAudio tools unavailable" >&2; exit 1; }
 	@mkdir -p ~/.config/pulse
+	@module_dir="$(HOME)/.config/pulse/modules"; \
+		brew_modules="$$(brew --prefix pulseaudio)/lib/pulseaudio/modules"; \
+		mkdir -p "$$module_dir"; \
+		for module in "$$brew_modules"/*.dylib; do \
+			name="$$(basename "$$module" .dylib)"; \
+			ln -sf "$$module" "$$module_dir/$$name.so"; \
+			ln -sf "$$module" "$$module_dir/$$name.dylib"; \
+		done
 	@test -f ~/.config/pulse/default.pa || printf '.include %s/etc/pulse/default.pa\n' "$$(brew --prefix)" > ~/.config/pulse/default.pa
+	@sed -i '' "s#^\.include .*#\.include $$(brew --prefix pulseaudio)/etc/pulse/default.pa#" ~/.config/pulse/default.pa
+	@sed -i '' '/load-module module-switch-on-port-available/d' ~/.config/pulse/default.pa
 	@grep -qs 'module-native-protocol-tcp' ~/.config/pulse/default.pa || echo 'load-module module-native-protocol-tcp port=4713 auth-anonymous=1' >> ~/.config/pulse/default.pa
 	@grep -qs 'module-switch-on-connect' ~/.config/pulse/default.pa || echo 'load-module module-switch-on-connect' >> ~/.config/pulse/default.pa
-	@grep -qs 'module-switch-on-port-available' ~/.config/pulse/default.pa || echo 'load-module module-switch-on-port-available' >> ~/.config/pulse/default.pa
-	@pactl info >/dev/null 2>&1 || pulseaudio --exit-idle-time=-1
+	@pactl info >/dev/null 2>&1 || pulseaudio --daemonize=yes --exit-idle-time=-1 --dl-search-path="$(HOME)/.config/pulse/modules:$$(brew --prefix pulseaudio)/lib/pulseaudio/modules"
 	@pactl list modules short | grep -q 'module-native-protocol-tcp' || \
 		pactl load-module module-native-protocol-tcp port=4713 auth-anonymous=1 >/dev/null
 	@pactl list modules short | grep -q 'module-switch-on-connect' || \
 		pactl load-module module-switch-on-connect >/dev/null
-	@pactl list modules short | grep -q 'module-switch-on-port-available' || \
-		pactl load-module module-switch-on-port-available >/dev/null
 	@pid_file="$(HOME)/.config/pulse/devbox-macos-audio-sync.pid"; \
 		pid="$$(cat "$$pid_file" 2>/dev/null || true)"; \
 		if test -z "$$pid" || ! kill -0 "$$pid" 2>/dev/null || \
@@ -57,11 +63,6 @@ mpv-host: pulseaudio-host
 	@test "$$(uname -s)" = Darwin || { echo "mpv: host setup requires macOS" >&2; exit 1; }
 	@command -v brew >/dev/null || { echo "mpv: install Homebrew first" >&2; exit 1; }
 	@test -d /Applications/XQuartz.app || test -d /Applications/Utilities/XQuartz.app || brew install --cask xquartz
-	@xquartz_app="$$(mdfind 'kMDItemCFBundleIdentifier == "org.xquartz.X11"' | head -n1)"; \
-		xquartz_app="$${xquartz_app:-/Applications/Utilities/XQuartz.app}"; \
-		xquartz_version="$$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$$xquartz_app/Contents/Info.plist" 2>/dev/null)"; \
-		test "$$xquartz_version" = "$(XQUARTZ_VERSION)" || \
-		{ echo "mpv: XQuartz $(XQUARTZ_VERSION) required (found: $${xquartz_version:-unknown})" >&2; exit 1; }
 	@defaults write org.xquartz.X11 nolisten_tcp -bool false
 	@open -gj -a XQuartz
 	@sleep 2
