@@ -58,9 +58,9 @@ RUN --mount=type=cache,target=/home/devuser/.m2,uid=1000,gid=1000 \
 FROM chrisisler/devbox-base-sys
 LABEL maintainer="Chris Isler <christopherisler1@gmail.com>"
 
-USER root
+# USER root
 RUN apt-get update && apt-get install --assume-yes --quiet --no-install-recommends \
-    podman-docker postgresql gh && \
+    podman-docker postgresql gh chromium golang-go jq && \
     rm -rf /var/lib/apt/lists
 RUN --mount=type=cache,target=/root/.npm \
     curl -sSL https://deb.nodesource.com/setup_24.x | bash - && \
@@ -94,9 +94,17 @@ RUN curl --fail --silent --show-error \
     test -x /usr/local/bin/rtk && \
     /usr/local/bin/rtk --version && \
     /usr/local/bin/rtk init -g --codex --copilot --opencode
-RUN apt-get update && \
-    apt-get install --assume-yes --quiet --no-install-recommends golang-go && \
-    rm -rf /var/lib/apt/lists/*
+RUN set -eux; \
+    arch="$(dpkg --print-architecture)"; \
+    case "${arch}" in \
+      amd64|arm64) ;; \
+      *) echo "Unsupported architecture: ${arch}" >&2; exit 1 ;; \
+    esac; \
+    curl --fail --silent --show-error --location \
+      "https://bin.ngrok.com/c/bNyj1mQVY4c/ngrok-v3-stable-linux-${arch}.tgz" | \
+      tar --extract --gzip --directory /usr/local/bin; \
+    ngrok version; \
+    test -x /usr/local/bin/ngrok
 RUN install --directory --owner=devuser --group=devuser \
     /home/devuser/.local/share \
     /home/devuser/.local/share/opencode \
