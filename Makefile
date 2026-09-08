@@ -60,7 +60,7 @@ pulseaudio:
 		fi
 	@echo "audio host setup complete"
 
-pulseaudio-sync-stop:
+pulseaudio-stop:
 	@test "$$(uname -s)" = Darwin || { echo "audio: sync daemon stop skipped (not macOS)"; exit 0; }
 	@pid_file="$(HOME)/.config/pulse/devbox-macos-audio-sync.pid"; \
 		pid="$$(cat "$$pid_file" 2>/dev/null || true)"; \
@@ -145,5 +145,5 @@ update:
 	@./dotfiles/update-dotfiles.sh
 
 .PHONY: all base dotfiles everything clean cached tdf termpdf \
-	imagemagick lilypond syncthing pulseaudio pulseaudio-sync-stop mpv cmus pianobar \
+	imagemagick lilypond syncthing pulseaudio pulseaudio-stop mpv cmus pianobar \
 	pianobar-proxy
