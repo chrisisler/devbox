@@ -60,6 +60,18 @@ pulseaudio:
 		fi
 	@echo "audio host setup complete"
 
+pulseaudio-sync-stop:
+	@test "$$(uname -s)" = Darwin || { echo "audio: sync daemon stop skipped (not macOS)"; exit 0; }
+	@pid_file="$(HOME)/.config/pulse/devbox-macos-audio-sync.pid"; \
+		pid="$$(cat "$$pid_file" 2>/dev/null || true)"; \
+		if test -n "$$pid" && kill -0 "$$pid" 2>/dev/null && \
+			ps -p "$$pid" -o command= | grep -q 'pulseaudio-macos-audio-sync.sh'; then \
+			kill "$$pid"; \
+			echo "audio: stopped sync daemon ($$pid)"; \
+		else \
+			echo "audio: sync daemon not running"; \
+		fi
+
 mpv-host: pulseaudio
 	@test "$$(uname -s)" = Darwin || { echo "mpv: host setup requires macOS" >&2; exit 1; }
 	@command -v brew >/dev/null || { echo "mpv: install Homebrew first" >&2; exit 1; }
@@ -133,5 +145,5 @@ update:
 	@./dotfiles/update-dotfiles.sh
 
 .PHONY: all base dotfiles everything clean cached tdf termpdf \
-	imagemagick lilypond syncthing pulseaudio mpv cmus pianobar \
+	imagemagick lilypond syncthing pulseaudio pulseaudio-sync-stop mpv cmus pianobar \
 	pianobar-proxy

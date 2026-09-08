@@ -42,6 +42,8 @@ the bridge syncs its PulseAudio default sink with the macOS-selected output, and
 `mpv` follows it while playing. Containers cannot reach CoreAudio speakers by
 themselves; a host PulseAudio
 TCP server or separate macOS audio bridge is still required for audible playback.
+Use `make pulseaudio-sync-stop` to stop the output-sync poller without stopping
+the PulseAudio server.
 
 ### Pianobar
 
