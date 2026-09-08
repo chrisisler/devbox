@@ -1,4 +1,8 @@
 #!/bin/sh
+# ponytail: system_profiler is a heavy CoreAudio probe; a ~2s loop caused
+# periodic host-audio dropout (rhythmic stutter on every container stream).
+# 10s cadence keeps output switching responsive enough without routine glitches;
+# upgrade path = native kAudioHardwarePropertyDefaultOutputDevice notification.
 
 while :; do
 	selected="$(
@@ -39,5 +43,5 @@ while :; do
 		fi
 	fi
 
-	sleep 2
+	sleep 10
 done

@@ -37,7 +37,7 @@ and `chrisisler/syncthing`.
 `chrisisler/mpv`, used by `mpv <media file>`.
 
 Containerized player audio routes via a host PulseAudio TCP bridge
-(`PULSE_SERVER=tcp:host.docker.internal:4713`, see `make pulseaudio-host`). On macOS,
+(`PULSE_SERVER=tcp:host.docker.internal:4713`, see `make pulseaudio`). On macOS,
 the bridge syncs its PulseAudio default sink with the macOS-selected output, and
 `mpv` follows it while playing. Containers cannot reach CoreAudio speakers by
 themselves; a host PulseAudio

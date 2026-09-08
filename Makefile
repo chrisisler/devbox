@@ -26,8 +26,9 @@ syncthing:
 # Shared macOS audio bridge: host PulseAudio + TCP module + auto-switch to
 # newly connected outputs and output-port changes. Modules persist via ~/.config/pulse/default.pa
 # (created with .include so system defaults still load) and load live.
-pulseaudio-host:
-	@test "$$(uname -s)" = Darwin || { echo "audio: host setup requires macOS" >&2; exit 1; }
+# Auto-detects: skipped on non-Darwin hosts, which use native host audio.
+pulseaudio:
+	@test "$$(uname -s)" = Darwin || { echo "audio: host bridge skipped (not macOS)"; exit 0; }
 	@command -v brew >/dev/null || { echo "audio: install Homebrew first" >&2; exit 1; }
 	@command -v pulseaudio >/dev/null || brew install pulseaudio
 	@command -v pactl >/dev/null || { echo "audio: PulseAudio tools unavailable" >&2; exit 1; }
@@ -59,7 +60,7 @@ pulseaudio-host:
 		fi
 	@echo "audio host setup complete"
 
-mpv-host: pulseaudio-host
+mpv-host: pulseaudio
 	@test "$$(uname -s)" = Darwin || { echo "mpv: host setup requires macOS" >&2; exit 1; }
 	@command -v brew >/dev/null || { echo "mpv: install Homebrew first" >&2; exit 1; }
 	@test -d /Applications/XQuartz.app || test -d /Applications/Utilities/XQuartz.app || brew install --cask xquartz
@@ -88,7 +89,7 @@ mpv: mpv-host
 #   pactl set-default-sink <SINK>
 #   pactl move-sink-input <INPUT#> <SINK>
 # Find <SINK> via `pactl list sinks short`, e.g. Channel_1__Channel_2.3 (WH-1000XM3).
-cmus: pulseaudio-host
+cmus: pulseaudio
 	@docker build --tag chrisisler/cmus --file base/cmus base
 
 pianobar-proxy:
@@ -110,7 +111,7 @@ pianobar-proxy:
 		curl --fail --silent --show-error --proxy http://127.0.0.1:8080 \
 		http://mitm.it/cert/pem --output "$(HOME)/repos/devbox/mitmproxy-ca.pem"
 
-pianobar: pulseaudio-host pianobar-proxy
+pianobar: pulseaudio pianobar-proxy
 	@docker build --tag chrisisler/pianobar --file base/pianobar base
 
 clean-base:
@@ -132,5 +133,5 @@ update:
 	@./dotfiles/update-dotfiles.sh
 
 .PHONY: all base dotfiles everything clean cached tdf termpdf \
-	imagemagick lilypond syncthing pulseaudio-host mpv cmus pianobar \
+	imagemagick lilypond syncthing pulseaudio mpv cmus pianobar \
 	pianobar-proxy
